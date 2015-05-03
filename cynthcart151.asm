@@ -5,8 +5,9 @@
 ;------------------------
 ;
 ;
-; FIXES FOR 1.5.1
+; TASKS FOR 1.5.2
 ; - 'O' key specifically may be out of tune
+; - consider adding per-patch filter on/off/disabled setting
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;
@@ -187,10 +188,10 @@ USE_DUMMY_MIDI_LIBRARY equ 0
 
 ENABLE_MIDI_COMMANDS equ 1
 
-DEBUG_DISABLE_VIDEO_MODE equ 0
+DEBUG_DISABLE_VIDEO_MODE equ 1
 DEBUG_DISPLAY equ 0
 OFFSET_CONTROLLERS equ 0
-DEBUG_SHOW_MIDI equ 0
+DEBUG_SHOW_MIDI equ 1
 DEBUG_DISABLE_KEY_TIMER equ 0
 DEBUG_SHOW_PORTAMENTO equ 0
 
@@ -781,21 +782,21 @@ continueReading:
 	
 processSysex:
 	tya ; Get systex byte
-	cmp #$F0
+	cmp #$F0 ; ACTUAL SYSEX $F0
 	bne checkF1
 sysexReadingLoop:
-	jsr midiReadWait
+	jsr midiReadWait ; READ THE REST OF THE SYSEX UNTIL $F7...
 	cmp #$F7
 	bne sysexReadingLoop
 	jmp check
 	; - - - - - -
-checkF1:
+checkF1: ; MIDI TIME CODE, HAS ONE EXTRA BYTE
 	cmp #$F1
 	bne checkF2
 	jsr midiReadWait
 	jmp check
 	; - - - - - -
-checkF2:
+checkF2: ; SONG POSITION POINTER, 2 EXTRA BYTES
 	cmp #$F2
 	bne checkF3
 	IF ENABLE_MIDI_COMMANDS=1
@@ -804,12 +805,16 @@ checkF2:
 	ENDIF
 	jmp check
 	; - - - - - -
-checkF3:
+checkF3: ; SONG SELECT, 1 EXTRA BYTE
 	cmp #$F3
 	bne checkF8
 	jsr midiReadWait
 	jmp check
-	; - - - - - -
+	; - - - - - - 
+	; ALL OF THE REMAINING SYSTEM MESSAGES DON'T HAVE AN EXTRA BYTE
+	jmp check
+	
+	
 checkF8:
 	cmp #$F8
 	bne checkFA
@@ -818,6 +823,12 @@ checkF8:
 	; - - - - - -
 checkFA:
 	cmp #$FA
+	bne checkFC
+	; NO EXTRA BYTES TO READ
+	jmp check
+	; - - - - - -
+checkFC:
+	cmp #$FC
 	bne checkFF
 	; NO EXTRA BYTES TO READ
 	jmp check
@@ -833,6 +844,19 @@ endSysex:
 runningModeByte
 	sta firstDataByte	; save the data byte...
 	lda savedMidiStatus ;  and load the last saved midi status byte
+	and #$F0 ; check for a system running byte (weird thing that happens with some midi adapters)
+	cmp #$F0
+	bne normalRunningMode
+	;lda firstDataByte  ; We'll ignore this running mode byte, so the data byte now becomes the status byte...
+	;jmp continueReading ; and jump back to the start of midi processing to process the data byte as the status byte...
+	jmp check
+	;-----------------------
+	;sta savedMidiStatus ; =-=-=-=- probably can delete these 3 lines \/
+	;jsr midiReadWait ; Now need to get a new "status byte"
+	;jmp runningModeByte
+	
+normalRunningMode:
+	lda savedMidiStatus ;  load the last saved midi status byte again
 	jsr processMidiMessage
 	jmp check
 	
@@ -995,19 +1019,6 @@ setTuningValue:
 
 	rts
 	
-sysex
-	tya ;Get status byte
-	IF DEBUG_DISPLAY=1
-	inc 1824+91
-	ENDIF
-	jsr dumpBuffer
-	;jmp check
-	rts
-	
-dumpBuffer
-	jsr midiRead
-	bne dumpBuffer
-	rts
 	
 controlChange
 	IF DEBUG_DISPLAY=1
@@ -3282,6 +3293,9 @@ loadLoop:
 	rts
 
 khelp
+	lda #0
+	sta 53280 ; CLEAR RED ERROR BACKGROUND IF SHOWN
+
 	jsr clrScr
 	lda #KEYTIME
 	sta keyTimer	
