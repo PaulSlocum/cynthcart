@@ -6,6 +6,7 @@
 ;
 ;
 ; TASKS FOR 1.5.2
+; - add some of Gert's mixed waveform sounds
 ; - 'O' key specifically may be out of tune
 ; - consider adding per-patch filter on/off/disabled setting
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -188,10 +189,10 @@ USE_DUMMY_MIDI_LIBRARY equ 0
 
 ENABLE_MIDI_COMMANDS equ 1
 
-DEBUG_DISABLE_VIDEO_MODE equ 1
+DEBUG_DISABLE_VIDEO_MODE equ 0
 DEBUG_DISPLAY equ 0
 OFFSET_CONTROLLERS equ 0
-DEBUG_SHOW_MIDI equ 1
+DEBUG_SHOW_MIDI equ 0
 DEBUG_DISABLE_KEY_TIMER equ 0
 DEBUG_SHOW_PORTAMENTO equ 0
 
