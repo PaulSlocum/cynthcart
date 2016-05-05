@@ -39,8 +39,8 @@ RAM equ 2 ; run at $8000 in RAM from PRG
 ;**********************************************************
 ;**********************************************************
 ;MODE equ DISK   ; DISK mode is for testing
-MODE equ CART
-;MODE equ RAM
+;MODE equ CART
+MODE equ RAM
 
 ;**********************************************************
 ;**********************************************************
@@ -115,24 +115,6 @@ Startup:
 	lda #1
 	sta 1064
 	
-	;COPY COPIER FROM CART ROM INTO RAM AT $C000
-	ldx #0
-copyCopier:
-	lda copier,x
-	sta $C000,x
-	dex
-	bne copyCopier
-		
-	;COPY DECOMPRESSOR INTO BASIC RAM AREA (SELF-MODIFYING CODE CAN'T BE IN ROM)
-	jsr $C000 ; call copier in RAM
-
-	lda #7
-	sta 1066
-
-	;JUMP TO DECOMPRESSOR IN RAM (WILL DECOMPRESS AND START CYNTHCART)
-	jmp 2061
-	
-	
 	
 	
 	
@@ -155,21 +137,21 @@ copyCopier:
 
 	jmp 2061 ; JMP to start of built-in decomopression routine
 	
-	;ldx #>compressedData ;H
-	;ldy #<compressedData ;L
-	;iny
-	;iny
-	;sty 1028
-	;jsr $C000
+	ldx #>compressedData ;H
+	ldy #<compressedData ;L
+	iny
+	iny
+	sty 1028
+	jsr decomp
 	
-	;bcc good
+	bcc good
 bad:
-	;lda #2 ; 'b'
-	;sta 1030
-	;jmp stop
+	lda #2 ; 'b'
+	sta 1030
+	jmp stop
 good:
-	;lda #7 ; 'g'
-	;sta 1028
+	lda #7 ; 'g'
+	sta 1028
 	
 	;jmp $5000
 ;	ORG $c000
@@ -185,32 +167,13 @@ stop:
 	
 	
 compressedData:
-	incbin "cynthcart152_comp.prg"
-	;incbin "cynthcart152.cmp"
+	;incbin "cynthcart152_comp.prg"
+	incbin "cynthcart152stand.cmp"
 	;incbin "eprom.cmp" ; DEBUG!!
 
-copier:
-	RORG $C000
-	; COPY DECOMPRESSOR AND COMPRESSED CYNTHCART INTO MEMORY
-	ldx #0
-	ldy #33 ; COPY 8K OF DATA
-decompCopyLoop:
-	lda compressedData+2,x
-storeLocation:
-	sta $0801,x
-	dex
-	bne decompCopyLoop
-	inc decompCopyLoop+2
-	inc storeLocation+2
-	dey
-	bne decompCopyLoop
-	rts
 	
-	;jmp 2061
-	
-	
-;decompressor:
-	;include "sa_uncrunch.asm"
+decompressor:
+	include "sa_uncrunch.asm"
 
 		
 	;IF MODE=KERNEL_OBSOLETE
