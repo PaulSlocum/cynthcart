@@ -169,7 +169,7 @@
 	; Image run mode:
 CART equ 0 ; run at $8000 off cartridge ROM
 DISK equ 1 ; run at $8000, include initial load location word
-RAM_OBSOLETE equ 2 ; run at $1000, needs to be copied or decompressed into $1000 (This mode is no longer supported)
+RAM equ 2 ; run at $1000, needs to be copied or decompressed into $3000 (used for compresed version)
 KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (This mode is no longer supported)
 
 ;**********************************************************
@@ -177,7 +177,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (Th
 ; PROGRAM CONFIGURATION SWITCHES
 ;**********************************************************
 ;**********************************************************
-MODE equ DISK   ; DISK, CART, KERNEL_OBSOLETE, or RAM (obsolete), 
+MODE equ RAM   ; DISK, CART, KERNEL_OBSOLETE, or RAM (for compression), 
 
 RAMCOPY equ 1	; Copy program to RAM before running
 
@@ -220,7 +220,7 @@ BASEADDR equ 2047 ; 2047 = $7FF
 	ENDIF
 
 	;==================================================
-	; straight cart ROM (No longer supported)
+	; straight cart ROM
 	IF MODE=CART
 BASEADDR equ $8000
 	org BASEADDR
@@ -231,14 +231,16 @@ BASEADDR equ $8000
 	ENDIF
 
 	;==================================================
-	; load from RAM, requires wrapper to load into RAM
-	IF MODE=RAM_OBSOLETE
-BASEADDR equ $1000
+	; load from RAM, requires wrapper to load into RAM (used for compressed version)
+	IF MODE=RAM
+BASEADDR equ $5000
+;BASEADDR equ $4FFE ; DEBUG SETUP AS PRG
 	org BASEADDR
+	;byte $00,$50 ; DEBUG SETUP AS PRG
 	ENDIF
 
 	;==================================================
-	; to replace BASIC ROM (No longer supported)
+	; to replace BASIC ROM (NO LONGER SUPPORTED)
 	IF MODE=KERNEL_OBSOLETE
 BASEADDR equ $8000
 	org BASEADDR

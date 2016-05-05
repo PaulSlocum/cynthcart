@@ -3,7 +3,11 @@ rem "C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe"
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
-pucrunch cynthcart152.bin cynthcart152.cmp -c0 -l0x2FFE -d
+@rem pucrunch cynthcart152.bin cynthcart152.cmp -c0 -l0x5000 -d
+@rem pucrunch cynthcart152.bin cynthcart152.cmp -c0 -l0x5000 -d -m6 -fdelta -fshort
+@rem pucrunch cynthcart152.bin cynthcart152.cmp -c0 -l0x5000 -d -m6 -fshort
+@rem pucrunch cynthcart152.bin cynthcart152.cmp -c64 -l0x5000 -x0x1000 -d -m6 -fshort -fdelta
+pucrunch cynthcart152.bin cynthcart152_comp.prg -c64 -l0x5000 -x0x5000 -d -m6 -ffast -fdelta
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 

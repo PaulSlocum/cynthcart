@@ -3,7 +3,7 @@
 ; fixed params =~	-48 bytes -> 306
 ;			223 bytes
 
-SHORT = 1	;1	; assume file is ok
+SHORT = 0	;1	; assume file is ok
 IRQLOAD = 0	;1
 
 	processor 6502
@@ -13,19 +13,15 @@ LZPOS	EQU $9e		; 2 ZeroPage temporaries
 bitstr	EQU $fb		; 1 temporary (does not need to be ZP)
 
 
-decomp
-;	ORG $c000
+	RORG $c000
 
 	; Call with X = HI of packed data, Y = LO of packed data
 	; Returns exec address in X = HI and Y = LO
 	; Carry will be set for error, cleared for OK
 #if SHORT == 0
 	sei
-;	lda #$35
-;	sta 1
-	nop
-	nop
-	nop
+	lda #$35
+	sta 1
 #endif
 #if IRQLOAD
 	;jsr initloader
@@ -161,12 +157,12 @@ chrcode	jsr getval	; Byte Code, X = 0
 	tax		; this is executed most of the time anyway
 	lda table-1,x	; Saves one jump if done here (loses one txa)
 
-	cpx #32		; 31-32 -> C clear, 32-32 -> C set..
+	cpx #16	; 32 	; 31-32 -> C clear, 32-32 -> C set..
 	bcc 1$		; 1..31, we got the right byte from the table
 
 	; Ranks 32..64 (11111°xxxxx), get byte..
 	txa		; get back the value (5 valid bits)
-	ldx #3
+	ldx #4	;3
 	jsr getbits	; get 3 more bits to get a full byte, X = 0
 
 1$	ldx LZPOS	; xstore - get length LSB
@@ -290,6 +286,6 @@ putch	sta $aaaa	; ** parameter
 
 table	dc.b 0,0,0,0,0,0,0
 	dc.b 0,0,0,0,0,0,0,0
-	dc.b 0,0,0,0,0,0,0,0
-	dc.b 0,0,0,0,0,0,0,0
+	;dc.b 0,0,0,0,0,0,0,0
+	;dc.b 0,0,0,0,0,0,0,0
 
