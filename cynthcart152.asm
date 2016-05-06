@@ -23,6 +23,7 @@
 ; + created new compression setup to fit latest ROM onto 8K cartridge
 ; + modified to boot okay without MIDI interface present
 ; + minor changes to help
+; + fixed minor bug with full screen display
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
@@ -180,7 +181,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (Th
 ; PROGRAM CONFIGURATION SWITCHES
 ;**********************************************************
 ;**********************************************************
-MODE equ RAM   ; DISK, CART, KERNEL_OBSOLETE, or RAM (for compression), 
+MODE equ DISK   ; DISK, CART, RAM (for compression), or KERNEL_OBSOLETE (kernel mode is no longer maintained)
 
 RAMCOPY equ 1	; Copy program to RAM before running
 

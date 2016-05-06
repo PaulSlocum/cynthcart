@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)http://codebase64.org/doku.php?id=base:c64_midi_interfaces -->
+<html lang="en" dir="ltr" class="js desktop"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>base:c64_midi_interfaces [Codebase 64 wiki]</title>
+    <script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script>
+    <meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="base,c64_midi_interfaces">
+<link rel="search" type="application/opensearchdescription+xml" href="http://codebase64.org/lib/exe/opensearch.php" title="Codebase 64 wiki">
+<link rel="start" href="http://codebase64.org/">
+<link rel="contents" href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=index" title="Sitemap">
+<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="http://codebase64.org/feed.php">
+<link rel="alternate" type="application/rss+xml" title="Current namespace" href="http://codebase64.org/feed.php?mode=list&amp;ns=base">
+<link rel="alternate" type="text/html" title="Plain HTML" href="http://codebase64.org/doku.php?do=export_xhtml&amp;id=base:c64_midi_interfaces">
+<link rel="alternate" type="text/plain" title="Wiki Markup" href="http://codebase64.org/doku.php?do=export_raw&amp;id=base:c64_midi_interfaces">
+<link rel="canonical" href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces">
+<link rel="stylesheet" type="text/css" href="./base_c64_midi_interfaces [Codebase 64 wiki]_files/css.php">
+<script type="text/javascript">/*<![CDATA[*/var NS='base';var JSINFO = {"id":"base:c64_midi_interfaces","namespace":"base"};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="./base_c64_midi_interfaces [Codebase 64 wiki]_files/js.php"></script><style id="iris-css">.iris-picker{display:block;position:relative}.iris-picker,.iris-picker *{-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input+.iris-picker{margin-top:4px}.iris-error{background-color:#ffafaf}.iris-border{border-radius:3px;border:1px solid #aaa;width:200px;background-color:#fff}.iris-picker-inner{position:absolute;top:0;right:0;left:0;bottom:0}.iris-border .iris-picker-inner{top:10px;right:10px;left:10px;bottom:10px}.iris-picker .iris-square-inner{position:absolute;left:0;right:0;top:0;bottom:0}.iris-picker .iris-square,.iris-picker .iris-slider,.iris-picker .iris-square-inner,.iris-picker .iris-palette{border-radius:3px;box-shadow:inset 0 0 5px rgba(0,0,0,.4);height:100%;width:12.5%;float:left;margin-right:5%}.iris-picker .iris-square{width:76%;margin-right:10%;position:relative}.iris-picker .iris-square-inner{width:auto;margin:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-square-inner,.iris-ie-9 .iris-palette{box-shadow:none;border-radius:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-palette{outline:1px solid rgba(0,0,0,.1)}.iris-ie-lt9 .iris-square,.iris-ie-lt9 .iris-slider,.iris-ie-lt9 .iris-square-inner,.iris-ie-lt9 .iris-palette{outline:1px solid #aaa}.iris-ie-lt9 .iris-square .ui-slider-handle{outline:1px solid #aaa;background-color:#fff;-ms-filter:"alpha(Opacity=30)"}.iris-ie-lt9 .iris-square .iris-square-handle{background:0;border:3px solid #fff;-ms-filter:"alpha(Opacity=50)"}.iris-picker .iris-strip{margin-right:0;position:relative}.iris-picker .iris-strip .ui-slider-handle{position:absolute;background:0;margin:0;right:-3px;left:-3px;border:4px solid #aaa;border-width:4px 3px;width:auto;height:6px;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);opacity:.9;z-index:5;cursor:ns-resize}.iris-strip .ui-slider-handle:before{content:" ";position:absolute;left:-2px;right:-2px;top:-3px;bottom:-3px;border:2px solid #fff;border-radius:3px}.iris-picker .iris-slider-offset{position:absolute;top:11px;left:0;right:0;bottom:-3px;width:auto;height:auto;background:transparent;border:0;border-radius:0}.iris-picker .iris-square-handle{background:transparent;border:5px solid #aaa;border-radius:50%;border-color:rgba(128,128,128,.5);box-shadow:none;width:12px;height:12px;position:absolute;left:-10px;top:-10px;cursor:move;opacity:1;z-index:10}.iris-picker .ui-state-focus .iris-square-handle{opacity:.8}.iris-picker .iris-square-handle:hover{border-color:#999}.iris-picker .iris-square-value:focus .iris-square-handle{box-shadow:0 0 2px rgba(0,0,0,.75);opacity:.8}.iris-picker .iris-square-handle:hover::after{border-color:#fff}.iris-picker .iris-square-handle::after{position:absolute;bottom:-4px;right:-4px;left:-4px;top:-4px;border:3px solid #f9f9f9;border-color:rgba(255,255,255,.8);border-radius:50%;content:" "}.iris-picker .iris-square-value{width:8px;height:8px;position:absolute}.iris-ie-lt9 .iris-square-value,.iris-mozilla .iris-square-value{width:1px;height:1px}.iris-palette-container{position:absolute;bottom:0;left:0;margin:0;padding:0}.iris-border .iris-palette-container{left:10px;bottom:10px}.iris-picker .iris-palette{margin:0;cursor:pointer}.iris-square-handle,.ui-slider-handle{border:0;outline:0}</style>
+<script type="text/javascript">/*<![CDATA[*/
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		  
+/*!]]>*/</script><script src="./base_c64_midi_interfaces [Codebase 64 wiki]_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">/*<![CDATA[*/
+var pageTracker = _gat._getTracker("UA-15076429-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+		  
+/*!]]>*/</script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon" href="http://codebase64.org/lib/tpl/data/images/favicon.ico">
+<link rel="apple-touch-icon" href="http://codebase64.org/lib/tpl/data/images/apple-touch-icon.png">
+    </head>
+
+<body>
+    <!--[if lte IE 7 ]><div id="IE7"><![endif]--><!--[if IE 8 ]><div id="IE8"><![endif]-->
+    <div id="dokuwiki__site"><div id="dokuwiki__top" class="site dokuwiki mode_show tpl_data    showSidebar hasSidebar">
+
+        
+<!-- ********** HEADER ********** -->
+<div id="dokuwiki__header"><div class="pad group">
+
+    
+    <div class="headings group">
+        <ul class="a11y skip">
+            <li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#dokuwiki__content">skip to content</a></li>
+        </ul>
+
+        <h1><a href="http://codebase64.org/doku.php?id=start" accesskey="h" title="[H]"><img src="./base_c64_midi_interfaces [Codebase 64 wiki]_files/c64codebase_v2.png" width="531px" height="80px" alt=""> <span></span></a></h1>
+            </div>
+
+    <div class="tools group">
+        <!-- USER TOOLS -->
+                    <div id="dokuwiki__usertools">
+                <h3 class="a11y">User Tools</h3>
+                <ul>
+                    <li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=register" class="action register" rel="nofollow" title="Register">Register</a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=login&amp;sectok=1bc520d1b82cec16f0e2bb1939e30b98" class="action login" rel="nofollow" title="Log In">Log In</a></li>                </ul>
+            </div>
+        
+        <!-- SITE TOOLS -->
+        <div id="dokuwiki__sitetools">
+            <h3 class="a11y">Site Tools</h3>
+            <form action="http://codebase64.org/doku.php?id=start" accept-charset="utf-8" class="search" id="dw__search" method="get" role="search"><div class="no"><input type="hidden" name="do" value="search"><input type="text" placeholder="Search" id="qsearch__in" accesskey="f" name="id" class="edit" title="[F]"><button type="submit" title="Search">Search</button><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>            <div class="mobileTools">
+                <form action="http://codebase64.org/doku.php" method="get" accept-charset="utf-8"><div class="no"><input type="hidden" name="id" value="base:c64_midi_interfaces"><select name="do" class="edit quickselect" title="Tools"><option value="">Tools</option><optgroup label="Page Tools"><option value="edit">Show pagesource</option><option value="revisions">Old revisions</option><option value="backlink">Backlinks</option></optgroup><optgroup label="Site Tools"><option value="recent">Recent Changes</option><option value="media">Media Manager</option><option value="index">Sitemap</option></optgroup><optgroup label="User Tools"><option value="login">Log In</option><option value="register">Register</option></optgroup></select><button type="submit" style="display: none;">&gt;</button></div></form>            </div>
+            <ul>
+                <li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=recent" class="action recent" accesskey="r" rel="nofollow" title="Recent Changes [R]">Recent Changes</a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=media&amp;ns=base" class="action media" rel="nofollow" title="Media Manager">Media Manager</a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=index" class="action index" accesskey="x" rel="nofollow" title="Sitemap [X]">Sitemap</a></li>            </ul>
+        </div>
+
+    </div>
+
+    <!-- BREADCRUMBS -->
+            <div class="breadcrumbs">
+                                        <div class="trace"><span class="bchead">Trace:</span> <span class="bcsep">•</span> <span class="curid"><bdi><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces" class="breadcrumbs" title="base:c64_midi_interfaces">c64_midi_interfaces</a></bdi></span></div>
+                    </div>
+    
+    
+    <hr class="a11y">
+</div></div><!-- /header -->
+
+        <div class="wrapper group">
+
+                            <!-- ********** ASIDE ********** -->
+                <div id="dokuwiki__aside"><div class="pad aside include group">
+                    <h3 class="toggle open" style="cursor: pointer; display: none;"><strong><span>−</span></strong>Sidebar</h3>
+                    <div class="content" aria-expanded="true">
+                                                                        
+<h2 class="sectionedit1" id="menu" style="">Menu</h2>
+<div class="level2" style="">
+<ul>
+<li class="level1 node"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:start" class="wikilink1" title="base:start">Codebase</a></div>
+<ul>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:6502_6510_coding" class="wikilink1" title="base:6502_6510_coding">CPU (6502/6510)</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:sid_programming" class="wikilink1" title="base:sid_programming">SID - Sound &amp; Music</a></div>
+</li>
+<li class="level2 node"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:vic" class="wikilink1" title="base:vic">VIC - Graphics</a></div>
+<ul>
+<li class="level3"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:demo_programming" class="wikilink1" title="base:demo_programming">Demo effects</a></div>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:cia" class="wikilink1" title="base:cia">CIA (6526)</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:interrupts" class="wikilink1" title="base:interrupts">Interrupts</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:6502_6510_maths" class="wikilink1" title="base:6502_6510_maths">Maths &amp; Algorithms</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:io_programming" class="wikilink1" title="base:io_programming">Input/Output</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:cpv" class="wikilink1" title="base:cpv">Cracking/Viruses</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:crossdev" class="wikilink1" title="base:crossdev">Cross Development</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:programming_languages" class="wikilink1" title="base:programming_languages">Programming Languages</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:using_the_kernal_basic_roms" class="wikilink1" title="base:using_the_kernal_basic_roms">Kernal &amp; Basic ROMs</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:thirdparty" class="wikilink1" title="base:thirdparty">Third party HW</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="http://codebase64.org/doku.php?id=base:game_programming" class="wikilink1" title="base:game_programming">Game Coding</a></div>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=tools:start" class="wikilink1" title="tools:start">Most used tools</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=magazines:start" class="wikilink1" title="magazines:start">Mags</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=books:start" class="wikilink1" title="books:start">Books</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=projects:start" class="wikilink1" title="projects:start">User Projects</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=links:start" class="wikilink1" title="links:start">Links</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT1 SECTION "Menu" [1-828] -->
+<h2 class="sectionedit2" id="meta" style="">Meta</h2>
+<div class="level2" style="">
+<ul>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=wishlist" class="wikilink1" title="wishlist">Wish List</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=guidelines" class="wikilink1" title="guidelines">Guidelines</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=quick_howto" class="wikilink1" title="quick_howto">Quick Howto</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=source_conversion" class="wikilink1" title="source_conversion">Source conversion</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=wiki:syntax" class="wikilink1" title="wiki:syntax">Wiki Syntax</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=playground:playground" class="wikilink2" title="playground:playground" rel="nofollow">Playground</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=suggestions" class="wikilink1" title="suggestions">Suggestions</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=history" class="wikilink1" title="history">History</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=download_the_wiki" class="wikilink1" title="download_the_wiki">Download the wiki</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://codebase64.org/doku.php?id=contact_site_administrator" class="wikilink1" title="contact_site_administrator">Contact</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT2 SECTION "Meta" [829-] -->                                            </div>
+                </div></div><!-- /aside -->
+            
+            <!-- ********** CONTENT ********** -->
+            <div id="dokuwiki__content"><div class="pad group">
+
+                <div class="pageId"><span>base:c64_midi_interfaces</span></div>
+
+                <div class="page group" style="min-height: 609px;">
+                                                            <!-- wikipage start -->
+                    <!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle open" style="cursor: pointer;"><strong><span>−</span></strong>Table of Contents</h3>
+<div aria-expanded="true">
+
+<ul class="toc" style="">
+<li class="level1"><div class="li"><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#midi_interfaces">MIDI Interfaces</a></div></li>
+<li class="level1"><div class="li"><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#information_about_the_registers">Information about the registers</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#the_control_register_write_only">The Control Register (Write only)</a></div></li>
+<li class="level2"><div class="li"><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#the_status_register_read_only">The Status Register (Read Only)</a></div></li>
+<li class="level2"><div class="li"><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#the_tx_register_write_only">The Tx Register (Write Only)</a></div></li>
+<li class="level2"><div class="li"><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#the_rx_register_read_only">The Rx Register (Read Only)</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1" id="midi_interfaces">MIDI Interfaces</h1>
+<div class="level1">
+
+<p>
+Here is a list of Interfaces, 6850 UART registers and
+the most important values you will be feeding the Control Register with.
+</p>
+<div class="table sectionedit2"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign" colspan="3">SEQUENTIAL CIRCUITS INC.                                          </th>
+	</tr>
+	</thead>
+	<tbody><tr class="row1">
+		<th class="col0 leftalign">Mode              </th><td class="col1"> 1 MHZ IRQ </td><td class="col2 leftalign">                                     </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0 leftalign">Control Register  </th><td class="col1 leftalign"> $DE00     </td><td class="col2 leftalign">Write only                           </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 leftalign">Status Register   </th><td class="col1 leftalign"> $DE02     </td><td class="col2 leftalign">Read only                            </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0">Transmit Data (Tx)</th><td class="col1 leftalign"> $DE01     </td><td class="col2 leftalign">Write only                           </td>
+	</tr>
+	<tr class="row5">
+		<th class="col0">Receive Data (Rx) </th><td class="col1 leftalign"> $DE03     </td><td class="col2 leftalign">Read only                            </td>
+	</tr>
+	<tr class="row6">
+		<th class="col0 leftalign">Midi Reset        </th><td class="col1 leftalign"> $03       </td><td class="col2 leftalign">Master Reset                        </td>
+	</tr>
+	<tr class="row7">
+		<th class="col0 leftalign">Midi Enable       </th><td class="col1 leftalign"> $15       </td><td class="col2 leftalign">Word Select &amp; Counter Divide         </td>
+	</tr>
+	<tr class="row8">
+		<th class="col0 leftalign">Midi IRQ Enable   </th><td class="col1 leftalign"> $95       </td><td class="col2">IRQ ON, Word Select &amp; Counter Divide </td>
+	</tr>
+</tbody></table></div>
+<div class="table sectionedit3"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign" colspan="3">PASSPORT &amp; SENTECH                                                </th>
+	</tr>
+	</thead>
+	<tbody><tr class="row1">
+		<th class="col0 leftalign">Mode              </th><td class="col1"> 1 MHZ IRQ </td><td class="col2 leftalign">                                     </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0 leftalign">Control Register  </th><td class="col1 leftalign"> $DE08     </td><td class="col2 leftalign">Write                                </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 leftalign">Status Register   </th><td class="col1 leftalign"> $DE08     </td><td class="col2 leftalign">Read                                 </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0">Transmit Data (Tx)</th><td class="col1 leftalign"> $DE09     </td><td class="col2 leftalign">Write                                </td>
+	</tr>
+	<tr class="row5">
+		<th class="col0">Receive Data (Rx) </th><td class="col1 leftalign"> $DE09     </td><td class="col2 leftalign">Read                                 </td>
+	</tr>
+	<tr class="row6">
+		<th class="col0 leftalign">Midi Reset        </th><td class="col1 leftalign"> $03       </td><td class="col2 leftalign">Master Reset                        </td>
+	</tr>
+	<tr class="row7">
+		<th class="col0 leftalign">Midi Enable       </th><td class="col1 leftalign"> $15       </td><td class="col2 leftalign">Word Select &amp; Counter Divide         </td>
+	</tr>
+	<tr class="row8">
+		<th class="col0 leftalign">Midi IRQ Enable   </th><td class="col1 leftalign"> $95       </td><td class="col2">IRQ ON, Word Select &amp; Counter Divide </td>
+	</tr>
+</tbody></table></div>
+<div class="table sectionedit4"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign" colspan="3">DATEL/SIEL/JMS/C-LAB                                               </th>
+	</tr>
+	</thead>
+	<tbody><tr class="row1">
+		<th class="col0 leftalign">Mode              </th><td class="col1"> 2 MHZ IRQ </td><td class="col2 leftalign">                                     </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0 leftalign">Control Register  </th><td class="col1 leftalign"> $DE04     </td><td class="col2 leftalign">Write only                           </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 leftalign">Status Register   </th><td class="col1 leftalign"> $DE06     </td><td class="col2 leftalign">Read only                            </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0">Transmit Data (Tx)</th><td class="col1 leftalign"> $DE05     </td><td class="col2 leftalign">Write only                           </td>
+	</tr>
+	<tr class="row5">
+		<th class="col0">Receive Data (Rx) </th><td class="col1 leftalign"> $DE07     </td><td class="col2 leftalign">Read only                            </td>
+	</tr>
+	<tr class="row6">
+		<th class="col0 leftalign">Midi Reset        </th><td class="col1 leftalign"> $03       </td><td class="col2 leftalign">Master Reset                        </td>
+	</tr>
+	<tr class="row7">
+		<th class="col0 leftalign">Midi Enable       </th><td class="col1 leftalign"> $16       </td><td class="col2 leftalign">Word Select &amp; Counter Divide         </td>
+	</tr>
+	<tr class="row8">
+		<th class="col0 leftalign">Midi IRQ Enable   </th><td class="col1 leftalign"> $96       </td><td class="col2">IRQ ON, Word Select &amp; Counter Divide </td>
+	</tr>
+</tbody></table></div>
+<div class="table sectionedit5"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign" colspan="3">NAMESOFT                                                          </th>
+	</tr>
+	</thead>
+	<tbody><tr class="row1">
+		<th class="col0 leftalign">Mode              </th><td class="col1"> 1 MHZ NMI </td><td class="col2 leftalign">                                     </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0 leftalign">Control Register  </th><td class="col1 leftalign"> $DE00     </td><td class="col2 leftalign">Write only                           </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 leftalign">Status Register   </th><td class="col1 leftalign"> $DE02     </td><td class="col2 leftalign">Read only                            </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0">Transmit Data (Tx)</th><td class="col1 leftalign"> $DE01     </td><td class="col2 leftalign">Write only                           </td>
+	</tr>
+	<tr class="row5">
+		<th class="col0">Receive Data (Rx) </th><td class="col1 leftalign"> $DE03     </td><td class="col2 leftalign">Read only                            </td>
+	</tr>
+	<tr class="row6">
+		<th class="col0 leftalign">Midi Reset        </th><td class="col1 leftalign"> $03       </td><td class="col2 leftalign">Master Reset                        </td>
+	</tr>
+	<tr class="row7">
+		<th class="col0 leftalign">Midi Enable       </th><td class="col1 leftalign"> $15       </td><td class="col2 leftalign">Word Select &amp; Counter Divide         </td>
+	</tr>
+	<tr class="row8">
+		<th class="col0 leftalign">Midi NMI Enable   </th><td class="col1 leftalign"> $95       </td><td class="col2">NMI ON, Word Select &amp; Counter Divide </td>
+	</tr>
+</tbody></table></div>
+<ul>
+<li class="level1"><div class="li"> Datel/Siel/JMS/C-LAB runs at 2 mhz. A C64 needs a different Counter Divide to keep up.</div>
+</li>
+<li class="level1"><div class="li"> The Namesoft device requires a NMI interrupt for reading Midi data.</div>
+</li>
+</ul>
+
+</div>
+
+<h1 class="sectionedit6" id="information_about_the_registers">Information about the registers</h1>
+<div class="level1">
+
+<p>
+This information is from the Motorola MC6850 ACIA.
+</p>
+<div class="table sectionedit7"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign" colspan="5"> ACIA (Asynchronous Communications Interface Adapter) Registers                </th>
+	</tr>
+	<tr class="row1">
+		<th class="col0"> Bit </th><th class="col1 leftalign">Control Register         </th><th class="col2 leftalign">Status Register                    </th><th class="col3 centeralign">  Tx   </th><th class="col4 centeralign">  Rx   </th>
+	</tr>
+	</thead>
+	<tbody><tr class="row2">
+		<th class="col0 centeralign">  7  </th><td class="col1">Receive Interrupt Enable </td><td class="col2 leftalign">Interrupt Request (IRQ)            </td><td class="col3"> Bit 7 </td><td class="col4"> Bit 7 </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 centeralign">  6  </th><td class="col1 leftalign">Transmit Control 2       </td><td class="col2 leftalign">Parity Error (PE)                  </td><td class="col3"> Bit 6 </td><td class="col4"> Bit 6 </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0 centeralign">  5  </th><td class="col1 leftalign">Transmit Control 1       </td><td class="col2 leftalign">Receiver Overrun (OVRN)            </td><td class="col3"> Bit 5 </td><td class="col4"> Bit 5 </td>
+	</tr>
+	<tr class="row5">
+		<th class="col0 centeralign">  4  </th><td class="col1 leftalign">Word Select 3            </td><td class="col2 leftalign">Framing Error (FE)                 </td><td class="col3"> Bit 4 </td><td class="col4"> Bit 4 </td>
+	</tr>
+	<tr class="row6">
+		<th class="col0 centeralign">  3  </th><td class="col1 leftalign">Word Select 2            </td><td class="col2 leftalign">Clear to Send (CTS)                </td><td class="col3"> Bit 3 </td><td class="col4"> Bit 3 </td>
+	</tr>
+	<tr class="row7">
+		<th class="col0 centeralign">  2  </th><td class="col1 leftalign">Word Select 1            </td><td class="col2 leftalign">Data Carrier Detect (DCD)          </td><td class="col3"> Bit 2 </td><td class="col4"> Bit 2 </td>
+	</tr>
+	<tr class="row8">
+		<th class="col0 centeralign">  1  </th><td class="col1 leftalign">Counter Divide Select 2  </td><td class="col2">Transmit Data Register Empty (TDRE)</td><td class="col3"> Bit 1 </td><td class="col4"> Bit 1 </td>
+	</tr>
+	<tr class="row9">
+		<th class="col0 centeralign">  0  </th><td class="col1 leftalign">Counter Divide Select 1  </td><td class="col2 leftalign">Receive Data Register Full (RDRF)  </td><td class="col3"> Bit 0 </td><td class="col4"> Bit 0 </td>
+	</tr>
+</tbody></table></div>
+
+</div>
+
+<h2 class="sectionedit8" id="the_control_register_write_only">The Control Register (Write only)</h2>
+<div class="level2">
+<pre class="code">Bit 7 (Receive Interrupt Enable):
+    1  Enable interrupt.
+    0  Disable interrupt.
+
+       The following interrupts will be enabled when set high:
+       * Receive Data Register Full
+       * Receiver Overrun
+       * A low-to-high transition on the Data Carrier Detect (DCD) signal line
+            
+	
+Bit 6 &amp; 5 (Transmit Control):
+    0   0  RTS = Low  Transmitting Interrupt Disabled.
+    0   1  RTS = Low  Transmitting Interrupt Enabled.
+    1   0  RTS = High Transmitting Interrupt Disabled.
+    1   1  RTS = Low  Transmits a Break level on the Transmit Data Output.
+                      Transmitting Interrupt Disabled.
+	                     
+           The transmit Control bits controls the RTS (Request To Send)
+           output line. Active state = Low RTS. 
+           By enabling bit 5 you can generate a interrupt for transmitting data 
+           to other peripherals.
+           (Another way of transmitting data is polling.)
+                  
+Bit 4,3,2 (Word Select):
+    0 0 0  7 Bits + Even Parity + 2 Stop Bits
+    0 0 1  7 Bits + Odd Parity  + 2 Stops Bits
+    0 1 0  7 Bits + Even Parity + 1 Stop Bit
+    0 1 1  7 Bits + Odd Parity  + 1 Stop Bit
+    1 0 0  8 Bits + No Parity   + 2 Stop Bits
+    1 0 1  8 Bits + No Parity   + 1 Stop Bit
+    1 1 0  8 Bits + Even Parity + 1 Stop Bit
+    1 1 1  8 Bits + Odd Parity  + 1 Stop Bit
+
+
+Bit 1 &amp; 0 (Counter Divide Select):
+    0   0  Divide by 1.
+    0   1  Divide by 16.
+    1   0  Divide by 64.   
+    1   1  Master Reset.
+
+           After a power on these bits must be set high to reset the ACIA.
+           After resetting, the clock divide ratios may be selected.
+</pre>
+
+</div>
+
+<h2 class="sectionedit9" id="the_status_register_read_only">The Status Register (Read Only)</h2>
+<div class="level2">
+<pre class="code">Bit 7 (Interrupt Request)
+    0  Interrupt is off - nothing to do.
+    1  Interrupt is on.
+       This bit is turned when:
+       * Receive Data Register Full (RDRF) is turned on.
+       * Transmit Data Register Empty (TDRE) is turned on.
+       * Receiver Overrun (OVRN) is turned on.
+
+       This bit is cleared by reading the Rx register or
+       writing to the Tx register.
+
+Bit 6 (Parity Error)       
+    0  No error
+    1  Parity error, depends on Word Select.
+       If no parity is selected : Both transmit parity and receive parity
+       check results are ignored.
+
+Bit 5 (Receiver Overrun)
+    0  No error
+    1  Error
+       Overrun is an error flag that indicates that one or more characters in
+       the data stream were lost. The Overrun indication is reset after
+       reading the Rx register or by a Master Reset.
+
+Bit 4 (Framing Error)
+    0  No error
+    1  Error
+       Framing error indicates that the received character is improperly framed
+       by a start and a stop bit. Which means Synchronization error (see counter divide),
+       faulty transmission or a break condition  This error is only present until a
+       new character is present in the Rx register.
+       
+Bit 3 (Clear to Send)
+    0  Modem is ready to receive.
+    1  Modem is not ready.
+       This bit indicates the state of Clear to Send from a modem.
+       When this bit is on the TDRE bit is ignored.
+       Master reset does not affect this bit.
+
+Bit 2 (Data Carrier Detect)
+    0  no modem input.
+    1  DCD input from a modem - Causes an Interrupt.
+       This bit can be turned off by reading the Status register followed by the Rx register.
+       A master reset will also clear this bit.
+
+Bit 1 (Transmit Data Register Empty)
+    0  The Tx Register is not ready for writing.
+    1  The Tx Register is ready.
+       To write to the Tx Register you have to check if this bit is high.
+
+       Example - polling:
+       
+             pha
+       wait  lda Status Register
+             and #2
+             beq wait
+             pla
+             sta Tx
+             rts
+
+Bit 0 (Receive Data Register Full)
+    0  The Rx Register is not ready for reading.
+    1  The Rx Register is ready.
+       To read from the Rx register you have to check if this bit is high
+       This bit is cleared after a master reset or a read from the Rx register.
+
+       Example - polling:
+       
+       wait  lda Status Register
+             lsr
+             bcc wait
+             lda Rx
+             rts
+    </pre>
+
+</div>
+
+<h2 class="sectionedit10" id="the_tx_register_write_only">The Tx Register (Write Only)</h2>
+<div class="level2">
+<pre class="code">In this register you store the byte you want to transmit.
+Note that you must check the TDRE bit is high before writing.</pre>
+
+</div>
+
+<h2 class="sectionedit11" id="the_rx_register_read_only">The Rx Register (Read Only)</h2>
+<div class="level2">
+<pre class="code">In this register you read the byte your received.
+Note that you must check the RDRF bit is high before reading.</pre>
+
+</div>
+
+                    <!-- wikipage stop -->
+                                    </div>
+
+                <div class="docInfo"><bdi>base/c64_midi_interfaces.txt</bdi> · Last modified: 2015-04-17 04:30 (external edit)</div>
+
+                            </div></div><!-- /content -->
+
+            <hr class="a11y">
+
+            <!-- PAGE ACTIONS -->
+            <div id="dokuwiki__pagetools">
+                <h3 class="a11y">Page Tools</h3>
+                <div class="tools">
+                    <ul>
+                        <li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=edit" class="action source" accesskey="v" rel="nofollow" title="Show pagesource [V]"><span>Show pagesource</span></a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=revisions" class="action revs" accesskey="o" rel="nofollow" title="Old revisions [O]"><span>Old revisions</span></a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=backlink" class="action backlink" rel="nofollow" title="Backlinks"><span>Backlinks</span></a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces&amp;do=export_pdf" class="action export_pdf" rel="nofollow" title="Export to PDF"><span>Export to PDF</span></a></li><li><a href="http://codebase64.org/doku.php?id=base:c64_midi_interfaces#dokuwiki__top" class="action top" accesskey="t" rel="nofollow" title="Back to top [T]"><span>Back to top</span></a></li>                    </ul>
+                </div>
+            </div>
+        </div><!-- /wrapper -->
+
+        
+<!-- ********** FOOTER ********** -->
+<div id="dokuwiki__footer"><div class="pad">
+    
+    <div class="buttons">
+            </div>
+</div></div><!-- /footer -->
+
+    </div></div><!-- /site -->
+
+    <div class="no"><img src="./base_c64_midi_interfaces [Codebase 64 wiki]_files/indexer.php" width="2" height="1" alt=""></div>
+    <div id="screen__mode" class="no"></div>    <!--[if ( lte IE 7 | IE 8 ) ]></div><![endif]-->
+
+
+</body></html>
