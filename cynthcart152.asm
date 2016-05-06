@@ -181,7 +181,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (Th
 ; PROGRAM CONFIGURATION SWITCHES
 ;**********************************************************
 ;**********************************************************
-MODE equ DISK   ; DISK, CART, RAM (for compression), or KERNEL_OBSOLETE (kernel mode is no longer maintained)
+MODE equ RAM   ; DISK, CART, RAM (for compression), or KERNEL_OBSOLETE (kernel mode is no longer maintained)
 
 RAMCOPY equ 1	; Copy program to RAM before running
 
@@ -238,7 +238,7 @@ BASEADDR equ $8000
 	;==================================================
 	; load from RAM, requires wrapper to load into RAM (used for compressed version)
 	IF MODE=RAM
-BASEADDR equ $4000
+BASEADDR equ $3000
 ;BASEADDR equ $4FFE ; DEBUG SETUP AS PRG
 	org BASEADDR
 	;byte $00,$50 ; DEBUG SETUP AS PRG

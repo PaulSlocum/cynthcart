@@ -214,7 +214,9 @@ midiNmiEnd:	pla
 		rti
 
 		; IRQ handler
-midiIrq:	ldx midiInterfaceType
+midiIrq: 
+		inc 1024 ; DEBUG!!!!!!!!!!!!
+		ldx midiInterfaceType
 		dex
 		lda midiIrqType,x
 		beq midiIrqKey
