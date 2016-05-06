@@ -112,8 +112,44 @@ Startup:
 	sta 53281
 	sta 53280
 
-	lda #1
-	sta 1064
+	ldx #20
+	lda #12
+colorLoop:
+	sta 55296,x
+	dex
+	bpl colorLoop 
+	
+	ldx #8
+	lda #2
+colorLoop2:
+	sta 55296,x
+	dex
+	bpl colorLoop2
+	
+	
+	; SHOW STARTUP TEXT
+	ldx #0
+RAMTextCopy:
+	lda RAMText,x
+	beq quitRAMTextCopy
+	cmp #64
+	bmi showSpaceRAM
+	sbc #64
+showSpaceRAM
+	;sta 1024+40*12+15,x
+	sta 1024,x
+	inx
+	jmp RAMTextCopy
+RAMText:
+	;byte "COPYING TO RAM...",0
+	byte "CYNTHCART V1.5.2",0
+	
+	;byte "CYNTHCART",0
+quitRAMTextCopy:
+	;------------
+	
+	;lda #1
+	;sta 1064
 	
 	;COPY COPIER FROM CART ROM INTO RAM AT $C000
 	ldx #0
@@ -126,14 +162,11 @@ copyCopier:
 	;COPY DECOMPRESSOR INTO BASIC RAM AREA (SELF-MODIFYING CODE CAN'T BE IN ROM)
 	jsr $C000 ; call copier in RAM
 
-	lda #7
-	sta 1066
+	;lda #7
+	;sta 1066
 
 	;JUMP TO DECOMPRESSOR IN RAM (WILL DECOMPRESS AND START CYNTHCART)
 	jmp 2061
-	
-	
-	
 	
 	
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
@@ -143,17 +176,17 @@ copyCopier:
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 	; switch to lowercase mode
-	lda #23
-	sta $d018
+	;lda #23
+	;sta $d018
 
-	lda #0 ; DEBUG put character on screen
-	sta 1024
-	lda #1 ; DEBUG put character on screen
-	sta 1025
+	;lda #0 ; DEBUG put character on screen
+	;sta 1024
+	;lda #1 ; DEBUG put character on screen
+	;sta 1025
 	;lda #2 ; DEBUG put character on screen
 	;sta 1026
 
-	jmp 2061 ; JMP to start of built-in decomopression routine
+	;jmp 2061 ; JMP to start of built-in decomopression routine
 	
 	;ldx #>compressedData ;H
 	;ldy #<compressedData ;L
@@ -163,11 +196,11 @@ copyCopier:
 	;jsr $C000
 	
 	;bcc good
-bad:
+;bad:
 	;lda #2 ; 'b'
 	;sta 1030
 	;jmp stop
-good:
+;good:
 	;lda #7 ; 'g'
 	;sta 1028
 	
@@ -180,8 +213,8 @@ good:
 
 		
 	; Lock cpu (DEBUG)
-stop:
-	jmp stop
+;stop:
+;	jmp stop
 	
 	
 compressedData:
@@ -205,15 +238,8 @@ storeLocation:
 	dey
 	bne decompCopyLoop
 	rts
-	
-	;jmp 2061
-	
-	
+
+		
 ;decompressor:
 	;include "sa_uncrunch.asm"
 
-		
-	;IF MODE=KERNEL_OBSOLETE
-	;org $bfff
-	;byte 0
-	;ENDIF

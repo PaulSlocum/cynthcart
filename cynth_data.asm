@@ -528,8 +528,8 @@ helpMessage
 normalHelp
  	byte 0,$82,"CYNTHCART -",$81," KEYBOARD COMMANDS ",$82,"-           ",0
  	byte 1,$82,"----------------------------------------",0
- 	byte 2,$83,"QWERTY",$8F," AND ",$83,"NUMBERS",$8F," ROWS ARE ",$81,"PIANO KEYS  ",0
- 	byte 3,$83,"ASDF",$8F," AND",$83," ZXCV",$8F," ROWS SELECT",$81," SOUND PRESETS ",0
+ 	byte 2,$83,"QWERTY",$8F," AND ",$83,"NUMBERS ROWS",$8F," ARE ",$81,"PIANO KEYS  ",0
+ 	byte 3,$83,"ASDF",$8F," AND",$83," ZXCV ROWS",$8F," SELECT",$81," SOUND PRESETS ",0
 	byte 4,$83,"SPACE",$8F,"=BENDER",$83,"  CURSOR-KEYS",$8F,"=FIFTHS ON/OFF",0
 	byte 5,$83,"FUNCTION-KEYS",$8F,"=OCTAVE",$83,"    _",$8F,"=CUSTOM-PRESET",0
  	byte 6,$82,"----------------------------------------",0
@@ -700,10 +700,10 @@ modeNameOffsets
 ;MODE_ARP5 	equ $44
 	
 	
-
+; VERSION NUMBER
 bottomText
-	byte " PAL V1.5.1",0
-	byte "NTSC V1.5.1",0
+	byte " PAL V1.5.2",0
+	byte "NTSC V1.5.2",0
 
 	
 ; contant pointers into the textData array

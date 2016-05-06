@@ -18,20 +18,25 @@
 ; - - - - - - - - - - - - - - 
 ; Change Log:
 ; - - - - - - - - - - - - - - 
+; 1.5.2
+; + moved secondary SID to $DF00 to work with SIDcart II
+; + created new compression setup to fit latest ROM onto 8K cartridge
+; + modified to boot okay without MIDI interface present
+; + minor changes to help
+; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
 ; + fixed bad pitch bend startup value
 ; + added non-omni modes for channel 1 and 5
-;
 ; - - - - - - - - - - - - - - 
-; Change Log:
-; - - - - - - - - - - - - - - 
-; 1.5.0
-; + added MIDI support for Kerberos cartridge
-; + moved SID location for MIDI version to $D420 to avoid conflict with MIDI interface
+; 1.5.0 (major update for Kerberos)
+; + added MIDI support for Kerberos cartridge/DATEL MIDI interface
 ; + arpeggiator
-; + new FX modes
+; + mono stack mode and 6-voice mode
+; + new filter and pulse width effects modes
 ; + additional presets
+; + improved clarity of help screen text
+; + moved SID location for MIDI version to $D420 since MIDI address overlaps with SID Symphony ($DE00)
 ; + refactored much of project source
 ; + new smarter note buffering system
 ; + reworked patch parameter display
@@ -39,9 +44,7 @@
 ; + optimized the tuning shift tables for space by overlapping tables
 ; + made LFO and all pitch modulations use proper tuning/scaling
 ; + fixed some errors in the tuning shift tables
-; + improved clarity of help screen text
 ; + added "RETURN FOR CONTROLS" message at bottom
-;MAYBE....
 ;--------------------------
 ; - - - - - - - - - - - - - - 
 ; 1.2.4
@@ -181,8 +184,9 @@ MODE equ RAM   ; DISK, CART, KERNEL_OBSOLETE, or RAM (for compression),
 
 RAMCOPY equ 1	; Copy program to RAM before running
 
-SID2 equ $D420
+;SID2 equ $D420
 ;SID2 equ $DE00
+SID2 equ $DF00
 
 USE_DUMMY_MIDI_LIBRARY equ 0
 ;USE_DUMMY_MIDI_LIBRARY equ 1
@@ -233,7 +237,7 @@ BASEADDR equ $8000
 	;==================================================
 	; load from RAM, requires wrapper to load into RAM (used for compressed version)
 	IF MODE=RAM
-BASEADDR equ $5000
+BASEADDR equ $4000
 ;BASEADDR equ $4FFE ; DEBUG SETUP AS PRG
 	org BASEADDR
 	;byte $00,$50 ; DEBUG SETUP AS PRG
@@ -3826,6 +3830,11 @@ setFilter
 	sta filter
 showFilter:
 	ldy helpMode
+	beq testFullScreenMode
+	;beq doShowFilter
+	rts
+testFullScreenMode:
+	ldy fullScreenMode
 	beq doShowFilter
 	rts
 doShowFilter:
