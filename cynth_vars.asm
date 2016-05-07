@@ -384,6 +384,8 @@ noteShift equ $70F6
 
 midiMode equ $70F7
 
+
+
 ;- - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ;- - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ; BUFFERS
@@ -421,6 +423,9 @@ saveVolume equ $7148
 saveVolMode equ $7149
 saveFilter equ $714A
 
+;--------------------------------------------------
+
+midiEnabled equ $7150
 
 
 		

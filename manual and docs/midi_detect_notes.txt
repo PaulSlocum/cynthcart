@@ -1,1 +1,11 @@
-Sounds good. You can detect my cartridge as well with midiIrqNmiTest ( https://github.com/FrankBuss/kerberos/blob/master/c64/src/midiasm.s#L30 ). Returns 1 in accu, if there is a Kerberos interface with a 68B50 chip for MIDI (the cartridge would work without a 68B50 chip and without the MIDI connectors, too, as a flash cartridge, only). Should be possible to detect other cartridges with the send interrupt, too: When you send a byte, the send interrupt is issued when the byte was sent. Measure the time until the interrupt is generated and you could see if it works with 2 MHz or 500 kHz. Then you need to test this with the different possible addresses of the devices. Could be tricky, because the addresses are either read only or write only, but there are only a limited number of combinations: http://codebase64.org/doku.php?id=base:c64_midi_interfaces
+Sounds good. You can detect my cartridge as well with midiIrqNmiTest 
+( https://github.com/FrankBuss/kerberos/blob/master/c64/src/midiasm.s#L30 ). 
+Returns 1 in accu, if there is a Kerberos interface with a 68B50 chip for MIDI 
+(the cartridge would work without a 68B50 chip and without the MIDI connectors, too, as a flash cartridge, only). 
+
+Should be possible to detect other cartridges with the send interrupt, too: When you send a byte, the send 
+interrupt is issued when the byte was sent. Measure the time until the interrupt is generated and you could 
+see if it works with 2 MHz or 500 kHz. Then you need to test this with the different possible addresses of 
+the devices. Could be tricky, because the addresses are either read only or write only, but there are only 
+a limited number of combinations: http://codebase64.org/doku.php?id=base:c64_midi_interfaces
+

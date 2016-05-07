@@ -36,6 +36,11 @@ midiInit:
 		tax
 		dex
 
+		;ldx #0
+		;stx midiEnabled ; DON'T ENABLE MIDI UNTIL FIRST IRQ IS RECEIVED
+		;ldx #0
+		;stx 1024+39
+
 		lda #$ff  ; CIA#1 port A = outputs 
 		sta DDRA             
 
@@ -83,6 +88,8 @@ midiSetIrq:	lda #<midiIrq
 		sta $0314
 		lda #>midiIrq
 		sta $0315
+		
+		;RTS ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
 		; enable IRQ/NMI
 		lda #$94
@@ -215,7 +222,13 @@ midiNmiEnd:	pla
 
 		; IRQ handler
 midiIrq: 
-		inc 1024 ; DEBUG!!!!!!!!!!!!
+		;ldx 1024
+		;inc 1024
+		;ldx #1
+		;stx midiEnabled
+		;ldx #1
+		;stx 1024+39 ; DEBUG!!
+		
 		ldx midiInterfaceType
 		dex
 		lda midiIrqType,x

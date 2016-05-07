@@ -258,7 +258,8 @@ runstopKeyFunctions:
 	word ksetTune,$0700	;K
 	word ksetTune,$0800	;L
 	word ksetTune,$0900 	;:
-	word ksetTune,$0A00 	;;
+	word 0, $0000		 	;;
+	;word ksetTune,$0A00 	;;
 	word 0, $0000			;=
 	word ksetPalNtsc,$0001	;Z
 	word ksetPalNtsc,$0000	;X
@@ -546,7 +547,7 @@ normalHelp
 	byte 15, $8A,"F1-F7",$8F,"=PORTAMENTO ",$8A,"RETURN",$8F,"=CLEAR MODULATION",0
  	byte 16,$82,"---------------------------------------",0
 	byte 17,$81,"PRESS COMMODORE-KEY +",0
-	byte 18,$8E,"ASDFGHJK",$8F,"=FIXED-CUTOFF ",$8E,":;=",$8F,"=OMNI/CH1/CH5"
+	byte 18,$8E,"ASDFGHJK",$8F,"=FIXED-CUTOFF  ",$8E,",./",$8F,"=OMNI/CH1/CH5"
 	byte 0
 	byte 19,$8E,"ZXC",$8F,"=FILT-ON/OFF/DISABLE",$8E," VBNM",$8F,"=PADDLE2"
 	byte 0
@@ -611,18 +612,18 @@ SYNCTEXT equ 40*0+18 ; The sync feature is not currently used
 	
 	byte 255
 
-modeText
-	byte "POLY    " ;0
-	byte "PORT1   " ;1
-	byte "PORT2   " ;2
-	byte "PORT3   " ;3
-	byte "MONO    " ;4
-	byte "ARP1    " ;5
-	byte "ARP2    " ;6
-	byte "ARP3    " ;7
-	byte "ARP4    " ;8
-	byte "ARP5    " ;9
-	byte "6-VOICE " ;10
+;modeText
+;	byte "POLY    " ;0
+;	byte "PORT1   " ;1
+;	byte "PORT2   " ;2
+;	byte "PORT3   " ;3
+;	byte "MONO    " ;4
+;	byte "ARP1    " ;5
+;	byte "ARP2    " ;6
+;	byte "ARP3    " ;7
+;	byte "ARP4    " ;8
+;	byte "ARP5    " ;9
+;	byte "6-VOICE " ;10
 
 
 textData ; can contain 64 four byte texts

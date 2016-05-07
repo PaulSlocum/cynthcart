@@ -1,19 +1,25 @@
-; Commodore 64 Synthcart
+; Commodore 64 Cynthcart
 ; by Paul Slocum
 ;------------------------
 ; TEXT EDITOR TAB=3
 ;------------------------
 ;
 ;
-; TASKS FOR 1.5.2
+; TODO FOR 1.5.2:
+; - make it work without midi adapter
+; - maybe make it autodetect the passport and DATEL
+; - test with Kerberos (before public release)
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; MAYBE:
+; - make help screen always show regardless of video mode
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - add some of Gert's mixed waveform sounds
 ; - 'O' key specifically may be out of tune
 ; - consider adding per-patch filter on/off/disabled setting
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;
-; MAYBE LATER:
-;================================= END OF THIS VERSION...
+;=================================------------ - - - -  -   -
 ;
 ; - - - - - - - - - - - - - - 
 ; Change Log:
@@ -21,9 +27,10 @@
 ; 1.5.2
 ; + moved secondary SID to $DF00 to work with SIDcart II
 ; + created new compression setup to fit latest ROM onto 8K cartridge
-; + modified to boot okay without MIDI interface present
 ; + minor changes to help
-; + fixed minor bug with full screen display
+; + fixed minor bug with full screen display showing filter cutoff value
+; + other minor bugfixes
+; + wrote new instruction manual
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
@@ -130,15 +137,9 @@
 ; - better mute/noise reduction
 ; - alternate set of keybindings for use without the keyboard overlay
 ; - - - - - - - - - - - - - - - 
-; - auto-detect second SID at multiple locations, avoid conflict with MIDI interface
-; - - - - - - - - - - - - - - - 
 ; - more patches
 ; - paddle 2 auto-on
 ; - make smarter key->oscillator assignment to fix long release
-; - LFO during release
-; - LFO -> Pulse Width and Volume and Filter
-; - mono-stack mode
-; - 6 voice polyphony with 2 SIDS
 ;--------------------------
 ; - add echo long/med/short
 ; - more extreme variations in video mode
@@ -318,7 +319,8 @@ initSid:	sta $d400,x
 
 	IF ENABLE_MIDI_COMMANDS=1
 	; init MIDI and enable all interrupts
-	lda #3
+	lda #3 ; DATEL INTERFACE
+	;lda #2 ; PASSPORT
 	jsr midiInit
 	ENDIF
 
@@ -3679,6 +3681,8 @@ sixteenToTen:
 	
 setMidiMode:
 	sta midiMode
+	sta 1025
+	inc 1024
 showMidiMode:
 	lda #47
 	sta 2012
