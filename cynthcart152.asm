@@ -11,6 +11,7 @@
 ; - test with Kerberos (before public release)
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - create a way(s) to escape out of the hex editor
 ; - make help screen always show regardless of video mode
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - add some of Gert's mixed waveform sounds

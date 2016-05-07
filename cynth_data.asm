@@ -612,18 +612,6 @@ SYNCTEXT equ 40*0+18 ; The sync feature is not currently used
 	
 	byte 255
 
-;modeText
-;	byte "POLY    " ;0
-;	byte "PORT1   " ;1
-;	byte "PORT2   " ;2
-;	byte "PORT3   " ;3
-;	byte "MONO    " ;4
-;	byte "ARP1    " ;5
-;	byte "ARP2    " ;6
-;	byte "ARP3    " ;7
-;	byte "ARP4    " ;8
-;	byte "ARP5    " ;9
-;	byte "6-VOICE " ;10
 
 
 textData ; can contain 64 four byte texts
@@ -660,21 +648,21 @@ textData ; can contain 64 four byte texts
 
 		
 modeNamesPolyphony ; Name (7 bytes) + Polyphony (1 byte)
-	byte "POLY   ",3 ;$00
-	byte "PORT1  ",3 ;$08
-	byte "PORT2  ",3 ;$10
-	byte "PORT3  ",3 ;$18
-	byte "MONO1  ",1 ;$20
-	byte "MONO2  ",1 ;$28
-	byte "MONO3  ",1 ;$30
-	byte "ARP1   ",7 ;$38
-	byte "ARP2   ",7 ;$40
-	byte "ARP3   ",7 ;$48
-	byte "ARP4   ",7 ;$50
-	byte "ARP5   ",7 ;$58
-	byte "6CHAN  ",6 ;$60
-	byte "5THS   ",3 ;$68
-	byte "5PORT  ",3 ;$70
+	byte "POLY   ",3 ;$00 0
+	byte "PORT1  ",3 ;$08 1
+	byte "PORT2  ",3 ;$10 2
+	byte "PORT3  ",3 ;$18 3
+	byte "MONO1  ",1 ;$20 4
+	byte "MONO2  ",1 ;$28 5
+	byte "MONO3  ",1 ;$30 6 
+	byte "ARP1   ",7 ;$38 7
+	byte "ARP2   ",7 ;$40 8
+	byte "ARP3   ",7 ;$48 9
+	byte "ARP4   ",7 ;$50 10
+	byte "ARP5   ",7 ;$58 11
+	byte "6CHAN  ",6 ;$60 12
+	byte "5THS   ",3 ;$68 13
+	byte "5PORT  ",3 ;$70 14
 	
 modeNameOffsets
 	;     0   1   2   3    4   5   6   7     8   9   A   B    C   D   E   F
