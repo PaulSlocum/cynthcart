@@ -6,11 +6,13 @@
 ;
 ;
 ; TODO FOR 1.5.2:
+; - add mono stack portamento mode (or at least add some dummy modes)
 ; - make it work without midi adapter
 ; - maybe make it autodetect the passport and DATEL
 ; - test with Kerberos (before public release)
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - automatically turn off paddle when MIDI mod wheel data is received
 ; - create a way(s) to escape out of the hex editor
 ; - make help screen always show regardless of video mode
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -183,7 +185,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (Th
 ; PROGRAM CONFIGURATION SWITCHES
 ;**********************************************************
 ;**********************************************************
-MODE equ RAM   ; DISK, CART, RAM (for compression), or KERNEL_OBSOLETE (kernel mode is no longer maintained)
+;MODE equ RAM   ; DISK, CART, RAM (for compression), or KERNEL_OBSOLETE (kernel mode is no longer maintained)
 
 RAMCOPY equ 1	; Copy program to RAM before running
 
@@ -3682,8 +3684,6 @@ sixteenToTen:
 	
 setMidiMode:
 	sta midiMode
-	sta 1025
-	inc 1024
 showMidiMode:
 	lda #47
 	sta 2012

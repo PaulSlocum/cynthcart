@@ -1,5 +1,5 @@
 rem "C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe"
-"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" cynthcart152.asm -f3 -v1 -ocynthcart152.bin
+"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" cynthcart152.asm -f3 -v1 -ocynthcart152.bin -DMODE=2
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
@@ -12,5 +12,5 @@ pucrunch cynthcart152.bin cynthcart152_comp.prg -c64 -l0x3000 -x0x3000 -d -m6 -f
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
-"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" loader.asm -f3 -v1 -oloader.bin
+"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" loader.asm -f3 -v1 -oloader.bin -DMODE=0
 @rem "D:\My Documents\_Vintage Programming\Atari 2600 Programming\_Emulators and tools\dasm\bin\dos\dasm.exe" ppt.asm -f3 -v3 -oppt.bin -llist.txt

@@ -84,12 +84,17 @@ midiInit:
 		sta $0319
 		
 		; set IRQ routine
-midiSetIrq:	lda #<midiIrq
+midiSetIrq:	
+
+		lda #<midiIrq
 		sta $0314
 		lda #>midiIrq
 		sta $0315
 		
+		
+		;cli ; DEBUG!!!!!!!!!!!!!
 		;RTS ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		
 		; enable IRQ/NMI
 		lda #$94
@@ -222,6 +227,7 @@ midiNmiEnd:	pla
 
 		; IRQ handler
 midiIrq: 
+		jmp midiNmiEnd ; DEBNUG!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		;ldx 1024
 		;inc 1024
 		;ldx #1
