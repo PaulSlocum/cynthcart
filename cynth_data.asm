@@ -694,8 +694,8 @@ modeNameOffsets
 	
 ; VERSION NUMBER
 bottomText
-	byte " PAL V1.5.2",0
-	byte "NTSC V1.5.2",0
+	byte " PAL V1.6.0",0
+	byte "NTSC V1.6.0",0
 
 	
 ; contant pointers into the textData array

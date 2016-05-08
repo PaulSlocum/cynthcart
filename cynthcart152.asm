@@ -18,18 +18,18 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 
 ;=================================------------ - - - -  -   -
 ;
-; TODO FOR 1.5.2:
-; - add mono stack portamento mode (or at least add some dummy placeholder modes)
+; TODO FOR 1.6.0:
 ; - make it work without midi adapter
 ; - maybe make it autodetect the passport and DATEL
 ; - test with Kerberos (before public release)
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - add some of Gert's mixed waveform sounds
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically turn off paddle when MIDI mod wheel data is received
 ; - create a way(s) to escape out of the hex editor
 ; - make help screen always show regardless of video mode
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - add some of Gert's mixed waveform sounds
 ; - 'O' key specifically may be out of tune
 ; - consider adding per-patch filter on/off/disabled setting
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -39,13 +39,14 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; - - - - - - - - - - - - - - 
 ; Change Log:
 ; - - - - - - - - - - - - - - 
-; 1.5.2
+; 1.6.0
 ; + moved secondary SID to $DF00 to work with SIDcart II
 ; + created new compression setup to fit latest ROM onto 8K cartridge
 ; + minor changes to help
 ; + fixed minor bug with full screen display showing filter cutoff value
 ; + other minor bugfixes
 ; + wrote new instruction manual
+; + added mono stack portamento modes
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
