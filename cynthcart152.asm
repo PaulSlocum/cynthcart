@@ -3,10 +3,23 @@
 ;------------------------
 ; TEXT EDITOR TAB=3
 ;------------------------
-;
+
+;     ~~~=====================================================~~~
+; <<<<<< "MODE" SHOULD BE DEFINED IN DASM CALL (dasm -DMODE=1) >>>>>>
+;     ~~~=====================================================~~~
+
+; IMAGE RUN MODES:
+CART_OBSOLETE equ 0 ; run at $8000 off cartridge ROM (No longer supported because the ROM is bigger than 8K)
+DISK equ 1 ; run at $8000, include initial load location word (PRG format)
+RAM equ 2 ; run at $3000, needs to be copied or decompressed into $3000 (used for compresed version)
+KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No longer supported because the ROM is bigger than 8K)
+
+;;;;MODE equ RAM   ; DISK, CART_OBSOLETE, RAM (for compression), or KERNEL_OBSOLETE
+
+;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.5.2:
-; - add mono stack portamento mode (or at least add some dummy modes)
+; - add mono stack portamento mode (or at least add some dummy placeholder modes)
 ; - make it work without midi adapter
 ; - maybe make it autodetect the passport and DATEL
 ; - test with Kerberos (before public release)
@@ -20,7 +33,6 @@
 ; - 'O' key specifically may be out of tune
 ; - consider adding per-patch filter on/off/disabled setting
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-;
 ;
 ;=================================------------ - - - -  -   -
 ;
@@ -174,18 +186,13 @@
 ;/\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ 
 	processor 6502
 
-	; Image run mode:
-CART equ 0 ; run at $8000 off cartridge ROM
-DISK equ 1 ; run at $8000, include initial load location word
-RAM equ 2 ; run at $1000, needs to be copied or decompressed into $3000 (used for compresed version)
-KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (This mode is no longer supported)
 
 ;**********************************************************
 ;**********************************************************
 ; PROGRAM CONFIGURATION SWITCHES
 ;**********************************************************
 ;**********************************************************
-;MODE equ RAM   ; DISK, CART, RAM (for compression), or KERNEL_OBSOLETE (kernel mode is no longer maintained)
+
 
 RAMCOPY equ 1	; Copy program to RAM before running
 
@@ -230,7 +237,7 @@ BASEADDR equ 2047 ; 2047 = $7FF
 
 	;==================================================
 	; straight cart ROM
-	IF MODE=CART
+	IF MODE=CART_OBSOLETE
 BASEADDR equ $8000
 	org BASEADDR
 	word Startup
@@ -322,8 +329,7 @@ initSid:	sta $d400,x
 
 	IF ENABLE_MIDI_COMMANDS=1
 	; init MIDI and enable all interrupts
-	lda #3 ; DATEL INTERFACE
-	;lda #2 ; PASSPORT
+	jsr midiDetect
 	jsr midiInit
 	ENDIF
 
@@ -341,7 +347,7 @@ initSid:	sta $d400,x
 skipTest:
 	
 	; Copy program into RAM if running from cartridge...
-	IF MODE=CART
+	IF MODE=CART_OBSOLETE
 	ldx #0
 RAMTextCopy:
 	lda RAMText,x
@@ -383,7 +389,7 @@ copyStart:
 ramStart:	
 	ENDIF
 
-	IF MODE=CART
+	IF MODE=CART_OBSOLETE
 	; System Startup Stuff
 	; (not needed if starting from disk)
 	sei

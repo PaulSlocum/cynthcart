@@ -198,7 +198,8 @@ MODE_PORT2	equ $11
 MODE_PORT3	equ $12
 MODE_MONO1 	equ $20
 MODE_MONO2 	equ $21
-;MODE_MONO3 	equ $22
+MODE_MONOPORT1 equ $30
+MODE_MONOPORT2 equ $31
 MODE_ARP1 	equ $40
 MODE_ARP2 	equ $41
 MODE_ARP3 	equ $42
@@ -425,7 +426,8 @@ saveFilter equ $714A
 
 ;--------------------------------------------------
 
-midiEnabled equ $7150
+midiEnabled equ $7150 ; Not fully implemented
+dummyMidiIncrementer equ $7151
 
 
 		

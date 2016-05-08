@@ -31,16 +31,9 @@
 	; Image run mode:
 CART equ 0 ; run at $8000 off cartridge ROM
 DISK equ 1 ; run at $2047, include BASIC sys command
-RAM equ 2 ; run at $8000 in RAM from PRG 
+RAM equ 2 ; run at $8000 in RAM 
+KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (This mode is no longer supported)
 
-;**********************************************************
-;**********************************************************
-; PROGRAM CONFIGURATION SWITCHES
-;**********************************************************
-;**********************************************************
-;MODE equ DISK   ; DISK mode is for testing
-;MODE equ CART
-;MODE equ RAM
 
 ;**********************************************************
 ;**********************************************************
@@ -85,6 +78,14 @@ BASEADDR equ $8000 ;
 	ENDIF
 
 
+	;==================================================
+	; to replace BASIC ROM (NO LONGER MAINTAINED)
+	IF MODE=KERNEL_OBSOLETE
+BASEADDR equ $8000
+	org BASEADDR
+	word $E394   ; RESET
+	word $E37B   ; Warm Start
+	ENDIF
 	
 	;---------------------------------------
 	; variables and constants here

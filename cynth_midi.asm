@@ -23,9 +23,10 @@ DDRA equ $dc02            ; CIA#1 (Data Direction Register A)
 PRB  equ  $dc01            ; CIA#1 (Port Register B)
 DDRB equ  $dc03            ; CIA#1 (Data Direction Register B)
 		
-		; detec MIDI interface, return type in accu
+		; detect MIDI interface, return type in accu
 midiDetect:	; TODO
-		lda #0
+		lda #3 ; DATEL
+		;lda #0 ; No MIDI
 		rts
 
 		; init MIDI interface, type in accu from midiDetect
@@ -85,12 +86,33 @@ midiInit:
 		
 		; set IRQ routine
 midiSetIrq:	
+		lda $0314 ; DEBUG!!!!
+		sta tempX ; DEBUG!!!!
+		lda $0315 ; DEBUG!!!!
+		sta tempY ; DEBUG!!!!
 
+		;---------------------------
 		lda #<midiIrq
 		sta $0314
 		lda #>midiIrq
 		sta $0315
+		;---------------------------
 		
+		;cli
+		;ldx #0
+		;ldy #0
+delayLoopIRQ:
+		;inc 1024
+		;iny
+		;bne delayLoopIRQ
+		;inx
+		;bne delayLoopIRQ
+		;sei 
+		
+		;lda tempX ; DEBUG!!!!
+		;sta $0314 ; DEBUG!!!!
+		;lda tempY ; DEBUG!!!!
+		;sta $0315 ; DEBUG!!!!
 		
 		;cli ; DEBUG!!!!!!!!!!!!!
 		;RTS ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -226,13 +248,21 @@ midiNmiEnd:	pla
 		rti
 
 		; IRQ handler
-midiIrq: 
-		jmp midiNmiEnd ; DEBNUG!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		;ldx 1024
-		;inc 1024
-		;ldx #1
-		;stx midiEnabled
-		;ldx #1
+midiIrq:
+		;ldx tempX ; DEBUG!!!!
+		;stx $0314 ; DEBUG!!!!
+		;ldy tempY ; DEBUG!!!!
+		;sty $0315 ; DEBUG!!!!
+
+		;inc dummyMidiIncrementer ; NOT SURE WHY THIS MAKES IT WORK WITHOUT A MIDI ADAPTER?????
+		
+		;inc 1025  ; DEBUG!!
+		;jmp midiNmiEnd ; DEBNUG!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		;ldx 1024 ; DEBUG!!
+		;inc 1024 ; DEBUG!!
+		;ldx #1 ; DEBUG!!
+		;stx midiEnabled ; DEBUG!!
+		;ldx #1 ; DEBUG!!
 		;stx 1024+39 ; DEBUG!!
 		
 		ldx midiInterfaceType

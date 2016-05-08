@@ -356,7 +356,7 @@ patchSoundMode
 	byte  MODE_ARP3  ;13
 	byte  MODE_MONO1 ;14
 	byte  MODE_MONO2 ;15
-	byte  MODE_NORMAL;16
+	byte  MODE_NORMAL ;16
 	byte  MODE_MONO1 ;17
 	byte  MODE_NORMAL  ;18
 	byte  MODE_PORT3 ;19
@@ -654,7 +654,7 @@ modeNamesPolyphony ; Name (7 bytes) + Polyphony (1 byte)
 	byte "PORT3  ",3 ;$18 3
 	byte "MONO1  ",1 ;$20 4
 	byte "MONO2  ",1 ;$28 5
-	byte "MONO3  ",1 ;$30 6 
+	byte "MONPRT1",1 ;$30 6 
 	byte "ARP1   ",7 ;$38 7
 	byte "ARP2   ",7 ;$40 8
 	byte "ARP3   ",7 ;$48 9
@@ -663,6 +663,7 @@ modeNamesPolyphony ; Name (7 bytes) + Polyphony (1 byte)
 	byte "6CHAN  ",6 ;$60 12
 	byte "5THS   ",3 ;$68 13
 	byte "5PORT  ",3 ;$70 14
+	byte "MONPRT2",1
 	
 modeNameOffsets
 	;     0   1   2   3    4   5   6   7     8   9   A   B    C   D   E   F
