@@ -261,7 +261,7 @@ runstopKeyFunctions:
 	word 0, $0000		 	;;
 	;word ksetTune,$0A00 	;;
 	word 0, $0000			;=
-	word ksetPalNtsc,$0001	;Z
+	word ksetPalNtsc,$0001	;Z  setPatch, $0A00
 	word ksetPalNtsc,$0000	;X
 	word 0, $0000			;C
 	word 0, $0000			;V
