@@ -35,6 +35,7 @@ RAM equ 2 ; run at $8000 in RAM
 KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (This mode is no longer supported)
 
 
+
 ;**********************************************************
 ;**********************************************************
 ;**********************************************************
@@ -161,13 +162,14 @@ copyCopier:
 	bne copyCopier
 		
 	;COPY DECOMPRESSOR INTO BASIC RAM AREA (SELF-MODIFYING CODE CAN'T BE IN ROM)
-	jsr $C000 ; call copier in RAM
+	;jsr $C000 ; call copier in RAM
+	jmp $C000
 
 	;lda #7
 	;sta 1066
 
 	;JUMP TO DECOMPRESSOR IN RAM (WILL DECOMPRESS AND START CYNTHCART)
-	jmp 2061
+	;jmp 2061
 	
 	
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
@@ -238,6 +240,7 @@ storeLocation:
 	inc storeLocation+2
 	dey
 	bne decompCopyLoop
+	jmp 2061
 	rts
 
 		

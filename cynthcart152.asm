@@ -1984,7 +1984,7 @@ NsoundOffSidA:
 	ora WaveType,x
 	sta SID1+SV1WAVE,x
 	;sta SID2+SV1WAVE,x
-	sta sidData+SV1WAVE,x
+	sta sidData+SV1WAVE,x ;BUG BUG BUG BUG BUG BUG 
 	ldx temp
 	dex
 	;bpl NsetRegsSidA
@@ -4527,6 +4527,7 @@ readHexKey
 pianoHexKey:
 	ldy #0
 checkLoop2:
+	inc 1066
 	lda hexColPiano,y
 	beq quitCheck2
 	sta 56320
@@ -4551,6 +4552,7 @@ quitCheck2:
 normalHexKey:
 	ldy #0
 checkLoop3:
+	inc 1065
 	lda hexCol,y
 	beq quitCheck3
 	sta 56320
@@ -4600,6 +4602,8 @@ noAltKeyMode:
 keyCmpLoop:
 	;sta 1026
 	;stx 1025
+	rts
+notEscapeKey:
 	cmp keyData,x
 	beq foundKey
 	inx

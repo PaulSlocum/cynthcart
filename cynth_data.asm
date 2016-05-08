@@ -261,16 +261,16 @@ runstopKeyFunctions:
 	word 0, $0000		 	;;
 	;word ksetTune,$0A00 	;;
 	word 0, $0000			;=
-	word ksetPalNtsc,$0001	;Z  setPatch, $0A00
-	word ksetPalNtsc,$0000	;X
-	word 0, $0000			;C
-	word 0, $0000			;V
-	word 0, $0000			;B
-	word 0, $0000			;N
-	word 0, $0000			;M
-   word 0, $0000			;,
-	word 0, $0000			;.
-	word 0, $0000			;/
+	word setPatch, $1600	;Z  
+	word setPatch, $1700	;X
+	word setPatch, $1800	;C
+	word setPatch, $1900	;V
+	word setPatch, $1A00	;B
+	word setPatch, $1B00	;N
+	word setPatch, $1C00	;M
+    word 0, $0000			;,
+	word ksetPalNtsc,$0001	;.
+	word ksetPalNtsc,$0000  ;/
 	word 0, $0000			;up/down
 	word 0, $0000			;left/right
 	word SIDEdit,$0000	;F1
@@ -311,7 +311,7 @@ patchName2
 	byte "NEW PATCH 14    " ;23 ; THESE PATCHES ARE FOR FUTURE EXPANSION
 	byte "NEW PATCH 15    " ;24
 	byte "NEW PATCH 16    " ;25
-	byte "NEW PATCH 17    " ;26
+	byte "NEW PATCH 17    " ;26 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
 	byte "NEW PATCH 18    " ;27
 	byte "NEW PATCH 19    " ;28
 	byte "PATCH SAVED     " ;29
@@ -329,7 +329,7 @@ modeList:
 	byte MODE_PORT3
 	byte MODE_MONO1
 	byte MODE_MONO2
-	byte MODE_MONOPORT1 ; new
+	byte MODE_MONOPORT2 ; new
 	byte MODE_MONOPORT2 ; new
 	byte MODE_ARP1 
 	byte MODE_ARP2 
@@ -352,7 +352,7 @@ patchSoundMode
 	byte  MODE_MONO1  ;7
 	byte  MODE_PORT1 ;8
 	byte  MODE_NORMAL ;9 
-	byte  MODE_NORMAL ;10 <--- start of new patches
+	byte  MODE_NORMAL ;10 <--- start of new 1.5.0 patches
 	byte  MODE_ARP1  ;11
 	byte  MODE_ARP2  ;12 
 	byte  MODE_ARP3  ;13
@@ -364,10 +364,10 @@ patchSoundMode
 	byte  MODE_PORT3 ;19
 	byte  MODE_6CHAN ;20
 	byte  MODE_ARP5 ;21
-	byte  MODE_6CHAN ;22
-	byte  MODE_NORMAL ;23
-	byte  MODE_NORMAL ;24
-	byte  MODE_NORMAL ;25
+	byte  MODE_MONOPORT1 ;22 <---- start of 1.6.0 patches
+	byte  MODE_MONOPORT2 ;23
+	byte  MODE_MONO1 ;24
+	byte  MODE_MONO2 ;25
 	byte  MODE_NORMAL ;26
 	byte  MODE_NORMAL ;27
 	byte  MODE_NORMAL ;28
@@ -388,15 +388,15 @@ patchSoundMode
 patchFX                                             
 	byte 	0,		5,		0,		0,		7,		6,   	1,		3,		2,   	0
 	byte	3,		1,		3,		0,		2,		3,		4,		1,		1,		2
-	byte	0,		3,		0,		0,		0,		0,		0,		0,		0,		0
+	byte	0,		3,		1,		0,		0,		0,		0,		0,		0,		0
 patchLFO
 	byte 	$11,	$02,	$02,	$13,	$13,	$10,	$01,	$02, 	$13, 	$00
 	byte 	$00,	$22,	$13,	$11,	$10,	$02,	$00,	$33, 	$10, 	$11
-	byte 	$10,	$12,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	$00
+	byte 	$10,	$12,	$13,	$00,	$00,	$00,	$00,	$00, 	$00, 	$00
 patchOctave                                               
 	byte 	0,	   0,    	1,		1,		1,		2,		3,		3,		0, 		0
 	byte 	1,	   2,    	3,		1,		1,		2,		3,		3,		1, 		3
-	byte 	1,	   3,    	1,		1,		1,		2,		3,		2,		0, 		0
+	byte 	1,	   3,    	3,		1,		1,		2,		3,		2,		0, 		0
 patchAD                                                  
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	0
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$E0, 	$A0
@@ -404,7 +404,7 @@ patchAD
 patchSR                                                  
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
+	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
 patchPaddle
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -420,7 +420,7 @@ newPatchFiltCut
 patchVol                                                 
 	byte 	$f,	$F,	$b,	$9,	$6,	$7,	$F,	$C,	$c, 	0
 	byte 	$f,	$c,	$F,	$b,	$9,	$7,	$F,	$c,	$c, 	$C
-	byte 	$f,	$C,	$b,	$9,	$b,	$8,	$F,	$F,	$c, 	0
+	byte 	$f,	$C,	$b,	$9,	$9,	$8,	$F,	$F,	$c, 	0
 patchPWL                                                 
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -432,7 +432,7 @@ patchPWH
 patchWave                                                
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
-	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
+	byte 	$20,	$20,	$14,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 patchFilt                                                
 	byte 	$EF,	$EF,	$0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$EF, 	$EF
 	byte 	$EF,	$EF,	$0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$EF, 	$EF
