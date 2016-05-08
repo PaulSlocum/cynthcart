@@ -1527,14 +1527,14 @@ processSoundDriver:
 	; or regular player...
 	lda soundMode
 	beq polyMode
-	and #PORT_MASK
+	and #MONO_MASK
 	beq nextSoundModeCheck1
-	jmp playPort
+	jmp playMono
 nextSoundModeCheck1:
 	lda soundMode
-	and #MONO_MASK
+	and #PORT_MASK
 	beq nextSoundModeCheck2
-	jmp playMono
+	jmp playPort
 nextSoundModeCheck2:
 	lda soundMode
 	and #ARP_MASK
@@ -1586,8 +1586,12 @@ playMonoWithA:
 	cmp #255
 	beq monoMute
 	ldx soundMode
+	;dex
+	;beq noRaiseOctave
 	cpx #MODE_MONO2
 	beq noRaiseOctave	; Skip shifting the octave in MONO2 mode
+	cpx #MODE_MONOPORT2
+	beq noRaiseOctave
 	;-------------------------------------
 	clc
 	adc #12
@@ -1618,6 +1622,15 @@ doubleToStereo:
 	lda playNoteArray+2
 	 sta playNoteArray+5
 
+	;;- NEW! ------------------------------;;
+ 	lda soundMode
+	and #PORT_MASK
+	beq continueToSixVoice7
+	jmp portPlayer ; SKIP TO PLAYER
+	;jmp playPort ; ORIGINAL
+	;;-------------------------------------;;
+
+continueToSixVoice7:
 	jmp sixVoicePlayer
 	
 	;=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -1734,6 +1747,11 @@ noArpOffsetReset:
 	lda noteNumArray,y
 	
 	jmp playMonoWithA
+	
+	;lda soundMode
+	;and #PORT_MASK
+	;beq nextSoundModeCheck2
+	;jmp playPort
 
 	
 	;***********	

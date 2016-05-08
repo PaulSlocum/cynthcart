@@ -165,9 +165,9 @@ CTRLKeyFunctions:
 	word ksetFX, 	$0007	;,		
 	word ksetFX, 	$0008	;.
 	;word ksetFX, 	$0009	;/
-	word 0, $0000			;/
-	word ksetMode, MODE_MONO2			;up/down
-	word ksetMode, MODE_MONO2			;left/right
+	word ksetMode, MODE_MONO2			;/
+	word ksetMode, MODE_MONOPORT1		;up/down
+	word ksetMode, MODE_MONOPORT2		;left/right
 	word ksetVolume, VOLHIGH			;F1
 	word ksetVolume, VOLMED			;F3
 	word ksetVolume, VOLLOW			;F5
@@ -335,8 +335,8 @@ modeList:
 	byte MODE_ARP4 
 	byte MODE_ARP5 
 	byte MODE_6CHAN
-	byte MODE_6CHAN
-	byte MODE_6CHAN ;16
+	byte MODE_MONOPORT1
+	byte MODE_MONOPORT2 ;16
 	
 
 patchSoundMode
@@ -654,7 +654,7 @@ modeNamesPolyphony ; Name (7 bytes) + Polyphony (1 byte)
 	byte "PORT3  ",3 ;$18 3
 	byte "MONO1  ",1 ;$20 4
 	byte "MONO2  ",1 ;$28 5
-	byte "MONPRT1",1 ;$30 6 
+	byte "MONP1  ",1 ;$30 6 
 	byte "ARP1   ",7 ;$38 7
 	byte "ARP2   ",7 ;$40 8
 	byte "ARP3   ",7 ;$48 9
@@ -663,14 +663,14 @@ modeNamesPolyphony ; Name (7 bytes) + Polyphony (1 byte)
 	byte "6CHAN  ",6 ;$60 12
 	byte "5THS   ",3 ;$68 13
 	byte "5PORT  ",3 ;$70 14
-	byte "MONPRT2",1
+	byte "MONP2  ",1 ;$78 15
 	
 modeNameOffsets
 	;     0   1   2   3    4   5   6   7     8   9   A   B    C   D   E   F
 	byte $00,$68,$70,$00, $00,$00,$00,$00,  $60,$00,$00,$00, $00,$00,$00,$00 ;$00
 	byte $08,$10,$18,$00, $00,$00,$00,$00,  $00,$00,$00,$00, $00,$00,$00,$00 ;$10
 	byte $20,$28,$30,$00, $00,$00,$00,$00,  $00,$00,$00,$00, $00,$00,$00,$00 ;$20
-	byte $00,$00,$00,$00, $00,$00,$00,$00,  $00,$00,$00,$00, $00,$00,$00,$00 ;$30
+	byte $30,$30,$78,$78, $00,$00,$00,$00,  $00,$00,$00,$00, $00,$00,$00,$00 ;$30
 	byte $38,$40,$48,$50, $58,$00,$00,$00,  $00,$00,$00,$00, $00,$00,$00,$00 ;$40
 	
 	
