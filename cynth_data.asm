@@ -329,14 +329,16 @@ modeList:
 	byte MODE_PORT3
 	byte MODE_MONO1
 	byte MODE_MONO2
+	byte MODE_MONOPORT1 ; new
+	byte MODE_MONOPORT2 ; new
 	byte MODE_ARP1 
 	byte MODE_ARP2 
 	byte MODE_ARP3 
 	byte MODE_ARP4 
 	byte MODE_ARP5 
-	byte MODE_6CHAN
-	byte MODE_MONOPORT1
-	byte MODE_MONOPORT2 ;16
+	byte MODE_6CHAN ;16
+	;byte MODE_MONOPORT1
+	;byte MODE_MONOPORT2 ;16
 	
 
 patchSoundMode
