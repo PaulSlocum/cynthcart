@@ -115,27 +115,34 @@ midiSetIrqTest:
 	;sta $0315
 	;---------------------------
 	
+	; show midi status
+	ldy #0
+	lda (midiStatus),y
+	sta 1024
+	
 	; enable IRQ/NMI
-	lda #$94
+	;lda #3 ; MIDI reset (DEBUG)
 	;lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
+	;lda #$34 ; transmit interrupt only
+	lda #$94 ; receive interrupt only (default)
 	ora midiCr0Cr1,x
 	sta (midiControl),y
 
 	; delay (with interrupts on)
-	;cli
-	ldx #0
+	;cli ; enable interrupts
+	ldx #240
 	ldy #0
 delayLoopIRQTest:
 	sty saveY
 	tya
+	;and #%11
+	;cmp #%11
+	;bne skipReadWrite
 	ldy #0
 	;lda #1 ; this works for detecting datel but doesn't make sense
 	sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
-	
-	;tay
-	;sty saveY
-	;ldy #0
 	lda (midiRx),y
+skipReadWrite:
 	
 	; -  - - -  - - -  - - -  - - 
 	; TEST STATUS REGISTER TO SEE IF IRQ IS PENDING ETC.
@@ -147,19 +154,28 @@ delayLoopIRQTest:
 noIRQPending:
 	lda (midiStatus),y
 	and #1 ; RECEIVE BUFFER FULL
+	;and #2 ; TRANSMIT DATA REGISTER EMPTY
+	;and #8 ; CLEAR TO SEND
 	beq notReceiveFull
 	inc irqCountMidi
 notReceiveFull:
 	; -  - - -  - - -  - - -  - - 
 
+	inc loopCount
+
 	ldy saveY
 	iny
 	bne delayLoopIRQTest
-	inc loopCount
 	inx
-	bne delayLoopIRQTest
-	sei 
-	
+	;bne delayLoopIRQTest
+	;sei ; disable interrupts
+
+	; show midi status
+	ldy #0
+	lda (midiStatus),y
+	sta 1025
+
+		
 	jsr midiRelease
 	;jsr midiReset
 		
