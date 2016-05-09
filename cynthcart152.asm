@@ -3664,10 +3664,37 @@ LFOClear:
 	rts
 
 	;--------------------------------
+	; Set Release for each OSC2 indpendently
+	;--------------------------------
+	; A = release OSC2 value
+setReleaseOSC2:
+	sta release
+	sta SID1+SV2SR
+	sta SID2+SV2SR
+	sta sidData+SV2SR
+	rts
+	;jmp showRelease
+	;----------------
+
+	;--------------------------------
+	; Set Release for each OSC3 indpendently
+	;--------------------------------
+	; A = release OSC2 value
+setReleaseOSC3:
+	sta release
+	sta SID1+SV3SR
+	sta SID2+SV3SR
+	sta sidData+SV3SR
+	rts
+	;jmp showRelease
+	;----------------
+	;--------------------------------
 	; Set Release
 	;--------------------------------
 	; A = release OSC1 value
-setRelease
+	; X = release OSC2 value
+	; Y = release OSC3 value
+setRelease:
 	sta release
 	sta SID1+SV1SR
 	sta SID1+SV2SR
@@ -4113,8 +4140,13 @@ setPatch
 	ldy patchSetY
 
 	ldy temp
-	lda patchSR,y
+	lda patchSR1,y
 	jsr setRelease
+	lda patchSR2,y
+	jsr setReleaseOSC2
+	lda patchSR3,y
+	jsr setReleaseOSC3
+	
 	ldy patchSetY
 
 	lda patchFilt,y
