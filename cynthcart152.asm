@@ -19,15 +19,16 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
+; - fix waveform bug in SID editor
 ; - make it work without midi adapter
 ; - maybe make it autodetect the passport and DATEL
 ; - test with Kerberos (before public release)
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
 ; - add some of Gert's mixed waveform sounds
+; - add a button that resets all settings and turns video on
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically turn off paddle when MIDI mod wheel data is received
-; - create a way(s) to escape out of the hex editor
 ; - make help screen always show regardless of video mode
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - 'O' key specifically may be out of tune
@@ -42,11 +43,12 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; 1.6.0
 ; + moved secondary SID to $DF00 to work with SIDcart II
 ; + created new compression setup to fit latest ROM onto 8K cartridge
-; + minor changes to help
+; + minor adjustments to help screen
 ; + fixed minor bug with full screen display showing filter cutoff value
 ; + other minor bugfixes
 ; + wrote new instruction manual
 ; + added mono stack portamento modes
+; + added a button to cancel out of the SID editor
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
@@ -4275,6 +4277,10 @@ hexClearA
 	lda #36
 	sta 1024+HEX_DISP_OFFSET
 	jsr getHexKey
+	cmp #16 ; cancelled
+	bne notCancelled
+	jmp waitKeyRelease
+notCancelled:
 	tax
 	asl
 	asl
@@ -4292,6 +4298,10 @@ hexClearA
 	lda #36
 	sta 1025+HEX_DISP_OFFSET
 	jsr getHexKey
+	cmp #16 ; cancelled
+	bne notCancelled2
+	jmp waitKeyRelease
+notCancelled2:
 	tax
 	ora SIDeditAddr
 	sta SIDeditAddr
@@ -4306,6 +4316,10 @@ hexClearA
 	lda #36
 	sta 1027+HEX_DISP_OFFSET
 	jsr getHexKey
+	cmp #16 ; cancelled
+	bne notCancelled3
+	jmp waitKeyRelease
+notCancelled3:
 	tax
 	asl
 	asl
@@ -4319,6 +4333,10 @@ hexClearA
 	lda #36
 	sta 1028+HEX_DISP_OFFSET
 	jsr getHexKey
+	cmp #16 ; cancelled
+	bne notCancelled4
+	jmp waitKeyRelease
+notCancelled4:
 	tax
 	ora SIDeditValue
 	sta SIDeditValue
@@ -4506,7 +4524,7 @@ getHexKey:
 getHexLoop:
 	;inc 1024
 	jsr readHexKey
-	cmp #255
+	cmp #255 ; No key pressed
 	beq getHexLoop
 	;inc 1025
 	rts
@@ -4519,7 +4537,6 @@ getHexLoop:
 readHexKey
 
 	lda hexKeyMode ; this variable determines which key set is used
-	;sta 1024
 	beq normalHexKey
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -4527,7 +4544,6 @@ readHexKey
 pianoHexKey:
 	ldy #0
 checkLoop2:
-	inc 1066
 	lda hexColPiano,y
 	beq quitCheck2
 	sta 56320
@@ -4552,7 +4568,6 @@ quitCheck2:
 normalHexKey:
 	ldy #0
 checkLoop3:
-	inc 1065
 	lda hexCol,y
 	beq quitCheck3
 	sta 56320
@@ -4569,71 +4584,13 @@ notPressed3:
 quitCheck3:
 	lda #255 ; no key pressed
 	rts	
-	;jmp normalHexKey
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;lda #<shiftKeyFunctions		;
-	;sta keyPtrL						;
-	;lda #>shiftKeyFunctions		;-
-	;sta keyPtrH
-	;jmp doKeyCheck
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-	;sei
-
-	;enable keyboard interrupt
-	lda #129
-	sta 56333
-
-	sta 1024
-	
-	lda 197
-	cmp lastKey
-	beq getHexKey
-restartHexKey:
-	ldx #0
-	lda hexKeyMode ; this variable determines which key set is used
-	beq noAltKeyMode
-	ldx #16 ; use alternate keys for piano keyboard
-noAltKeyMode:
-	lda 197
-keyCmpLoop:
-	;sta 1026
-	;stx 1025
-	rts
-notEscapeKey:
-	cmp keyData,x
-	beq foundKey
-	inx
-	cpx #16
-	beq restartHexKey
-	cpx #32
-	beq restartHexKey
-	jmp keyCmpLoop
-foundKey:
-	sta lastKey
-
-	jsr beep
-;	jsr beep
-
-	lda hexKeyMode
-	beq noKeySubtract
-	txa
-	sec
-	sbc #16
-	tax
-noKeySubtract:
-
-	txa
-	
-
-	rts
 
 beep:
 ;	lda #$10
 ;	sta SID1+SV1FH
+
+	ldx #3
+beepLoop:
 	lda volModeRAM
 	ora #$0F
 	sta SID1+SVOLMODE
@@ -4651,13 +4608,16 @@ beep:
 ;	lda SID1+SV1WAVE
 ;	and #$FE
 ;	sta SID1+SV1WAVE
+	dex
+	bne beepLoop
 	rts
 	
 
 	; ------------------------------------
 	; delay for click -- uses Y
 clickDelay:
-	ldy #$40
+	;ldy #$40
+	ldy #$10
 	sty temp
 mainDelayLoop:
 	ldy #0

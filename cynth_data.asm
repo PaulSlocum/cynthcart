@@ -4,17 +4,15 @@
 ;------------------------------------------
 
 hexColPiano:   
-	byte $BF,$7F,$FD,$FB,$FB, $F7,$EF,$EF,$DF, $BF,$F7,$F7, $EF,$EF,$DF,$DF ,0 ; PIANO KEYBOARD
-	;byte $7F,$FD,$FB,$FB, $F7,$EF,$EF,$DF, $BF,$BF,$F7,$F7, $EF,$EF,$DF,$DF ,0 ; PIANO KEYBOARD
+	byte $BF,$7F,$FD,$FB,  $FB,$F7,$EF,$EF,  $DF,$BF, $F7,$F7,   $EF,$EF,$DF,$DF,    $7F,0 ; PIANO KEYBOARD
 hexCol:   
-	byte $EF,$7F,$7F,$FD, $FD,$FB,$FB,$F7, $F7,$EF,~$02,~$08, ~$04,~$04,$FD,~$04,0
-		; 0   1   2   3    4   5   6   7    8   9   A   B    C   D   E   F
+	byte $EF,$7F,$7F,$FD,  $FD,$FB,$FB,$F7,  $F7,$EF,~$02,~$08, ~$04,~$04,$FD,~$04,  $7F,0
+		; 0   1   2   3     4   5   6   7     8   9    A   B       C   D   E   F    SPACEBAR (cancel)
 hexRowPiano:
-	byte $08,$08,$01,$01,$08, $01,$01,$08,$08, $01,$02,$40, $02,$40,$02,$40 ,0 ; PIANO KEYBOARD
-	;byte $08,$01,$01,$08, $01,$01,$08,$08, $01,$08,$02,$40, $02,$40,$02,$40 ,0 ; PIANO KEYBOARD
+	byte $08,$08,$01,$01,  $08,$01,$01,$08,  $08,$01,$02,$40,  $02,$40,$02,$40,    $02,0 ; PIANO KEYBOARD ($10 = space) ($02 = backarrow)
 hexRow:
-	byte $08,$01,$08,$01, $08,$01,$08,$01, $08,$01,$04,$10,   $10,$04,$40,$20, 0
-		; 0   1   2   3    4   5   6   7    8   9   A   B       C   D   E   F
+	byte $08,$01,$08,$01,  $08,$01,$08,$01,  $08,$01,$04,$10,  $10,$04,$40,$20,    $02,0
+		; 0   1   2   3     4   5   6   7     8   9   A   B     C   D   E   F     SPACEBAR (cancel)
 
 	;-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 	; Column activation data
@@ -374,15 +372,6 @@ patchSoundMode
 	byte  MODE_NORMAL ;29
 	byte  MODE_NORMAL ;30
 
-; FX TYPES:	
-;MOD_NONE equ 0
-;MOD_FILT_LFO equ 1
-;MOD_FILT_ENV equ 2
-;MOD_FILT3 equ 3
-;MOD_FILT4 equ 4
-;MOD_FILT5 equ 5
-;MOD_PW_LFO equ 6
-;MOD_PW2 equ 7
 	
 	;       0       1       2       3       4        5       6       7      8       9    
 patchFX                                             
@@ -409,10 +398,6 @@ patchPaddle
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-;patchFiltCut                                             
-;	byte 	$c0,	$80,	$c0,	$FF,	$40,	$50,	$c0,	$c0,	$80, 	0
-;	byte 	$c0,	$80,	$c0,	$FF,	$c0,	$c0,	$c0,	$c0,	$80, 	$80
-;	byte 	$c0,	$80,	$c0,	$FF,	$c0,	$c0,	$c0,	$c0,	$80, 	0
 newPatchFiltCut                                             
 	byte 	$B0,	$90,	$c0,	$FF,	$40,	$50,	$c0,	$70,	$80, 	0
 	byte 	$80,	$A0,	$c0,	$FF,	$A0,	$80,	$c0,	$c0,	$80, 	$80
@@ -516,10 +501,10 @@ hexEditHelp:
  	byte 15,$81,"$26 $06 $0D $14",$87,"  +-SUSTAIN-+ +-RELEASE-+",0
 	byte 16,$8E," VAL $   $   $",0
  	byte 17,$82,"----------------------------------------",0
-	byte 18,$82,"ALL VAL  7  6  5  4  3  2  1  0 ",0
- 	byte 19,$81,"$15 ",$8E,"$    ",$87,".  .  .  .  . +FILT-LO+",0
- 	byte 20,$81,"$16 ",$8E,"$    ",$87,"+-FILTER-CUTOFF-HIGH--+",0
- 	byte 21,$81,"$17 ",$8E,"$    ",$87,"+FILT-RES-+ FX F1 F2 F3",0
+	byte 18,$82,"ALL VAL  7  6  5  4  3  2  1  0 ",$8B,"  PRESS",0
+ 	byte 19,$81,"$15 ",$8E,"$    ",$87,".  .  .  .  . +FILT-LO+",$8B,"  '_' TO",0
+ 	byte 20,$81,"$16 ",$8E,"$    ",$87,"+-FILTER-CUTOFF-HIGH--+",$8B,"  CANCEL",0
+ 	byte 21,$81,"$17 ",$8E,"$    ",$87,"+FILT-RES-+ FX F1 F2 F3",$8B,"  ",0
  	byte 22,$81,"$18 ",$8E,"$    ",$87,"XX HP BP LP +-VOLUME--+",0
  	byte 23,$82,"----------------------------------------",0
  	byte 24,$8B,"ENTER 2-DIGIT HEX ADDRESS THEN HEX VALUE",0
@@ -555,7 +540,7 @@ normalHelp
 	byte 0
  	byte 20,$82,"---------------------------------------",0
 	byte 21,$81,"PRESS RUN-STOP +",0
-	byte 22,$87,"ASDFGHJKL:;",$8F,"=TUNING" ,$87,"  ZX",$8F,"=PAL/NTSC"
+	byte 22,$87,"ASDFGHJKL:;",$8F,"=TUNING" ,$87,"  ./",$8F,"=PAL/NTSC"
 	byte 0
 	byte 23,$87,"F1",$8F,"=SID-EDIT-KB" ,$87," F3",$8F,"=SAVE-CUSTOM-PRESET"
 	byte 0
@@ -571,6 +556,7 @@ mainColorText
 	byte 4,$8F,"VOLUME",$8C,"=",$81,"X   ",$8F,"FX",$8C,"=",$81,"XXXXX ",$8F,"  VIDEO",$8C,"=",$81,"X ",$8F,"PADD2",$8C,"=",$81,"X   ",0
  	byte 23,$82,"                                        ",0
 
+ 	; OLD LAYOUT
 	;byte 0,$82,"CYNTHCART  ",$81,"PATCH",$8F,"=                       ",0
 	;byte 1,$87,"           LFO:     RATE",$8F,"=     ",$87,"DEPTH",$8F,"=    ",0
 	;byte 2,$81,"FIFTHS",$8F,"=    ",$83,"ATTACK",$8F,"=  ",$83,"RELEASE",$8F,"=  ",$8A,"MODE",$8F,"=     ",0
@@ -603,13 +589,6 @@ PADDLETEXT equ 40*3+36
 PAD2TEXT equ 40*4+36
 
 SYNCTEXT equ 40*0+18 ; The sync feature is not currently used
-	
-	;MODE
-	;ATTACK
-	;RELEASE
-	;VOL
-	
-	
 	
 	
 	byte 255
@@ -676,22 +655,6 @@ modeNameOffsets
 	byte $38,$40,$48,$50, $58,$00,$00,$00,  $00,$00,$00,$00, $00,$00,$00,$00 ;$40
 	
 	
-; soundModes
-;MODE_NORM 	equ $00
-;MODE_6CHAN equ $08
-;MODE_PORT1	equ $10
-;MODE_PORT2	equ $11
-;MODE_PORT3	equ $12
-;MODE_MONO1 equ $20
-;MODE_MONO2 equ $21
-;MODE_MONO3 equ $22
-;MODE_ARP1 	equ $40
-;MODE_ARP2 	equ $41
-;MODE_ARP3 	equ $42
-;MODE_ARP4 	equ $43
-;MODE_ARP5 	equ $44
-	
-	
 ; VERSION NUMBER
 bottomText
 	byte " PAL V1.6.0",0
@@ -737,11 +700,11 @@ LFODepthArray
 hexDisplay
 	byte 48,49,50,51,52, 53,54,55,56,57, 1,2,3,4,5, 6
 
-keyData ; numbers 0-9 and letters a-f
-	byte 35,56,59,8,11, 16,19,24,27,32, 10,28,20,18,14, 21
+;keyData ; numbers 0-9 and letters a-f
+;	byte 35,56,59,8,11, 16,19,24,27,32, 10,28,20,18,14, 21
 
 	 ; key set for piano keyboard: black keys + middle A-F on the white keys
-	byte 51,59,8,16,19, 24,32,35,43,48, 25,30,33,38,41, 46
+;	byte 51,59,8,16,19, 24,32,35,43,48, 25,30,33,38,41, 46
 
 	; array of LFO values
 LFOArrL
