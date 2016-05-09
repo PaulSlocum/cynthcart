@@ -22,6 +22,10 @@ DDRA equ $dc02            ; CIA#1 (Data Direction Register A)
 
 PRB  equ  $dc01            ; CIA#1 (Port Register B)
 DDRB equ  $dc03            ; CIA#1 (Data Direction Register B)
+
+loopCount equ 1024
+irqCountTotal equ 1025
+irqCountMidi equ 1026
 		
 		;=========================================================================
 		; MIDI DETECT		
@@ -29,10 +33,14 @@ DDRB equ  $dc03            ; CIA#1 (Data Direction Register B)
 		
 		; detect MIDI interface, return type in accu
 midiDetect:	; TODO
+		lda #0
+		sta irqCountTotal
+		sta irqCountMidi
+		sta loopCount
 
-		
 		; old code to manually set interface type
-		lda #3 ; DATEL
+		;lda #3 ; DATEL
+		lda #3 ; PASSPORT
 		;lda #0 ; MIDI OFF
 		rts ; <--FUNCTION DISABLED (DEBUG!!)
 
@@ -83,49 +91,101 @@ midiDetect:	; TODO
 		lda #>midiNmi
 		sta $0319
 		
-		; set IRQ routine
 midiSetIrqTest:	
-		;lda $0314 ; DEBUG!!!!
-		;sta tempX ; DEBUG!!!!
-		;lda $0315 ; DEBUG!!!!
-		;sta tempY ; DEBUG!!!!
-
 		;---------------------------
-		lda #<midiIrq
+		; set IRQ routine
+		lda #<detectIrq
 		sta $0314
-		lda #>midiIrq
+		lda #>detectIrq
 		sta $0315
 		;---------------------------
 		
 		; enable IRQ/NMI
-		lda #$94
+		;lda #$94
+		lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
 		ora midiCr0Cr1,x
 		sta (midiControl),y
 
-				;cli
+		; delay (with interrupts on)
+		cli
 		ldx #0
 		ldy #0
 delayLoopIRQTest:
-		inc 1024
+		tya
+		sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
+		tay
 		iny
 		bne delayLoopIRQTest
+		inc loopCount
 		inx
 		bne delayLoopIRQTest
 		sei 
 		
-		;lda tempX ; DEBUG!!!!
-		;sta $0314 ; DEBUG!!!!
-		;lda tempY ; DEBUG!!!!
-		;sta $0315 ; DEBUG!!!!
-		
 		jsr midiRelease
 		
-		;cli ; DEBUG!!!!!!!!!!!!!
-		;RTS ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+;lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
+	;jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!
 				
 		cli
+		lda #3
 		rts
 		
+		
+midiReleaseNoSEI:	
+		;sei
+		inc 1028
+		jsr midiReset
+		lda #$31
+		sta $0314
+		lda #$ea
+		sta $0315
+		lda #$47
+		sta $0318
+		lda #$fe
+		sta $0319
+		;cli
+		rts
+
+		
+		; =========================================================================
+		; MIDI DETECT IRQ CALLBACK
+		; =========================================================================
+detectIrq:
+		inc irqCountTotal
+		lda irqCountTotal
+		cmp #48 ; <- run this number of interrupts
+		bne continueTest1 ; if test finished
+		jsr midiReleaseNoSEI ; disable this interrupt callback
+		;jsr midiRelease ; disable this interrupt callback
+		jmp detectNmiEnd ; return from interrupt
+continueTest1
+		
+		; check if IRQ or NMI		
+		;ldx midiInterfaceType ; DON'T CURRENTLY SUPPORT NAMESOFT
+		;dex
+		;lda midiIrqType,x
+		;beq midiIrqKey
+
+		; test if it was an IRQ from the MIDI interface
+		ldy #0
+		lda (midiStatus),y
+		and #1
+		beq testIrqKeyboard
+		;jsr midiStore
+		inc irqCountMidi
+		;jmp testNmiEnd
+detectNmiEnd:	
+		pla
+		tay
+		pla
+		tax
+		pla
+		rti
+testIrqKeyboard:	
+		jsr keyboardTest
+		lda $dc0d
+		jmp midiNmiEnd
+
 		
 		; =========================================================================
 		; MIDI INIT
@@ -141,11 +201,6 @@ midiInit:
 		sta midiInterfaceType
 		tax
 		dex
-
-		;ldx #0
-		;stx midiEnabled ; DON'T ENABLE MIDI UNTIL FIRST IRQ IS RECEIVED
-		;ldx #0
-		;stx 1024+39
 
 		lda #$ff  ; CIA#1 port A = outputs 
 		sta DDRA             
@@ -194,37 +249,12 @@ midiInit:
 		
 		; set IRQ routine
 midiSetIrq:	
-		;lda $0314 ; DEBUG!!!!
-		;sta tempX ; DEBUG!!!!
-		;lda $0315 ; DEBUG!!!!
-		;sta tempY ; DEBUG!!!!
-
 		;---------------------------
 		lda #<midiIrq
 		sta $0314
 		lda #>midiIrq
 		sta $0315
 		;---------------------------
-		
-		;cli
-		;ldx #0
-		;ldy #0
-delayLoopIRQ:
-		;inc 1024
-		;iny
-		;bne delayLoopIRQ
-		;inx
-		;bne delayLoopIRQ
-		;sei 
-		
-		;lda tempX ; DEBUG!!!!
-		;sta $0314 ; DEBUG!!!!
-		;lda tempY ; DEBUG!!!!
-		;sta $0315 ; DEBUG!!!!
-		
-		;cli ; DEBUG!!!!!!!!!!!!!
-		;RTS ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
 		
 		; enable IRQ/NMI
 		lda #$94
@@ -361,22 +391,6 @@ midiNmiEnd:	pla
 
 		; IRQ handler
 midiIrq:
-		;ldx tempX ; DEBUG!!!!
-		;stx $0314 ; DEBUG!!!!
-		;ldy tempY ; DEBUG!!!!
-		;sty $0315 ; DEBUG!!!!
-
-		;inc dummyMidiIncrementer ; NOT SURE WHY THIS MAKES IT WORK WITHOUT A MIDI ADAPTER?????
-		
-		;inc 1025  ; DEBUG!!
-		;jmp midiNmiEnd ; DEBNUG!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		;ldx 1024 ; DEBUG!!
-		;inc 1024 ; DEBUG!!
-		;ldx #1 ; DEBUG!!
-		;stx midiEnabled ; DEBUG!!
-		;ldx #1 ; DEBUG!!
-		;stx 1024+39 ; DEBUG!!
-		
 		ldx midiInterfaceType
 		dex
 		lda midiIrqType,x
@@ -396,7 +410,8 @@ midiIrqKey:	jsr keyboardTest
 		jmp midiNmiEnd
 
 		; get MIDI byte and store in ringbuffer
-midiStore:	lda (midiRx),y
+midiStore:	
+		lda (midiRx),y
 		ldx midiRingbufferWriteIndex
 		sta midiRingbuffer,x
 		inx

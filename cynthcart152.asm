@@ -24,13 +24,13 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; - maybe make it autodetect the passport and DATEL
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - move video settings keys to a less used location?
 ; - add more FX modes
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - add some of Gert's mixed waveform sounds
 ; - add a button that resets all settings and turns video on
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically turn off paddle when MIDI mod wheel data is received
-; - make help screen always show regardless of video mode
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - 'O' key specifically may be out of tune
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -49,6 +49,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; + fixed minor bug with full screen display showing filter cutoff value
 ; + adjustments to help screen
 ; + fixed SID editor waveform bug
+; + help screen now shows even when video is off
 ; + other minor bugfixes
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
@@ -453,7 +454,6 @@ synch2:
 	;****************************************************
 	; init screen and variables
 	;****************************************************
-	
 	lda #0
 	sta resonance
 	sta noteOnCount
@@ -2771,6 +2771,9 @@ setPulseWidth:
 	
 processVideoMode:
 	; Turn off Vic when no notes are playing
+	lda helpMode
+	bne vicOn
+	
 	lda VICMode
 	beq vicOff 
 	cmp #2
@@ -3663,7 +3666,7 @@ LFOClear:
 	;--------------------------------
 	; Set Release
 	;--------------------------------
-	; A = release value
+	; A = release OSC1 value
 setRelease
 	sta release
 	sta SID1+SV1SR
@@ -4080,9 +4083,11 @@ setPatch
 	sta sidData+SV3PWH
 
 	ldy patchSetY
-	lda patchWave,y
+	lda patchWave1,y
 	sta WaveType2
+	lda patchWave2,y
 	sta WaveType3
+	lda patchWave3,y
 	sta WaveType
 
 	ldy patchSetY

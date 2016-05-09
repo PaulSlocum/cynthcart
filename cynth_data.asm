@@ -390,7 +390,15 @@ patchAD
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	0
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$E0, 	$A0
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	0
-patchSR                                                  
+patchSR1                                                  
+	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
+	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
+	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
+patchSR2
+	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
+	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
+	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
+patchSR3
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
 	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
@@ -415,7 +423,7 @@ patchPWH
 	byte 	8,		8,		8,	   8,	 	8,		8,		8,		8,		8, 	8
 	byte 	8,		8,		8,	   8,	 	8,		8,		8,		8,		8, 	0
 	
-patchWave                                             
+patchWave1                                             
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
 	byte 	$20,	$20,	$14,	$20,	$40,	$40,	$10,	$10,	$80, 	0
