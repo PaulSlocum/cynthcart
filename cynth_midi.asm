@@ -23,24 +23,20 @@ DDRA equ $dc02            ; CIA#1 (Data Direction Register A)
 PRB  equ  $dc01            ; CIA#1 (Port Register B)
 DDRB equ  $dc03            ; CIA#1 (Data Direction Register B)
 		
+		;=========================================================================
+		; MIDI DETECT		
+		; =========================================================================
+		
 		; detect MIDI interface, return type in accu
 midiDetect:	; TODO
+
+		
+		; old code to manually set interface type
 		lda #3 ; DATEL
-		;lda #0 ; No MIDI
-		rts
+		;lda #0 ; MIDI OFF
+		rts ; <--FUNCTION DISABLED (DEBUG!!)
 
-		; init MIDI interface, type in accu from midiDetect
-midiInit:	
-		sei
-
-		sta midiInterfaceType
-		tax
-		dex
-
-		;ldx #0
-		;stx midiEnabled ; DON'T ENABLE MIDI UNTIL FIRST IRQ IS RECEIVED
-		;ldx #0
-		;stx 1024+39
+		sei ; disable IRQ interrupts
 
 		lda #$ff  ; CIA#1 port A = outputs 
 		sta DDRA             
@@ -48,6 +44,7 @@ midiInit:
 		lda #0  ; CIA#1 port B = inputs
 		sta DDRB             
 		
+		; clear memory variables
 		lda #0
 		sta keyPressed
 		sta keyTestIndex
@@ -68,6 +65,7 @@ midiInit:
 		sta midiTx+1
 		sta midiRx+1
 		
+		; send reset code to MIDI adapter
 		jsr midiReset
 		
 		; clear ringbuffer
@@ -75,6 +73,116 @@ midiInit:
 		sta midiRingbufferReadIndex
 		sta midiRingbufferWriteIndex
 		
+		; if the adapter uses NMI interrupts instead of IRQ
+		lda midiIrqType,x
+		bne midiSetIrqTest
+		
+		; set NMI routine
+		lda #<midiNmi
+		sta $0318
+		lda #>midiNmi
+		sta $0319
+		
+		; set IRQ routine
+midiSetIrqTest:	
+		;lda $0314 ; DEBUG!!!!
+		;sta tempX ; DEBUG!!!!
+		;lda $0315 ; DEBUG!!!!
+		;sta tempY ; DEBUG!!!!
+
+		;---------------------------
+		lda #<midiIrq
+		sta $0314
+		lda #>midiIrq
+		sta $0315
+		;---------------------------
+		
+		; enable IRQ/NMI
+		lda #$94
+		ora midiCr0Cr1,x
+		sta (midiControl),y
+
+				;cli
+		ldx #0
+		ldy #0
+delayLoopIRQTest:
+		inc 1024
+		iny
+		bne delayLoopIRQTest
+		inx
+		bne delayLoopIRQTest
+		sei 
+		
+		;lda tempX ; DEBUG!!!!
+		;sta $0314 ; DEBUG!!!!
+		;lda tempY ; DEBUG!!!!
+		;sta $0315 ; DEBUG!!!!
+		
+		jsr midiRelease
+		
+		;cli ; DEBUG!!!!!!!!!!!!!
+		;RTS ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				
+		cli
+		rts
+		
+		
+		; =========================================================================
+		; MIDI INIT
+		; =========================================================================
+		
+		; init MIDI interface, type in accu from midiDetect
+midiInit:	
+		;rts ; <-- MIDI DISABLED (DEBUG!!)
+		
+		
+		sei ; disable IRQ interrupts
+
+		sta midiInterfaceType
+		tax
+		dex
+
+		;ldx #0
+		;stx midiEnabled ; DON'T ENABLE MIDI UNTIL FIRST IRQ IS RECEIVED
+		;ldx #0
+		;stx 1024+39
+
+		lda #$ff  ; CIA#1 port A = outputs 
+		sta DDRA             
+
+		lda #0  ; CIA#1 port B = inputs
+		sta DDRB             
+		
+		; clear memory variables
+		lda #0
+		sta keyPressed
+		sta keyTestIndex
+		sta keyPressedIntern
+
+		; init addresses
+		lda midiControlOfs,x
+		sta midiControl
+		lda midiStatusOfs,x
+		sta midiStatus
+		lda midiTxOfs,x
+		sta midiTx
+		lda midiRxOfs,x
+		sta midiRx
+		lda #$de
+		sta midiControl+1
+		sta midiStatus+1
+		sta midiTx+1
+		sta midiRx+1
+		
+		; send reset code to MIDI adapter
+		jsr midiReset
+		
+		; clear ringbuffer
+		lda #0
+		sta midiRingbufferReadIndex
+		sta midiRingbufferWriteIndex
+		
+		; if the adapter uses NMI interrupts instead of IRQ
 		lda midiIrqType,x
 		bne midiSetIrq
 		
@@ -86,10 +194,10 @@ midiInit:
 		
 		; set IRQ routine
 midiSetIrq:	
-		lda $0314 ; DEBUG!!!!
-		sta tempX ; DEBUG!!!!
-		lda $0315 ; DEBUG!!!!
-		sta tempY ; DEBUG!!!!
+		;lda $0314 ; DEBUG!!!!
+		;sta tempX ; DEBUG!!!!
+		;lda $0315 ; DEBUG!!!!
+		;sta tempY ; DEBUG!!!!
 
 		;---------------------------
 		lda #<midiIrq
@@ -126,7 +234,10 @@ delayLoopIRQ:
 		cli
 		rts
 
-midiRelease:	sei
+		; =========================================================================
+
+midiRelease:	
+		sei
 		jsr midiReset
 		lda #$31
 		sta $0314
@@ -146,7 +257,8 @@ midiReset:
 		sta (midiControl),y
 		rts
 
-midiCanRead:	ldx midiRingbufferReadIndex
+midiCanRead:	
+		ldx midiRingbufferReadIndex
 		cpx midiRingbufferWriteIndex
 		rts
 

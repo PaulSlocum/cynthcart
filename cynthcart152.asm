@@ -19,12 +19,13 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - fix waveform bug in SID editor
+; - finish designing new patches
 ; - make it work without midi adapter
 ; - maybe make it autodetect the passport and DATEL
-; - test with Kerberos (before public release)
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - add more FX modes
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - add some of Gert's mixed waveform sounds
 ; - add a button that resets all settings and turns video on
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -32,7 +33,6 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; - make help screen always show regardless of video mode
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - 'O' key specifically may be out of tune
-; - consider adding per-patch filter on/off/disabled setting
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;=================================------------ - - - -  -   -
@@ -41,14 +41,15 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; Change Log:
 ; - - - - - - - - - - - - - - 
 ; 1.6.0
+; + added mono stack portamento modes
+; + wrote new instruction manual
 ; + moved secondary SID to $DF00 to work with SIDcart II
 ; + created new compression setup to fit latest ROM onto 8K cartridge
-; + minor adjustments to help screen
-; + fixed minor bug with full screen display showing filter cutoff value
-; + other minor bugfixes
-; + wrote new instruction manual
-; + added mono stack portamento modes
 ; + added a button to cancel out of the SID editor
+; + fixed minor bug with full screen display showing filter cutoff value
+; + adjustments to help screen
+; + fixed SID editor waveform bug
+; + other minor bugfixes
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
@@ -131,6 +132,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ;-----------------------------------------------------
 ; FUTURE TODO LIST:
 ; - - - - - - - - - - - - - - - 
+; - consider adding per-patch filter on/off/disabled setting
 ; - midi trigger to turn off/on omni
 ; - - - - - - - - - - - - - - - 
 ; - make rising mod not drop
@@ -1983,13 +1985,12 @@ skipPalPlaySidA:		;;;;;
 	lda #1
 	; Set voice gates on or off
 NsoundOffSidA:
-	ora WaveType,x
-	sta SID1+SV1WAVE,x
-	;sta SID2+SV1WAVE,x
-	sta sidData+SV1WAVE,x ;BUG BUG BUG BUG BUG BUG 
+	ora WaveType,x ; changed to Y
+	sta SID1+SV1WAVE,x ; SID 1 ONLY  changed to Y
+	;sta SID2+SV1WAVE,y ; changed to Y (why was this line disabled?)
+	sta sidData+SV1WAVE,x ;BUG BUG BUG BUG BUG BUG  changed to Y
 	ldx temp
 	dex
-	;bpl NsetRegsSidA
 	bmi quitPlayLoop
 	jmp NsetRegsSidA
 quitPlayLoop:
@@ -2048,10 +2049,10 @@ skipPalPlaySidB:		;;;;;
 	lda #1
 	; Set voice gates on or off
 NsoundOffSidB:
-	ora WaveType,x
-	;sta SID1+SV1WAVE,x
-	sta SID2+SV1WAVE,x
-	sta sidData+SV1WAVE,x
+	ora WaveType,x ; changed to Y
+	;sta SID1+SV1WAVE,x ; changed to Y
+	sta SID2+SV1WAVE,x ; SID2 ONLY changed to Y 
+	sta sidData+SV1WAVE,x ; changed to Y
 	ldx temp
 	dex
 	bpl NsetRegsSidB
@@ -2195,10 +2196,11 @@ afterDStep
 	lda #1
 	; Set voice gates on or off
 soundOff:
+	;ldy voiceOffset,x ; added this line for copying, but implemented above...
 	ora WaveType,y
 	sta SID1+SV1WAVE,y
 	sta SID2+SV1WAVE,y
-	sta sidData+SV1WAVE,x
+	sta sidData+SV1WAVE,y ; changed to Y
 
 	dex
 	bmi quitPort
@@ -4596,18 +4598,12 @@ beepLoop:
 	sta SID1+SVOLMODE
 	sta SID2+SVOLMODE
 	sta sidData+SVOLMODE
-;	lda SID1+SV1WAVE
-;	ora #$01
-;	sta SID1+SV1WAVE
 	jsr clickDelay
 	lda volModeRAM
 	and #$F0
 	sta SID1+SVOLMODE
 	sta SID2+SVOLMODE
 	sta sidData+SVOLMODE
-;	lda SID1+SV1WAVE
-;	and #$FE
-;	sta SID1+SV1WAVE
 	dex
 	bne beepLoop
 	rts
