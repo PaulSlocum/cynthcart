@@ -26,10 +26,11 @@ DDRA equ $dc02            ; CIA#1 (Data Direction Register A)
 PRB  equ  $dc01            ; CIA#1 (Port Register B)
 DDRB equ  $dc03            ; CIA#1 (Data Direction Register B)
 
-loopCount equ 1024
-irqCountTotal equ 1025
-irqCountMidi equ 1026
-irqCountTDREmpty equ 1027
+loopCount equ 1104
+irqCountTotal equ 1105
+irqCountMidi equ 1106
+irqCountTDREmpty equ 1107
+saveY equ 1140
 
 TEST_KEYBOARD equ FALSE
 		
@@ -115,8 +116,8 @@ midiSetIrqTest:
 		;---------------------------
 		
 		; enable IRQ/NMI
-		;lda #$94
-		lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
+		lda #$94
+		;lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
 		ora midiCr0Cr1,x
 		sta (midiControl),y
 
@@ -125,13 +126,16 @@ midiSetIrqTest:
 		ldx #0
 		ldy #0
 delayLoopIRQTest:
+		sty saveY
 		tya
-		;tax
-		;ldy #0
+		;ldy #1
+		;lda #1
 		sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
+		;tay
+		;sty saveY
+		;ldy #0
 		;lda (midiRx),y
-		;txa
-		tay
+		ldy saveY
 		iny
 		bne delayLoopIRQTest
 		inc loopCount
@@ -176,6 +180,8 @@ detectIrq:
 		bne continueTest1 ; if test finished
 		jsr midiReleaseNoSEI ; disable this interrupt callback
 		;jsr midiRelease ; disable this interrupt callback
+		;sei ; disable interrupts
+		;jsr midiReset
 		jmp detectNmiEnd ; return from interrupt
 continueTest1
 		
