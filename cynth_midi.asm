@@ -48,8 +48,8 @@ midiDetect:	; TODO
 	
 	
 	; old code to manually set interface type
-	;lda #3 ; DATEL
-	lda #2 ; PASSPORT
+	lda #3 ; DATEL
+	;lda #2 ; PASSPORT
 	;lda #0 ; MIDI OFF
 	;rts ; <--FUNCTION DISABLED (DEBUG!!)
 
@@ -122,26 +122,36 @@ midiSetIrqTest:
 	sta (midiControl),y
 
 	; delay (with interrupts on)
-	cli
+	;cli
 	ldx #0
 	ldy #0
 delayLoopIRQTest:
 	sty saveY
 	tya
-	;ldy #1
-	;lda #1
+	ldy #0
+	;lda #1 ; this works for detecting datel but doesn't make sense
 	sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
+	
 	;tay
 	;sty saveY
 	;ldy #0
-	;lda (midiRx),y
+	lda (midiRx),y
+	
+	; -  - - -  - - -  - - -  - - 
+	; TEST STATUS REGISTER TO SEE IF IRQ IS PENDING ETC.
 	ldy #0
 	lda (midiStatus),y
-	and #128
+	and #128 ; IRQ PENDING
 	beq noIRQPending
 	inc irqCountTotal
 noIRQPending:
-		
+	lda (midiStatus),y
+	and #1 ; RECEIVE BUFFER FULL
+	beq notReceiveFull
+	inc irqCountMidi
+notReceiveFull:
+	; -  - - -  - - -  - - -  - - 
+
 	ldy saveY
 	iny
 	bne delayLoopIRQTest
@@ -151,6 +161,7 @@ noIRQPending:
 	sei 
 	
 	jsr midiRelease
+	;jsr midiReset
 		
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	inc 1065
