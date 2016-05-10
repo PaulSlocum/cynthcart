@@ -26,15 +26,17 @@ DDRA equ $dc02            ; CIA#1 (Data Direction Register A)
 PRB  equ  $dc01            ; CIA#1 (Port Register B)
 DDRB equ  $dc03            ; CIA#1 (Data Direction Register B)
 
-loopCount equ 1104
-irqCountTotal equ 1105
-irqCountMidi equ 1106
-irqCountTDREmpty equ 1107
-saveY equ 1140
-firstPass equ 1141
+;loopCount equ 1104
+;irqCountTotal equ 1105
+;irqCountMidi equ 1106
+;irqCountTDREmpty equ 1107
+;saveY equ 1140
+;firstPass equ 1141
+statusSample1 equ 1104
+statusSample2 equ 1105
 
 TEST_KEYBOARD equ FALSE
-INCLUDE_DETECT_IRQ equ TRUE
+INCLUDE_DETECT_IRQ equ FALSE
 		
 	;=========================================================================
 	; MIDI DETECT		
@@ -42,10 +44,10 @@ INCLUDE_DETECT_IRQ equ TRUE
 	
 	; detect MIDI interface, return type in accu
 midiDetect:	; TODO
-	lda #0
-	sta irqCountTotal
-	sta irqCountMidi
-	sta loopCount
+	;lda #0
+	;sta irqCountTotal
+	;sta irqCountMidi
+	;sta loopCount
 
 	
 	
@@ -55,6 +57,7 @@ midiDetect:	; TODO
 	;lda #0 ; MIDI OFF
 	;rts ; <--FUNCTION DISABLED (DEBUG!!)
 
+testingLoop:
 	; save interface type from ACC
 	sta midiInterfaceType
 	tax
@@ -95,14 +98,14 @@ midiDetect:	; TODO
 	sta midiTx+1
 	sta midiRx+1
 	
-	lda #0
-	sta firstPass
-dualPassTest:
-	lda firstPass
-	beq skipSecondPassSetup
-	nop
-	nop
-skipSecondPassSetup:
+	;lda #0
+	;sta firstPass
+;dualPassTest:
+	;lda firstPass
+	;beq skipSecondPassSetup
+	;nop
+	;nop
+;skipSecondPassSetup:
 
 	
 	; send reset code to MIDI adapter
@@ -115,7 +118,10 @@ skipSecondPassSetup:
 	
 	ldy #0
 	lda (midiStatus),y
+	ora (midiStatus),y
+	ora (midiStatus),y
 	sta 1024+160
+	sta statusSample1
 	
 	; clear ringbuffer
 	;lda #0
@@ -153,76 +159,62 @@ skipSecondPassSetup:
 	;lda #$94 ; receive interrupt only (default)
 	ora midiCr0Cr1,x
 	sta (midiControl),y
+	
+	inc 1024
+	inc 1024
+	inc 1024
+	inc 1024
 
 	ldy #0
 	lda (midiStatus),y
+	ora (midiStatus),y
+	ora (midiStatus),y
 	sta 1024+160+1
+	sta statusSample2
 
 	
-	
 	; delay (with interrupts on)
-	;cli ; enable interrupts
-	ldx #200 ; counter
-	ldy #0 ; always zero for indirect addressing
+	;ldx #200 ; counter
+	;ldy #0 ; always zero for indirect addressing
 delayLoopIRQTest:
-	;sty saveY
-	;tya
-	;and #%11
-	;cmp #%11
-	;bne skipReadWrite
-	;ldy #0
-	;lda #1 ; this works for detecting datel but doesn't make sense
-	sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
-	lda (midiRx),y
-;skipReadWrite:
+	;sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
+	;lda (midiRx),y
 	
 	; -  - - -  - - -  - - -  - - 
 	; TEST STATUS REGISTER TO SEE IF IRQ IS PENDING ETC.
-	ldy #0
-	lda (midiStatus),y
-	and #128 ; IRQ PENDING
-	beq noIRQPending
-	inc irqCountTotal
+	;ldy #0
+	;lda (midiStatus),y
+	;and #128 ; IRQ PENDING
+	;beq noIRQPending
+	;inc irqCountTotal
 noIRQPending:
-	lda (midiStatus),y
-	and #1 ; RECEIVE BUFFER FULL
+	;lda (midiStatus),y
+	;and #1 ; RECEIVE BUFFER FULL
 	;and #2 ; TRANSMIT DATA REGISTER EMPTY
 	;and #8 ; CLEAR TO SEND
-	beq notReceiveFull
-	inc irqCountMidi
+	;beq notReceiveFull
+	;inc irqCountMidi
 notReceiveFull:
 	; -  - - -  - - -  - - -  - - 
 
-	;inc loopCount
-
-	;ldy saveY
-	;iny
-	inx
-	bne delayLoopIRQTest
 	;inx
 	;bne delayLoopIRQTest
-	;sei ; disable interrupts
 
-		; show midi status
-	;ldy #0
-	;lda (midiStatus),y
-	;sta 1025
-
-		
-	;jsr midiRelease
 	jsr midiReset
 		
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	inc 1065
-	jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!
+	;jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!
+	
+	
 	
 	
 	cli
 	
 	
 	; set the interface to DATEL or NO_MIDI based on results
-	ldx #3
-	lda irqCountTotal
+	ldx #0
+	lda statusSample1
 	bne noMidi
 	ldx #3
 noMidi:
@@ -230,6 +222,7 @@ noMidi:
 	
 	rts
 	
+	IF INCLUDE_DETECT_IRQ=1	
 midiReleaseNoSEI:	
 	;sei
 	inc 1030
@@ -249,7 +242,6 @@ midiReleaseNoSEI:
 	; =========================================================================
 	; MIDI DETECT IRQ CALLBACK
 	; =========================================================================
-	IF INCLUDE_DETECT_IRQ=1	
 
 detectIrq:
 	inc irqCountTotal
