@@ -31,8 +31,10 @@ irqCountTotal equ 1105
 irqCountMidi equ 1106
 irqCountTDREmpty equ 1107
 saveY equ 1140
+firstPass equ 1141
 
 TEST_KEYBOARD equ FALSE
+INCLUDE_DETECT_IRQ equ TRUE
 		
 	;=========================================================================
 	; MIDI DETECT		
@@ -92,21 +94,21 @@ midiDetect:	; TODO
 	jsr midiReset
 	
 	; clear ringbuffer
-	lda #0
-	sta midiRingbufferReadIndex
-	sta midiRingbufferWriteIndex
+	;lda #0
+	;sta midiRingbufferReadIndex
+	;sta midiRingbufferWriteIndex
 	
 	; if the adapter uses NMI interrupts instead of IRQ
-	lda midiIrqType,x
-	bne midiSetIrqTest
+	;lda midiIrqType,x
+	;bne midiSetIrqTest
 	
 	; set NMI routine
-	lda #<midiNmi
-	sta $0318
-	lda #>midiNmi
-	sta $0319
+	;lda #<midiNmi
+	;sta $0318
+	;lda #>midiNmi
+	;sta $0319
 		
-midiSetIrqTest:	
+;midiSetIrqTest:	
 	;---------------------------
 	; set IRQ routine
 	;lda #<detectIrq
@@ -116,33 +118,36 @@ midiSetIrqTest:
 	;---------------------------
 	
 	; show midi status
-	ldy #0
-	lda (midiStatus),y
-	sta 1024
+	;ldy #0
+	;lda (midiStatus),y
+	;sta 1024
 	
 	; enable IRQ/NMI
-	;lda #3 ; MIDI reset (DEBUG)
+	lda #3 ; MIDI reset (DEBUG)
 	;lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
 	;lda #$34 ; transmit interrupt only
-	lda #$94 ; receive interrupt only (default)
-	ora midiCr0Cr1,x
+	;lda #$94 ; receive interrupt only (default)
+	;ora midiCr0Cr1,x
 	sta (midiControl),y
 
+	
+	
+	
 	; delay (with interrupts on)
 	;cli ; enable interrupts
-	ldx #240
+	ldx #0
 	ldy #0
 delayLoopIRQTest:
-	sty saveY
-	tya
+	;sty saveY
+	;tya
 	;and #%11
 	;cmp #%11
 	;bne skipReadWrite
-	ldy #0
+	;ldy #0
 	;lda #1 ; this works for detecting datel but doesn't make sense
 	sta (midiTx),y ; transmit a midi byte, which should generate an interrupt
 	lda (midiRx),y
-skipReadWrite:
+;skipReadWrite:
 	
 	; -  - - -  - - -  - - -  - - 
 	; TEST STATUS REGISTER TO SEE IF IRQ IS PENDING ETC.
@@ -161,23 +166,24 @@ noIRQPending:
 notReceiveFull:
 	; -  - - -  - - -  - - -  - - 
 
-	inc loopCount
+	;inc loopCount
 
-	ldy saveY
-	iny
-	bne delayLoopIRQTest
+	;ldy saveY
+	;iny
 	inx
+	bne delayLoopIRQTest
+	;inx
 	;bne delayLoopIRQTest
 	;sei ; disable interrupts
 
 	; show midi status
-	ldy #0
-	lda (midiStatus),y
-	sta 1025
+	;ldy #0
+	;lda (midiStatus),y
+	;sta 1025
 
 		
-	jsr midiRelease
-	;jsr midiReset
+	;jsr midiRelease
+	jsr midiReset
 		
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	inc 1065
@@ -186,7 +192,6 @@ lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	cli
 	lda #3
 	rts
-	
 	
 midiReleaseNoSEI:	
 	;sei
@@ -207,6 +212,8 @@ midiReleaseNoSEI:
 	; =========================================================================
 	; MIDI DETECT IRQ CALLBACK
 	; =========================================================================
+	IF INCLUDE_DETECT_IRQ=1	
+
 detectIrq:
 	inc irqCountTotal
 	lda irqCountTotal
@@ -219,6 +226,7 @@ detectIrq:
 	jmp detectNmiEnd ; return from interrupt
 continueTest1
 	
+
 	; check if IRQ or NMI		
 	;ldx midiInterfaceType ; DON'T CURRENTLY SUPPORT NAMESOFT
 	;dex
@@ -260,7 +268,7 @@ testIrqKeyboard:
 	ENDIF
 	lda $dc0d
 	jmp midiNmiEnd
-
+	ENDIF
 	
 	; =========================================================================
 	; MIDI INIT
