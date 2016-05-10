@@ -133,8 +133,10 @@ lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	bne midiNotDetected
 	lda statusSample2
 	beq midiNotDetected
-	lda midiInterfaceType ; use current interface
-	rts ; quit
+	;lda midiInterfaceType ; use current interface
+	;cli
+	;rts ; quit
+	jmp quitDetect
 midiNotDetected:
 	ldx midiInterfaceType
 	dex
@@ -144,87 +146,18 @@ midiNotDetected:
 	jmp testingLoop
 noMidi:
 	lda #0 ; last interface, so no MIDI
+	sta midiInterfaceType
+	;cli
+	;rts ; quit
+	
+quitDetect:
+	jsr midiReset
+	lda midiInterfaceType
 	cli
-	rts ; quit
+	rts
 	
 	;;------------------------------------====================================
 	
-	IF INCLUDE_DETECT_IRQ=1	
-midiReleaseNoSEI:	
-	;sei
-	inc 1030
-	jsr midiReset
-	lda #$31
-	sta $0314
-	lda #$ea
-	sta $0315
-	lda #$47
-	sta $0318
-	lda #$fe
-	sta $0319
-	;cli
-	rts
-
-	
-	; =========================================================================
-	; MIDI DETECT IRQ CALLBACK
-	; =========================================================================
-
-detectIrq:
-	inc irqCountTotal
-	lda irqCountTotal
-	cmp #48 ; <- run this number of interrupts
-	bne continueTest1 ; if test finished
-	jsr midiReleaseNoSEI ; disable this interrupt callback
-	;jsr midiRelease ; disable this interrupt callback
-	;sei ; disable interrupts
-	;jsr midiReset
-	jmp detectNmiEnd ; return from interrupt
-continueTest1
-	
-
-	; check if IRQ or NMI		
-	;ldx midiInterfaceType ; DON'T CURRENTLY SUPPORT NAMESOFT
-	;dex
-	;lda midiIrqType,x
-	;beq midiIrqKey
-
-	; test if it was an IRQ from the MIDI interface
-	ldy #0
-	lda (midiStatus),y
-	and #2
-	beq skipIncTDRE
-	inc irqCountTDREmpty		
-skipIncTDRE:
-	lda (midiStatus),y
-	;and #1 ; original
-	and #128
-	beq testIrqKeyboard
-	;jsr midiStore
-	inc irqCountMidi
-	;jmp testNmiEnd
-	
-	sta (midiTx),y
-detectNmiEnd:
-
-	; CLEAR CIA AND VIC IRQs
-    lda $dc0d
-	lda $dd0d
-	asl $d019
-
-	pla
-	tay
-	pla
-	tax
-	pla
-	rti
-testIrqKeyboard:	
-	IF TEST_KEYBOARD=1
-	jsr keyboardTest
-	ENDIF
-	lda $dc0d
-	jmp midiNmiEnd
-	ENDIF
 	
 	; =========================================================================
 	; MIDI INIT
