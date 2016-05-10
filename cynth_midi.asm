@@ -55,6 +55,11 @@ midiDetect:	; TODO
 	;lda #0 ; MIDI OFF
 	;rts ; <--FUNCTION DISABLED (DEBUG!!)
 
+	; save interface type from ACC
+	sta midiInterfaceType
+	tax
+	dex
+
 	sei ; disable IRQ interrupts
 
 	lda #$ff  ; CIA#1 port A = outputs 
@@ -90,8 +95,27 @@ midiDetect:	; TODO
 	sta midiTx+1
 	sta midiRx+1
 	
+	lda #0
+	sta firstPass
+dualPassTest:
+	lda firstPass
+	beq skipSecondPassSetup
+	nop
+	nop
+skipSecondPassSetup:
+
+	
 	; send reset code to MIDI adapter
 	jsr midiReset
+	
+	inc 1024
+	inc 1024
+	inc 1024
+	inc 1024
+	
+	ldy #0
+	lda (midiStatus),y
+	sta 1024+160
 	
 	; clear ringbuffer
 	;lda #0
@@ -123,20 +147,23 @@ midiDetect:	; TODO
 	;sta 1024
 	
 	; enable IRQ/NMI
-	lda #3 ; MIDI reset (DEBUG)
-	;lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
+	;lda #3 ; MIDI reset (DEBUG)
+	lda #$B4 ; $Bx turns on transmit interrupt as well as receive interrupt
 	;lda #$34 ; transmit interrupt only
 	;lda #$94 ; receive interrupt only (default)
-	;ora midiCr0Cr1,x
+	ora midiCr0Cr1,x
 	sta (midiControl),y
 
-	
+	ldy #0
+	lda (midiStatus),y
+	sta 1024+160+1
+
 	
 	
 	; delay (with interrupts on)
 	;cli ; enable interrupts
-	ldx #0
-	ldy #0
+	ldx #200 ; counter
+	ldy #0 ; always zero for indirect addressing
 delayLoopIRQTest:
 	;sty saveY
 	;tya
@@ -176,7 +203,7 @@ notReceiveFull:
 	;bne delayLoopIRQTest
 	;sei ; disable interrupts
 
-	; show midi status
+		; show midi status
 	;ldy #0
 	;lda (midiStatus),y
 	;sta 1025
@@ -188,9 +215,19 @@ notReceiveFull:
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	inc 1065
 	jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!
-			
+	
+	
 	cli
-	lda #3
+	
+	
+	; set the interface to DATEL or NO_MIDI based on results
+	ldx #3
+	lda irqCountTotal
+	bne noMidi
+	ldx #3
+noMidi:
+	txa
+	
 	rts
 	
 midiReleaseNoSEI:	
