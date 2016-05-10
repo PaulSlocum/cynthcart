@@ -66,12 +66,6 @@ testingLoop:
 
 	sei ; disable IRQ interrupts
 
-	lda #$ff  ; CIA#1 port A = outputs 
-	sta DDRA             
-
-	lda #0  ; CIA#1 port B = inputs
-	sta DDRB             
-	
 	; init addresses
 	lda midiControlOfs,x
 	sta midiControl
@@ -95,7 +89,6 @@ testingLoop:
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 	
-	ldy #0
 	lda (midiStatus),y
 	ora (midiStatus),y
 	ora (midiStatus),y
@@ -123,10 +116,8 @@ testingLoop:
 	sta statusSample2
 
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
-	inc 1065
+	;inc 1065
 	;jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!
-	
-	
 	
 	; set the interface to DATEL or NO_MIDI based on results
 	lda statusSample1
