@@ -112,10 +112,10 @@ testingLoop:
 	; send reset code to MIDI adapter
 	jsr midiReset
 	
-	inc 1024
-	inc 1024
-	inc 1024
-	inc 1024
+	inc dummyMidiIncrementer
+	inc dummyMidiIncrementer
+	inc dummyMidiIncrementer
+	inc dummyMidiIncrementer
 	
 	ldy #0
 	lda (midiStatus),y
@@ -161,10 +161,10 @@ testingLoop:
 	ora midiCr0Cr1,x
 	sta (midiControl),y
 	
-	inc 1024
-	inc 1024
-	inc 1024
-	inc 1024
+	inc dummyMidiIncrementer
+	inc dummyMidiIncrementer
+	inc dummyMidiIncrementer
+	inc dummyMidiIncrementer
 
 	ldy #0
 	lda (midiStatus),y
@@ -201,16 +201,11 @@ notReceiveFull:
 	;inx
 	;bne delayLoopIRQTest
 
-	jsr midiReset
 		
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
-	;inc 1065
+	inc 1065
 	;jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	
-	
-	
-	
-	cli
 	
 	
 	; set the interface to DATEL or NO_MIDI based on results
@@ -224,10 +219,12 @@ midiNotDetected:
 	ldx midiInterfaceType
 	dex
 	stx midiInterfaceType
+	;cpx #1
 	beq noMidi ; loop again to try next interface
 	jmp testingLoop
 noMidi:
 	lda #0 ; last interface, so no MIDI
+	cli
 	rts ; quit
 	
 	;;------------------------------------====================================

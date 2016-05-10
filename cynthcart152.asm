@@ -202,9 +202,9 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 
 RAMCOPY equ 1	; Copy program to RAM before running
 
-;SID2 equ $D420
+SID2 equ $D420
 ;SID2 equ $DE00
-SID2 equ $DF00
+;SID2 equ $DF00
 
 USE_DUMMY_MIDI_LIBRARY equ 0
 ;USE_DUMMY_MIDI_LIBRARY equ 1
@@ -492,7 +492,7 @@ clearBufferLoop
 	;sta midiMode
 	
 	lda midiEnabled
-	sta 1024+10
+	sta 1024+39
 	
 	;===========================================
 	;===========================================
@@ -746,7 +746,10 @@ processMIDI:
 	; get next MIDI byte
 check:		
 	IF ENABLE_MIDI_COMMANDS=1
+	lda midiEnabled
+	beq skipMidiRead
 	jsr midiRead ; Midi byte will be in A and Y
+skipMidiRead
 	ENDIF
 	bne continueReading
 	jmp endMIDI
