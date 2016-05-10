@@ -336,6 +336,7 @@ initSid:	sta $d400,x
 	IF ENABLE_MIDI_COMMANDS=1
 	; init MIDI and enable all interrupts
 	jsr midiDetect
+	sta midiEnabled
 	jsr midiInit
 	ENDIF
 
@@ -489,6 +490,9 @@ clearBufferLoop
 	lda #$FF
 	jsr setMidiMode
 	;sta midiMode
+	
+	lda midiEnabled
+	sta 1024+10
 	
 	;===========================================
 	;===========================================

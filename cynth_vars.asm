@@ -426,7 +426,7 @@ saveFilter equ $714A
 
 ;--------------------------------------------------
 
-midiEnabled equ $7150 ; Not fully implemented
+midiEnabled equ $7150 
 dummyMidiIncrementer equ $7151
 
 
