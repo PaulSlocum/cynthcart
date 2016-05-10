@@ -19,9 +19,8 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
+; - show detected midi device
 ; - finish designing new patches
-; - make it work without midi adapter
-; - maybe make it autodetect the passport and DATEL
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
 ; - move video settings keys to a less used location?
@@ -51,6 +50,7 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; + fixed SID editor waveform bug
 ; + help screen now shows even when video is off
 ; + other minor bugfixes
+; + now supports and autodetects Passport, Datel, and Kerberos MIDI adapters (autodetect is incompatible with VICE)
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
@@ -3752,8 +3752,13 @@ setMidiMode:
 	sta midiMode
 showMidiMode:
 	lda #47
-	sta 2012
 	sta 2017
+	lda midiEnabled
+	bne doShowMidiMode
+	rts	
+doShowMidiMode:
+	lda #47
+	sta 2012
 	ldx midiMode
 	bmi showOmni
 	;sta 2010
@@ -3778,6 +3783,8 @@ showOmni:
 	sta 2010
 	lda #9
 	sta 2011
+	
+	jsr showAdapter
 	rts	
 	
 	;--------------------------------
@@ -3921,6 +3928,44 @@ endFilter:
 	sta 1024+FILTERTEXT
 	rts
 
+	
+	;-----------------------------------
+	; Set Midi mode
+	;-----------------------------------
+showAdapter:
+	; Draw name of new sound mode on screen...
+	lda midiEnabled
+	asl
+	asl
+	asl
+	;lda modeNameOffsets,x
+	;lda fxNames,x
+	tax
+	ldy #0
+drawMidiModeLoop:
+	;lda modeNamesPolyphony,x
+	lda midiModeNames,x
+	cmp #64
+	bmi showSpaceZMidiMode
+	sbc #64
+showSpaceZMidiMode:
+	sta 1024+40*23+32,y
+	inx
+	iny
+	cpy #8
+	bne drawMidiModeLoop
+	; - - - - -
+	;inx ; Get polyphony value at end of name string...
+	;inx
+	;lda modeNamesPolyphony,x
+	;sta polyphony
+
+	;lda #8
+	;sta bufferSize
+	
+	rts
+	
+	
 	
 	;-----------------------------------
    ; Set FX mode with A,Y (for key command)

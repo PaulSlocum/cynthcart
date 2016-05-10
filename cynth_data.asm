@@ -495,6 +495,13 @@ debugOverlay
  	byte 19,$82,"BUFFERS ETC",0
 	byte 255
 
+midiModeNames:
+	byte "        " ;0
+	byte "SEQUENTL" ;1
+	byte "PASSPORT" ;2
+	byte "   DATEL" ;3
+	byte "NAMESOFT" ;4
+
 fxNames:
 	byte "NONE    " ;0
 	byte "FILT1   " ;1
@@ -532,24 +539,24 @@ helpMessage
 	byte "RETURN FOR COMMANDS          ",0
 	;byte "RETURN FOR HELP              ",0
 normalHelp
- 	byte 0,$82,"CYNTHCART -",$81," KEYBOARD COMMANDS ",$82,"-           ",0
+ 	byte 0,$82,"CYNTHCART -",$81,"KEY COMMANDS",$82,"-",$8B,"  RETURN TO EXIT012345",0
  	byte 1,$82,"----------------------------------------",0
  	byte 2,$83,"QWERTY",$8F," AND ",$83,"NUMBERS ROWS",$8F," ARE ",$81,"PIANO KEYS  ",0
  	byte 3,$83,"ASDF",$8F," AND",$83," ZXCV ROWS",$8F," SELECT",$81," SOUND PRESETS ",0
-	byte 4,$83,"SPACE",$8F,"=BENDER",$83,"  CURSOR-KEYS",$8F,"=FIFTHS ON/OFF",0
-	byte 5,$83,"FUNCTION-KEYS",$8F,"=OCTAVE",$83,"    _",$8F,"=CUSTOM-PRESET",0
+	byte 4,$83,"SPACE",$8F,"=BENDER",$83,"  CURSOR-KEYS",$8F,"=FIFTHS-ON/OFF",0
+	byte 5,$83,"FUNCTION-KEYS",$8F,"=OCTAVE",$83," _",$8F,"=LOAD-CUSTOM-SOUND",0
  	byte 6,$82,"----------------------------------------",0
 	byte 7,$81,"PRESS CTRL +",0
-	byte 8,$8D,"ASD",$8F,"=RELEASE-TIME ",$8D,"FGHJKL:;",$8F,"=SOUND MODE",0
-	byte 9,$8D,"ZXCVBNMM",$8F,"=FX MODE ",$8D,"F1-F7",$8F,"=VOL HI/MED/LO/OFF",0
+	byte 8,$8D,"ASD",$8F,"=RELEASE-TIME ",$8D,"FGHJKL:;",$8F,"=SOUND-MODE",0
+	byte 9,$8D,"ZXCVBNM",$8F,"=FX-MODE  ",$8D,"F1-F7",$8F,"=VOL HI/MED/LO/OFF",0
  	byte 10,$82,"---------------------------------------",0
 	byte 11,$81,"PRESS SHIFT +",0
-	byte 12,$8A,"ASD",$8F,"=ATTACK  " ,$8A,"FGH",$8F,"=VID-STYLE" ,$8A,"  JKL",$8F,"=VID-MODE"
+	byte 12,$8A,"ASD",$8F,"=ATTACK  " ,$8A,"FGH",$8F,"=VID-STYLE" ,$8A," JKL",$8F,"=VID-ON/OFF"
 	byte 0
 	byte 13,$8A,"ZXCV",$8F,"=TREM-SPD " ,$8A,"BNM,",$8F,"=TREM-LEVL" ,$8A," ;:",$8F,"=VID-SIZE"
 	byte 0
 	byte 14,$8A,"CURSOR-KEYS",$8F,"=PADDLE1-ON/OFF",0
-	byte 15, $8A,"F1-F7",$8F,"=PORTAMENTO ",$8A,"RETURN",$8F,"=CLEAR MODULATION",0
+	byte 15, $8A,"F1-F7",$8F,"=PORTAMENTO ",$8A,"RETURN",$8F,"=CLEAR-MODULATION",0
  	byte 16,$82,"---------------------------------------",0
 	byte 17,$81,"PRESS COMMODORE-KEY +",0
 	byte 18,$8E,"ASDFGHJK",$8F,"=FIXED-CUTOFF  ",$8E,",./",$8F,"=OMNI/CH1/CH5"
@@ -560,9 +567,9 @@ normalHelp
 	byte 21,$81,"PRESS RUN-STOP +",0
 	byte 22,$87,"ASDFGHJKL:;",$8F,"=TUNING" ,$87,"  ./",$8F,"=PAL/NTSC"
 	byte 0
-	byte 23,$87,"F1",$8F,"=SID-EDIT-KB" ,$87," F3",$8F,"=SAVE-CUSTOM-PRESET"
+	byte 23,$87,"ZXCVBNM",$8F,"=MORE-PRESETS  ",$87,"F1",$8F,"=SID-EDIT-C64KEYS"
 	byte 0
-	byte 24,$87,"F7",$8F,"=SID-EDIT-PIANO         ",$8B,"RETURN TO EXIT"
+	byte 24,$87,"F3",$8F,"=SAVE-CUSTOM-SOUND  ",$87,"F7",$8F,"=SID-EDIT-PIANO "
 	byte 0
 	byte 255
 
