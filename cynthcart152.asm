@@ -26,7 +26,7 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - figure out why filter gets messed up after going into sid edit mode
+; - make envelope reset on every new note in mono modes
 ; - rename "FX" to "MOD" in the displays and manual (maybe? try manual first?)
 ; - finish designing new patches
 ; - make (IRQ) detector that works with VICE?
@@ -39,7 +39,7 @@ KERBEROS equ FALSE
 ; - add more FX modes
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - add some of Gert's mixed waveform sounds
-; - add a button that resets all settings and turns video on
+; - add a button that r]esets all settings and turns video on
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically turn off paddle when MIDI mod wheel data is received
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -52,20 +52,21 @@ KERBEROS equ FALSE
 ; Change Log:
 ; - - - - - - - - - - - - - - 
 ; 1.6.0
+; + 7 additional presets
 ; + added mono stack portamento modes
 ; + wrote new instruction manual
-; + moved secondary SID to $DF00 to work with SIDcart II
+; + moved secondary SID to $DF00 to work with SIDcart II (note: must build with SID #2 at $D420 for Kerberos)
 ; + now supports and autodetects Passport, Datel, Sequential, and Kerberos MIDI adapters (note: autodetect is incompatible with VICE)
 ; + created new compression setup to fit latest ROM onto 8K cartridge
+; + presets now have independent waveform and sustain/release for each oscillator
 ; + added a button to cancel out of the SID editor
-; + adjustments to help screen
-; + fixed SID editor waveform bug
 ; + help screen now displays even when video is off
+; + fixed SID editor waveform bug
 ; + other minor bugfixes
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
-; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
-; + fixed bad pitch bend startup value
+; + fixed clock and sysex bytes causing crashes/stuck notes (Midi 0xF0-0xFF)
+; + fixed bad pitch bend startup value		Q
 ; + added non-omni modes for channel 1 and 5
 ; - - - - - - - - - - - - - - 
 ; 1.5.0 (major update for Kerberos)
@@ -73,7 +74,7 @@ KERBEROS equ FALSE
 ; + arpeggiator
 ; + mono stack mode and 6-voice mode
 ; + new filter and pulse width effects modes
-; + additional presets
+; + 12 additional presets
 ; + improved clarity of help screen text
 ; + moved SID location for MIDI version to $D420 since MIDI address overlaps with SID Symphony ($DE00)
 ; + refactored much of project source
@@ -3356,6 +3357,10 @@ loadLoop:
 	rts
 
 khelp
+	; PREVENT MESSING UP FILTER (WHY IS THIS NEEDED?)
+	lda filterSetValue
+	sta sidEditSaveTemp1
+
 	lda #0
 	sta 53280 ; CLEAR RED ERROR BACKGROUND IF SHOWN
 
@@ -3398,6 +3403,9 @@ endHelpMsgLoop:
 ;	jsr displayInit
 
 	
+	; PREVENT MESSING UP FILTER (WHY IS THIS NEEDED?)
+	lda sidEditSaveTemp1
+	sta filterSetValue
 	
 ;	ldx #39
 ;	lda #32
@@ -4334,6 +4342,18 @@ delay ; Delay a short time to avoid catching key bounce...
 	; directly.
 SIDEdit:
 
+	;DEBUG
+	;lda SFILTL
+	;sta sidEditSaveTemp1
+	;lda SFILTH
+	;sta sidEditSaveTemp2
+	;lda filter
+	;sta sidEditSaveTemp3
+	;ldx filterModValue
+	;stx sidEditSaveTemp4
+	ldx filterSetValue
+	stx sidEditSaveTemp5
+
 	sta hexKeyMode
 
 	;jsr beep
@@ -4548,7 +4568,21 @@ waitKeyRelease:
 ;	jsr displayPage
 ;	jsr showSidValues
 
-	rts
+	;DEBUG
+	;lda sidEditSaveTemp1
+	;sta SFILTL
+	;lda sidEditSaveTemp2
+	;sta SFILTH
+	;lda sidEditSaveTemp3
+	;sta filter
+	;lda sidEditSaveTemp4
+	;sta filterModValue
+	lda sidEditSaveTemp5
+	sta filterSetValue
+	
+
+	rts ; EXIT HEX EDIT MODE
+	; -------------------------------------------------- /
 
 	
 	

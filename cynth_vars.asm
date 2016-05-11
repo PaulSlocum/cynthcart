@@ -386,7 +386,6 @@ noteShift equ $70F6
 midiMode equ $70F7
 
 
-
 ;- - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ;- - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ; BUFFERS
@@ -429,5 +428,12 @@ saveFilter equ $714A
 midiEnabled equ $7150 
 dummyMidiIncrementer equ $7151
 
+sidEditSaveTemp1 equ $7052
+sidEditSaveTemp2 equ $7053
+sidEditSaveTemp3 equ $7054
+sidEditSaveTemp4 equ $7055
+sidEditSaveTemp5 equ $7056
+sidEditSaveTemp6 equ $7057
+sidEditSaveTemp7 equ $7058
 
 		

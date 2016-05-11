@@ -68,6 +68,7 @@ testingLoop:
 	dex
 
 	sei ; disable IRQ interrupts
+	;cli ; enable IRQ interrupts
 
 	; init addresses
 	lda midiControlOfs,x
