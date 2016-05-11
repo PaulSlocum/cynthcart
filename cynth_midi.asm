@@ -52,10 +52,13 @@ midiDetect:	; TODO
 	
 	
 	; old code to manually set interface type
-	lda #3 ; DATEL
+	lda #3 ; DATEL (DEFAULT, THIS ONE SHOULD BE SELECTED UNLESS DEBUGGING)
 	;lda #2 ; PASSPORT
+	;lda #4 ; NAMESOFT (NOT SUPPORTED YET!)
 	;lda #0 ; MIDI OFF
-	;rts ; <--FUNCTION DISABLED (DEBUG!!)
+	IF KERBEROS=1
+	rts ; <--DETECT FUNCTION DISABLED
+	ENDIF
 
 	sta midiInterfaceType
 testingLoop:

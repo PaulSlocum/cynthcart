@@ -278,7 +278,28 @@ runstopKeyFunctions:
 	word 0,0   				;return
 	word 0,0					;Larrow
 
+modeList:
+	byte MODE_NORMAL
+	byte MODE_5THS 
+	byte MODE_5PORT
+	byte MODE_PORT1
+	byte MODE_PORT2
+	byte MODE_PORT3
+	byte MODE_MONO1
+	byte MODE_MONO2
+	byte MODE_MONOPORT2 ; new
+	byte MODE_MONOPORT2 ; new
+	byte MODE_ARP1 
+	byte MODE_ARP2 
+	byte MODE_ARP3 
+	byte MODE_ARP4 
+	byte MODE_ARP5 
+	byte MODE_6CHAN ;16
+	;byte MODE_MONOPORT1
+	;byte MODE_MONOPORT2 ;16
+	
 MAX_PATCH_NUMBER equ 28
+
 
 patchName
 	byte "SAW BASS        " ;0
@@ -305,39 +326,19 @@ patchName2
 	byte "BENDING ECHO    " ;19
 	byte "6 CHANNEL SAW   " ;20 
 	byte "ARP LEAD        " ;21 <--- LAST PATCH THAT'S ACTUALLY SET UP AND USED
-	byte "NEW PATCH 13    " ;22 
-	byte "NEW PATCH 14    " ;23 ; THESE PATCHES ARE FOR FUTURE EXPANSION
+	byte "LASER BASS      " ;22 
+	byte "TROMBONE        " ;23 ; THESE PATCHES ARE FOR FUTURE EXPANSION
 	byte "NEW PATCH 15    " ;24
 	byte "NEW PATCH 16    " ;25
-	byte "NEW PATCH 17    " ;26 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
-	byte "NEW PATCH 18    " ;27
-	byte "NEW PATCH 19    " ;28
+	byte "BASIC SAW       " ;26 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
+	byte "BASIC TRIANGLE  " ;27
+	byte "BASIC PULSE SQR " ;28
 	byte "PATCH SAVED     " ;29
 	byte "CUSTOM PATCH    " ;30
 	
 SAVED_PATCH_MESSAGE equ 29
 CUSTOM_PATCH_NUMBER equ 30
 
-modeList:
-	byte MODE_NORMAL
-	byte MODE_5THS 
-	byte MODE_5PORT
-	byte MODE_PORT1
-	byte MODE_PORT2
-	byte MODE_PORT3
-	byte MODE_MONO1
-	byte MODE_MONO2
-	byte MODE_MONOPORT2 ; new
-	byte MODE_MONOPORT2 ; new
-	byte MODE_ARP1 
-	byte MODE_ARP2 
-	byte MODE_ARP3 
-	byte MODE_ARP4 
-	byte MODE_ARP5 
-	byte MODE_6CHAN ;16
-	;byte MODE_MONOPORT1
-	;byte MODE_MONOPORT2 ;16
-	
 
 patchSoundMode
 	byte  MODE_NORMAL ;0
@@ -377,7 +378,7 @@ patchSoundMode
 patchFX                                             
 	byte 	0,		5,		0,		0,		7,		6,   	1,		3,		2,   	0
 	byte	3,		1,		3,		0,		2,		3,		4,		1,		1,		2
-	byte	0,		3,		1,		0,		0,		0,		0,		0,		0,		0
+	byte	0,		3,		1,		3,		0,		0,		0,		0,		0,		0
 patchLFO
 	byte 	$11,	$02,	$02,	$13,	$13,	$10,	$01,	$02, 	$13, 	$00
 	byte 	$00,	$22,	$13,	$11,	$10,	$02,	$00,	$33, 	$10, 	$11
@@ -385,7 +386,7 @@ patchLFO
 patchOctave                                               
 	byte 	0,	   0,    	1,		1,		1,		2,		3,		3,		0, 		0
 	byte 	1,	   2,    	3,		1,		1,		2,		3,		3,		1, 		3
-	byte 	1,	   3,    	3,		1,		1,		2,		3,		2,		0, 		0
+	byte 	1,	   3,    	0,		3,		1,		2,		3,		2,		0, 		0
 patchAD                                                  
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	0
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$E0, 	$A0
@@ -393,15 +394,15 @@ patchAD
 patchSR1                                                  
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
+	byte 	$F0,	$F5,	$F5,	$86,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
 patchSR2
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
+	byte 	$F0,	$F5,	$F5,	$F6,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
 patchSR3
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	$F5,	$F0,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
+	byte 	$F0,	$F5,	$F5,	$F6,	$F8,	$F0,	$FE,	$F0,	$F0, 	0
 patchPaddle
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -409,7 +410,7 @@ patchPaddle
 newPatchFiltCut                                             
 	byte 	$B0,	$90,	$c0,	$FF,	$40,	$50,	$c0,	$70,	$80, 	0
 	byte 	$80,	$A0,	$c0,	$FF,	$A0,	$80,	$c0,	$c0,	$80, 	$80
-	byte 	$c0,	$F0,	$c0,	$FF,	$c0,	$c0,	$c0,	$c0,	$80, 	0
+	byte 	$c0,	$F0,	$c0,	$b0,	$c0,	$c0,	$c0,	$c0,	$80, 	0
 patchVol                                                 
 	byte 	$f,	$F,	$b,	$9,	$6,	$7,	$F,	$C,	$c, 	0
 	byte 	$f,	$c,	$F,	$b,	$9,	$7,	$F,	$c,	$c, 	$C
@@ -426,7 +427,7 @@ patchPWH
 patchWave1                                             
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
-	byte 	$20,	$20,	$14,	$20,	$40,	$40,	$10,	$10,	$80, 	0
+	byte 	$20,	$20,	$14,	$80,	$40,	$40,	$10,	$10,	$80, 	0
 patchWave2
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
@@ -434,7 +435,7 @@ patchWave2
 patchWave3                                                
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
-	byte 	$20,	$20,	$14,	$20,	$40,	$40,	$10,	$10,	$80, 	0
+	byte 	$20,	$20,	$14,	$10,	$40,	$40,	$10,	$10,	$80, 	0
 	
 patchFilt                                                
 	byte 	$EF,	$EF,	$0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$EF, 	$EF
@@ -536,8 +537,9 @@ hexEditHelp:
  	byte 255
 
 helpMessage
-	byte "RETURN FOR COMMANDS          ",0
+	;byte "RETURN FOR COMMANDS          ",0
 	;byte "RETURN FOR HELP              ",0
+	byte "RETURN=HELP                  ",0
 normalHelp
  	byte 0,$82,"CYNTHCART -",$81,"KEY COMMANDS",$82,"-",$8B,"  RETURN TO EXIT012345",0
  	byte 1,$82,"----------------------------------------",0
@@ -567,14 +569,14 @@ normalHelp
 	byte 21,$81,"PRESS RUN-STOP +",0
 	byte 22,$87,"ASDFGHJKL:;",$8F,"=TUNING" ,$87,"  ./",$8F,"=PAL/NTSC"
 	byte 0
-	byte 23,$87,"ZXCVBNM",$8F,"=MORE-PRESETS  ",$87,"F1",$8F,"=SID-EDIT-C64KEYS"
+	byte 23,$87,"ZXCVBNM",$8F,"=",$81,"MORE",$8F,"-",$81,"PRESETS  ",$87,"F1",$8F,"=SID-EDIT-C64KEYS"
 	byte 0
 	byte 24,$87,"F3",$8F,"=SAVE-CUSTOM-SOUND  ",$87,"F7",$8F,"=SID-EDIT-PIANO "
 	byte 0
 	byte 255
 
 mainColorText
-	byte 0,$82,"CYNTHCART  ",$8F,"PRESET",$8C,"=",$81,"                       ",0
+	byte 0,$82,"CYNTHCART  ",$8F,"PRESET",$8C,"=",$81,"                       ",0 
 	byte 1,$8A,"MODE",$8C,"=",$81,"X    ",$83,"       ",$8D,"       ",$8F,"      ",$8D,"FILTR",$8C,"=",$81,"X   ",0
 	byte 2,$8F,"TUNING",$8C,"=",$81,"X   ",$83,"ATTACK",$8C,"=",$81,"X ",$87,"TREMOLO",$8C,"=",$81,"X ",$8D,"CUTOFF",$8C,"=",$81,"X  ",0
 	byte 3,$8F,"OCTAVE",$8C,"=",$81,"X   ",$83,"RELEAS",$8C,"=",$81,"X ",$87,"TRM-SPD",$8C,"=",$81,"X ",$8D,"PADD1",$8C,"=",$81,"X   ",0

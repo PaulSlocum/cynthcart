@@ -5,7 +5,7 @@
 ;------------------------
 
 ;     ~~~=====================================================~~~
-; <<<<<< "MODE" SHOULD BE DEFINED IN DASM CALL (dasm -DMODE=1) >>>>>>
+; <<<<<< BUILD "MODE" SHOULD BE DEFINED IN DASM CALL (dasm -DMODE=1) >>>>>>
 ;     ~~~=====================================================~~~
 
 ; IMAGE RUN MODES:
@@ -16,13 +16,25 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 
 ;;;;MODE equ RAM   ; DISK, CART_OBSOLETE, RAM (for compression), or KERNEL_OBSOLETE
 
+TRUE equ 1
+FALSE equ 0
+
+; -- - -- - -- - -- - -- - 
+KERBEROS equ FALSE
+; -- - -- - -- - -- - -- - 
+
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - show detected midi device
+; - figure out why filter gets messed up after going into sid edit mode
+; - rename "FX" to "MOD" in the displays and manual (maybe? try manual first?)
 ; - finish designing new patches
+; - make (IRQ) detector that works with VICE?
+; = record new audio samples for webpage
+; o update webpage
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - automatically relocate SID when using Kerberos
 ; - move video settings keys to a less used location?
 ; - add more FX modes
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -43,14 +55,13 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; + added mono stack portamento modes
 ; + wrote new instruction manual
 ; + moved secondary SID to $DF00 to work with SIDcart II
+; + now supports and autodetects Passport, Datel, Sequential, and Kerberos MIDI adapters (note: autodetect is incompatible with VICE)
 ; + created new compression setup to fit latest ROM onto 8K cartridge
 ; + added a button to cancel out of the SID editor
-; + fixed minor bug with full screen display showing filter cutoff value
 ; + adjustments to help screen
 ; + fixed SID editor waveform bug
-; + help screen now shows even when video is off
+; + help screen now displays even when video is off
 ; + other minor bugfixes
-; + now supports and autodetects Passport, Datel, and Kerberos MIDI adapters (autodetect is incompatible with VICE)
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (0xF0-0xFF)
@@ -73,7 +84,6 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; + made LFO and all pitch modulations use proper tuning/scaling
 ; + fixed some errors in the tuning shift tables
 ; + added "RETURN FOR CONTROLS" message at bottom
-;--------------------------
 ; - - - - - - - - - - - - - - 
 ; 1.2.4
 ; + designated paddle 1 and 2 in help screen
@@ -160,7 +170,6 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ; - - - - - - - - - - - - - - - 
 ; - more patches
 ; - paddle 2 auto-on
-; - make smarter key->oscillator assignment to fix long release
 ;--------------------------
 ; - add echo long/med/short
 ; - more extreme variations in video mode
@@ -200,11 +209,16 @@ KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No
 ;**********************************************************
 
 
-RAMCOPY equ 1	; Copy program to RAM before running
 
+RAMCOPY equ 1	; Copy program to RAM before running (this should always be enabled)
+
+	IF KERBEROS=1
 SID2 equ $D420
+	ENDIF
 ;SID2 equ $DE00
-;SID2 equ $DF00
+	IF KERBEROS=0
+SID2 equ $DF00
+	ENDIF
 
 USE_DUMMY_MIDI_LIBRARY equ 0
 ;USE_DUMMY_MIDI_LIBRARY equ 1
@@ -490,9 +504,6 @@ clearBufferLoop
 	lda #$FF
 	jsr setMidiMode
 	;sta midiMode
-	
-	lda midiEnabled
-	sta 1024+39
 	
 	;===========================================
 	;===========================================
@@ -3675,7 +3686,7 @@ LFOClear:
 	;--------------------------------
 	; A = release OSC2 value
 setReleaseOSC2:
-	sta release
+	;sta release
 	sta SID1+SV2SR
 	sta SID2+SV2SR
 	sta sidData+SV2SR
@@ -3688,7 +3699,7 @@ setReleaseOSC2:
 	;--------------------------------
 	; A = release OSC2 value
 setReleaseOSC3:
-	sta release
+	;sta release
 	sta SID1+SV3SR
 	sta SID2+SV3SR
 	sta sidData+SV3SR
@@ -3759,6 +3770,7 @@ showMidiMode:
 doShowMidiMode:
 	lda #47
 	sta 2012
+	sta 2007
 	ldx midiMode
 	bmi showOmni
 	;sta 2010
@@ -3949,7 +3961,7 @@ drawMidiModeLoop:
 	bmi showSpaceZMidiMode
 	sbc #64
 showSpaceZMidiMode:
-	sta 1024+40*23+32,y
+	sta 1024+40*24+15,y
 	inx
 	iny
 	cpy #8
@@ -4163,11 +4175,11 @@ setPatch
 
 	ldy patchSetY
 	lda patchWave1,y
-	sta WaveType2
-	lda patchWave2,y
-	sta WaveType3
-	lda patchWave3,y
 	sta WaveType
+	lda patchWave2,y
+	sta WaveType2
+	lda patchWave3,y
+	sta WaveType3
 
 	ldy patchSetY
 	lda patchLFO,y
@@ -4194,6 +4206,7 @@ setPatch
 	ldy temp
 	lda patchSR1,y
 	jsr setRelease
+	ldy temp
 	lda patchSR2,y
 	jsr setReleaseOSC2
 	lda patchSR3,y
@@ -4323,9 +4336,9 @@ SIDEdit:
 
 	sta hexKeyMode
 
-	jsr beep
-	jsr beep
-	jsr beep
+	;jsr beep
+	;jsr beep
+	;jsr beep
 
 	jsr clrScr
 	jsr displayInit
@@ -4676,42 +4689,38 @@ quitCheck3:
 	lda #255 ; no key pressed
 	rts	
 
-beep:
-;	lda #$10
-;	sta SID1+SV1FH
-
-	ldx #3
-beepLoop:
-	lda volModeRAM
-	ora #$0F
-	sta SID1+SVOLMODE
-	sta SID2+SVOLMODE
-	sta sidData+SVOLMODE
-	jsr clickDelay
-	lda volModeRAM
-	and #$F0
-	sta SID1+SVOLMODE
-	sta SID2+SVOLMODE
-	sta sidData+SVOLMODE
-	dex
-	bne beepLoop
-	rts
+;beep:
+	;ldx #3
+;beepLoop:
+;	lda volModeRAM
+;	ora #$0F
+;	sta SID1+SVOLMODE
+;	sta SID2+SVOLMODE
+;	sta sidData+SVOLMODE
+;	jsr clickDelay
+;	lda volModeRAM
+;	and #$F0
+;	sta SID1+SVOLMODE
+;	sta SID2+SVOLMODE
+;	sta sidData+SVOLMODE
+;	dex
+;	bne beepLoop
+;	rts
 	
 
 	; ------------------------------------
-	; delay for click -- uses Y
-clickDelay:
-	;ldy #$40
-	ldy #$10
-	sty temp
-mainDelayLoop:
-	ldy #0
-innerDelayLoop:
-	dey
-	bne innerDelayLoop
-	dec temp
-	bne mainDelayLoop
-	rts	
+	; delay for click (for beep) -- uses Y
+;clickDelay:
+	;ldy #$10
+	;sty temp
+;mainDelayLoop:
+;	ldy #0
+;innerDelayLoop:
+;	dey
+;	bne innerDelayLoop
+;	dec temp
+;	bne mainDelayLoop
+;	rts	
 	
 
 	;------------------------------------------
