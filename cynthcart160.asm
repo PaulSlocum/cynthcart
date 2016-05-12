@@ -30,6 +30,7 @@ KERBEROS equ FALSE
 ; - finish designing new patches
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE FOR 1.6.0:
+; - bug is bypassed, but figure out why showScreen messes up the filter setting
 ; - figure out why portamento is slower going down than up
 ; - make (IRQ) detector that works with VICE?
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -3396,8 +3397,8 @@ endHelpMsgLoop:
 
 	
 	; PREVENT MESSING UP FILTER (WHY IS THIS NEEDED?)
-	;lda sidEditSaveTemp1
-	;sta filterSetValue
+	lda sidEditSaveTemp1
+	sta filterSetValue
 	
 ;	ldx #39
 ;	lda #32
@@ -3563,47 +3564,6 @@ setHelpMode:
 	sta helpMode
 	rts
 	
-	;--------------------------------
-	; Set Sync
-	;--------------------------------
-	; This function does not appear to be used anywhere
-	;--------------------------------
-setSync
-	sta videoMode
-	tay
-	asl
-	asl
-	beq syncOff
-	sta temp
-	ora WaveType
-	sta WaveType
-	lda temp
-	ora WaveType2
-	sta WaveType2
-	lda temp
-	ora WaveType3
-	sta WaveType3
-	jmp contSync
-syncOff
-	eor #255
-	sta temp
-	and WaveType
-	sta WaveType
-	lda temp
-	and WaveType2
-	sta WaveType2
-	lda temp
-	and WaveType3
-	sta WaveType3
-contSync:
-	tya
-	asl
-	asl
-	tax	
-	ldy #SYNCTEXT
-	jmp updateText
-	rts
-
 	;--------------------------------
 	; Set Video Mode
 	;--------------------------------
@@ -4333,15 +4293,7 @@ delay ; Delay a short time to avoid catching key bounce...
 	; directly.
 SIDEdit:
 
-	;DEBUG
-	;lda SFILTL
-	;sta sidEditSaveTemp1
-	;lda SFILTH
-	;sta sidEditSaveTemp2
-	;lda filter
-	;sta sidEditSaveTemp3
-	;ldx filterModValue
-	;stx sidEditSaveTemp4
+	; PREVENT SID EDIT FROM MESSING UP FILTER (WHY IS THIS NEEDED?)
 	ldx filterSetValue
 	stx sidEditSaveTemp5
 
@@ -4559,15 +4511,7 @@ waitKeyRelease:
 ;	jsr displayPage
 ;	jsr showSidValues
 
-	;DEBUG
-	;lda sidEditSaveTemp1
-	;sta SFILTL
-	;lda sidEditSaveTemp2
-	;sta SFILTH
-	;lda sidEditSaveTemp3
-	;sta filter
-	;lda sidEditSaveTemp4
-	;sta filterModValue
+	; PREVENT SID EDIT FROM MESSING UP FILTER (WHY IS THIS NEEDED?)
 	lda sidEditSaveTemp5
 	sta filterSetValue
 	
@@ -5039,6 +4983,11 @@ displayHex
 displayPage:
 	sty helpReadPointerL
 	stx helpReadPointerM
+
+	; PREVENT FILTER BEING MESSED UP (WHY IS THIS NEEDED?)	
+	;lda filterSetValue
+	;sta sidEditSaveTemp1
+
 	lda #1
 	sta helpColor ; default to white
 helpLoop:
@@ -5102,7 +5051,12 @@ quitTextLoop:
 	sta helpReadPointerM
 	jmp helpLoop ;/\/\/\/\/\
 quitHelp:
-	rts
+
+	; PREVENT FILTER BEING MESSED UP (WHY IS THIS NEEDED?)	
+	;lda sidEditSaveTemp1
+	;sta filterSetValue
+
+	rts ; END OF DISPLAY PAGE
 
 	; Extra subroutines
 	include "cynth_subroutines.asm"
