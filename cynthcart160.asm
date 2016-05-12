@@ -999,12 +999,12 @@ patchChange
 	ldy firstDataByte ; Patch number
 	sty 1025
 	inc 1026	
-	;bpl skipPatchDefault1 ; If patch number is > 127
-	;ldy #MAX_PATCH_NUMBER ; then set to max number (~30)
-;skipPatchDefault1:
-	cpy #MAX_PATCH_NUMBER 
+	bpl skipPatchDefault1 ; If patch number is > 127
+	ldy #MAX_PATCH_NUMBER ; then set to max number (~30)
+skipPatchDefault1:
+	cpy #MAX_PATCH_NUMBER+1 
 	bmi skipPatchDefault2 ; If patch is less than MAX_PATCH_NUM
-	ldy #MAX_PATCH_NUMBER
+	ldy #0 ; Saw Bass (because sending patch change zero doesn't work)
 skipPatchDefault2:
 	jsr setPatch
 	rts
