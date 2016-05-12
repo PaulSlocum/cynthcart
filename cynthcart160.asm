@@ -26,8 +26,10 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - figure out why filter is messed up after selecting help
+; - make patch saver save mode and modulation too
 ; - finish designing new patches
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - do thorough testing and proofreading of manual
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE FOR 1.6.0:
 ; - bug is bypassed, but figure out why showScreen messes up the filter setting
