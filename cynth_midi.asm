@@ -88,15 +88,17 @@ testingLoop:
 	; send reset code to MIDI adapter
 	jsr midiReset
 	
+	; small delay
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 	
+	; read midi status
 	lda (midiStatus),y
 	ora (midiStatus),y
 	ora (midiStatus),y
-	sta 1024+160
+	sta 1024+160 ; DEBUG
 	sta statusSample1
 	
 	; enable IRQ/NMI
@@ -107,18 +109,20 @@ testingLoop:
 	ora midiCr0Cr1,x
 	sta (midiControl),y
 	
+	; small delay
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 	inc dummyMidiIncrementer
 
+	; read midi status
 	ldy #0
 	lda (midiStatus),y
 	ora (midiStatus),y
 	ora (midiStatus),y
-	sta 1024+160+1
+	sta 1024+160+1 ; DEBUG
 	sta statusSample2
-
+	
 lock: ; DEBUG!!!!!!!!!!!!!!!!!!!!
 	;inc 1065
 	;jmp lock ; DEBUG!!!!!!!!!!!!!!!!!!!!

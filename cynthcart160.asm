@@ -26,21 +26,24 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
+; - figure out why filter is messed up after selecting help
 ; - figure out why portamento is slower going down than up
-; - make envelope reset on every new note in mono modes
-; - rename "FX" to "MOD" in the displays and manual (maybe? try manual first?)
 ; - finish designing new patches
-; - make (IRQ) detector that works with VICE?
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - MAYBE make (IRQ) detector that works with VICE?
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; = record new audio samples for webpage
 ; o update webpage
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE:
+; - make envelope reset on every new note in mono modes
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically relocate SID when using Kerberos
 ; - move video settings keys to a less used location?
 ; - add more FX modes
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - add some of Gert's mixed waveform sounds
-; - add a button that r]esets all settings and turns video on
+; - add a button that resets all settings and turns video on
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically turn off paddle when MIDI mod wheel data is received
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -2235,7 +2238,7 @@ skipPort:
 
 updatePortPosition:
 	;check portamn direction;
-	lda NTSCmode				;
+	lda NTSCmode			;
 	beq palPortH			;
 ntscPortH:					;
 	lda pitchHA,x			;
@@ -2287,6 +2290,7 @@ portUp:
 	lda pitchHA,x
 	adc (portPtrH),y
 	sta pitchHA,x
+	;inc 1025 ; DEBUG!!
 	lda #0 ; indicate port direction
 	jmp oscCheck
 portDown:
@@ -2297,6 +2301,7 @@ portDown:
 	lda pitchHA,x
 	sbc (portPtrH),y
 	sta pitchHA,x
+	;inc 1024 ; DEBUG!!
 	lda #1	; indicate port direction
 
 	; check for pitch oscillation
