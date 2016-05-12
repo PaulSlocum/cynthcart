@@ -550,7 +550,7 @@ normalHelp
  	byte 6,$82,"----------------------------------------",0
 	byte 7,$81,"PRESS CTRL +",0
 	byte 8,$8D,"ASD",$8F,"=RELEASE-TIME ",$8D,"FGHJKL:;",$8F,"=SOUND-MODE",0
-	byte 9,$8D,"ZXCVBNM",$8F,"=FX-MODE  ",$8D,"F1-F7",$8F,"=VOL HI/MED/LO/OFF",0
+	byte 9,$8D,"ZXCVBNM",$8F,"=MOD-MODE ",$8D,"F1-F7",$8F,"=VOL HI/MED/LO/OFF",0
  	byte 10,$82,"---------------------------------------",0
 	byte 11,$81,"PRESS SHIFT +",0
 	byte 12,$8A,"ASD",$8F,"=ATTACK  " ,$8A,"FGH",$8F,"=VID-STYLE" ,$8A," JKL",$8F,"=VID-ON/OFF"
@@ -580,7 +580,7 @@ mainColorText
 	byte 1,$8A,"MODE",$8C,"=",$81,"X    ",$83,"       ",$8D,"       ",$8F,"      ",$8D,"FILTR",$8C,"=",$81,"X   ",0
 	byte 2,$8F,"TUNING",$8C,"=",$81,"X   ",$83,"ATTACK",$8C,"=",$81,"X ",$87,"TREMOLO",$8C,"=",$81,"X ",$8D,"CUTOFF",$8C,"=",$81,"X  ",0
 	byte 3,$8F,"OCTAVE",$8C,"=",$81,"X   ",$83,"RELEAS",$8C,"=",$81,"X ",$87,"TRM-SPD",$8C,"=",$81,"X ",$8D,"PADD1",$8C,"=",$81,"X   ",0
-	byte 4,$8F,"VOLUME",$8C,"=",$81,"X   ",$8F,"FX",$8C,"=",$81,"XXXXX ",$8F,"  VIDEO",$8C,"=",$81,"X ",$8F,"PADD2",$8C,"=",$81,"X   ",0
+	byte 4,$8F,"VOLUME",$8C,"=",$81,"X   ",$8F,"MOD",$8C,"=",$81,"XXXXX ",$8F," VIDEO",$8C,"=",$81,"X ",$8F,"PADD2",$8C,"=",$81,"X   ",0
  	byte 23,$82,"                                        ",0
 
  	; OLD LAYOUT
@@ -608,7 +608,7 @@ LFORATETEXT equ 40*3+28
 LFODEPTHTEXT equ 40*2+28
 VIDEOTEXT equ 40*4+28
 
-FXTEXT equ 40*4+14
+FXTEXT equ 40*4+15
 
 FILTERTEXT2 equ 40*1+36
 FILTERTEXT equ 40*2+37
