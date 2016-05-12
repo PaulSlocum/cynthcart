@@ -26,16 +26,13 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - figure out why filter is messed up after selecting help
-; - figure out why portamento is slower going down than up
 ; - finish designing new patches
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - MAYBE make (IRQ) detector that works with VICE?
+; MAYBE FOR 1.6.0:
+; - figure out why filter is messed up after selecting help
+; - figure out why portamento is slower going down than up
+; - make (IRQ) detector that works with VICE?
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; = record new audio samples for webpage
-; o update webpage
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; MAYBE:
 ; - make envelope reset on every new note in mono modes
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - automatically relocate SID when using Kerberos
@@ -61,7 +58,7 @@ KERBEROS equ FALSE
 ; + wrote new instruction manual
 ; + moved secondary SID to $DF00 to work with SIDcart II (note: must build with SID #2 at $D420 for Kerberos)
 ; + now supports and autodetects Passport, Datel, Sequential, and Kerberos MIDI adapters (note: autodetect is incompatible with VICE)
-; + created new compression setup to fit latest ROM onto 8K cartridge
+; + created new compression system to fit latest ROM onto 8K cartridge
 ; + presets now have independent waveform and sustain/release for each oscillator
 ; + added a button to cancel out of the SID editor
 ; + help screen now displays even when video is off
@@ -941,7 +938,6 @@ endChannelCheck:
 	; Ignoring channel for now
 	;tay ; CHANGED THIS TO TYA BECAUSE MIDI STATUS IS NOW COMING IN Y
 	tya
-	inc 1028 ; DEBUG!!
 	
 	and #$F0
 	cmp #$80 ; Note off
@@ -997,8 +993,6 @@ patchChange
 	inc 1824+88
 	ENDIF
 	ldy firstDataByte ; Patch number
-	sty 1025
-	inc 1026	
 	bpl skipPatchDefault1 ; If patch number is > 127
 	ldy #MAX_PATCH_NUMBER ; then set to max number (~30)
 skipPatchDefault1:
@@ -4133,8 +4127,6 @@ showSpaceZ
 	; (patch # stored in Y)
 	;----------------------------------------
 setPatch
-	sty 1024
-
 	sty patchSetY
 
 	lda patchVol,y

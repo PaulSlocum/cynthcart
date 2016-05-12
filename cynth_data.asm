@@ -287,7 +287,7 @@ modeList:
 	byte MODE_PORT3
 	byte MODE_MONO1
 	byte MODE_MONO2
-	byte MODE_MONOPORT2 ; new
+	byte MODE_MONOPORT1 ; new
 	byte MODE_MONOPORT2 ; new
 	byte MODE_ARP1 
 	byte MODE_ARP2 
