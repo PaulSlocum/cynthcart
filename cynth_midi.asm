@@ -89,10 +89,10 @@ testingLoop:
 	jsr midiReset
 	
 	; small delay
-	inc dummyMidiIncrementer
-	inc dummyMidiIncrementer
-	inc dummyMidiIncrementer
-	inc dummyMidiIncrementer
+	ldx #0
+detectDelay1:
+	dex 
+	bne detectDelay1
 	
 	; read midi status
 	lda (midiStatus),y
@@ -110,10 +110,10 @@ testingLoop:
 	sta (midiControl),y
 	
 	; small delay
-	inc dummyMidiIncrementer
-	inc dummyMidiIncrementer
-	inc dummyMidiIncrementer
-	inc dummyMidiIncrementer
+	ldx #0
+detectDelay2:
+	dex 
+	bne detectDelay2
 
 	; read midi status
 	ldy #0

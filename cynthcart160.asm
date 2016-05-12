@@ -2631,23 +2631,6 @@ switchDirections:
 	rts
 
 	
-;setFilterFromA:
-	;sta filterSetValue
-	;rts
-	
-	; Old version of FilterFromA...
-	;sta SID1+SFILTH
-	;sta sidData+SFILTH
-	;clc
-	;adc #SID_SYMPHONY_FILTER_OFFSET
-	;bcc noPaddleRoll
-	;lda #255
-;noPaddleRoll:
-	;sta SID2+SFILTH
-;noPaddleControl
-	;rts
-	
-
 	;-------------------------------------
 	; Reading paddles from Prog Ref Guide
 	;-------------------------------------
@@ -3362,6 +3345,7 @@ khelp
 	; PREVENT MESSING UP FILTER (WHY IS THIS NEEDED?)
 	lda filterSetValue
 	sta sidEditSaveTemp1
+	
 
 	lda #0
 	sta 53280 ; CLEAR RED ERROR BACKGROUND IF SHOWN
@@ -3380,7 +3364,13 @@ khelp
 	; Show full help page...
 	ldx #>normalHelp ;low/MSB
 	ldy #<normalHelp ;high/LSB
-	jmp displayPage ; <--- Draw full help page
+	jsr displayPage ; <--- Draw full help page
+
+	; PREVENT MESSING UP FILTER (WHY IS THIS NEEDED?)
+	lda sidEditSaveTemp1
+	sta filterSetValue
+	rts
+		
 	; \/ Show help message at bottom of screen
 showHelpMessage:
 	; Show help key...
@@ -3406,8 +3396,8 @@ endHelpMsgLoop:
 
 	
 	; PREVENT MESSING UP FILTER (WHY IS THIS NEEDED?)
-	lda sidEditSaveTemp1
-	sta filterSetValue
+	;lda sidEditSaveTemp1
+	;sta filterSetValue
 	
 ;	ldx #39
 ;	lda #32
