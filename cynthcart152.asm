@@ -26,6 +26,7 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
+; - figure out why portamento is slower going down than up
 ; - make envelope reset on every new note in mono modes
 ; - rename "FX" to "MOD" in the displays and manual (maybe? try manual first?)
 ; - finish designing new patches
