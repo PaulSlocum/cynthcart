@@ -26,10 +26,10 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
+; - figure out why filter is messed up after selecting help
 ; - finish designing new patches
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE FOR 1.6.0:
-; - figure out why filter is messed up after selecting help
 ; - figure out why portamento is slower going down than up
 ; - make (IRQ) detector that works with VICE?
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -2632,20 +2632,20 @@ switchDirections:
 
 	
 ;setFilterFromA:
-	sta filterSetValue
-	rts
+	;sta filterSetValue
+	;rts
 	
 	; Old version of FilterFromA...
-	sta SID1+SFILTH
-	sta sidData+SFILTH
-	clc
-	adc #SID_SYMPHONY_FILTER_OFFSET
-	bcc noPaddleRoll
-	lda #255
-noPaddleRoll:
-	sta SID2+SFILTH
-noPaddleControl
-	rts
+	;sta SID1+SFILTH
+	;sta sidData+SFILTH
+	;clc
+	;adc #SID_SYMPHONY_FILTER_OFFSET
+	;bcc noPaddleRoll
+	;lda #255
+;noPaddleRoll:
+	;sta SID2+SFILTH
+;noPaddleControl
+	;rts
 	
 
 	;-------------------------------------
