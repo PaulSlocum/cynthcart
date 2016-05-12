@@ -941,7 +941,7 @@ endChannelCheck:
 	; Ignoring channel for now
 	;tay ; CHANGED THIS TO TYA BECAUSE MIDI STATUS IS NOW COMING IN Y
 	tya
-	
+	inc 1028 ; DEBUG!!
 	
 	and #$F0
 	cmp #$80 ; Note off
@@ -997,9 +997,11 @@ patchChange
 	inc 1824+88
 	ENDIF
 	ldy firstDataByte ; Patch number
-	bpl skipPatchDefault1 ; If patch number is > 127
-	ldy #MAX_PATCH_NUMBER ; then set to max number (~30)
-skipPatchDefault1:
+	sty 1025
+	inc 1026	
+	;bpl skipPatchDefault1 ; If patch number is > 127
+	;ldy #MAX_PATCH_NUMBER ; then set to max number (~30)
+;skipPatchDefault1:
 	cpy #MAX_PATCH_NUMBER 
 	bmi skipPatchDefault2 ; If patch is less than MAX_PATCH_NUM
 	ldy #MAX_PATCH_NUMBER
@@ -4131,6 +4133,7 @@ showSpaceZ
 	; (patch # stored in Y)
 	;----------------------------------------
 setPatch
+	sty 1024
 
 	sty patchSetY
 
