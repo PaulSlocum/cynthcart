@@ -266,7 +266,7 @@ runstopKeyFunctions:
 	word setPatch, $1A00	;B
 	word setPatch, $1B00	;N
 	word setPatch, $1C00	;M
-    word 0, $0000			;,
+   word setPatch, $1D00	;,
 	word ksetPalNtsc,$0001	;.
 	word ksetPalNtsc,$0000  ;/
 	word 0, $0000			;up/down
@@ -333,11 +333,15 @@ patchName2
 	byte "CLEAN SAWTOOTH  " ;26 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
 	byte "CLEAN TRIANGLE  " ;27
 	byte "CLEAN PULSE SQR " ;28
+	byte "EXTRA PATCH     " ;29a
 	byte "PATCH SAVED     " ;29
 	byte "CUSTOM PATCH    " ;30
 	
-SAVED_PATCH_MESSAGE equ 29
-CUSTOM_PATCH_NUMBER equ 30
+
+;SAVED_PATCH_MESSAGE equ 29
+;CUSTOM_PATCH_NUMBER equ 30
+SAVED_PATCH_MESSAGE equ MAX_PATCH_NUMBER+2
+CUSTOM_PATCH_NUMBER equ MAX_PATCH_NUMBER+3
 
 
 patchSoundMode
