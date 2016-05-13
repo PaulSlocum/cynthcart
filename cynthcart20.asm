@@ -13,14 +13,19 @@ CART_OBSOLETE equ 0 ; run at $8000 off cartridge ROM (No longer supported becaus
 DISK equ 1 ; run at $8000, include initial load location word (PRG format)
 RAM equ 2 ; run at $3000, needs to be copied or decompressed into $3000 (used for compresed version)
 KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No longer supported because the ROM is bigger than 8K)
-
 ;;;;MODE equ RAM   ; DISK, CART_OBSOLETE, RAM (for compression), or KERNEL_OBSOLETE
 
-TRUE equ 1
-FALSE equ 0
 
+; MIDI AND SID2 CONFIGURATION:
+DEFAULT equ 0
+KERBEROS equ 1
+EMU equ 2
+SIDSYMPHONY equ 3
 ; -- - -- - -- - -- - -- - 
-KERBEROS equ FALSE
+;BUILD_CONFIG equ DEFAULT 		; Midi autodetect, SID2 at $DF00
+;BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
+;BUILD_CONFIG equ EMU 			; Midi disabled, SID2 at $D420
+BUILD_CONFIG equ SIDSYMPHONY ; Midi disabled, SID2 at $DE00
 ; -- - -- - -- - -- - -- - 
 
 ;=================================------------ - - - -  -   -
@@ -220,18 +225,27 @@ KERBEROS equ FALSE
 
 RAMCOPY equ 1	; Copy program to RAM before running (this should always be enabled)
 
-	IF KERBEROS=1
+	IF BUILD_CONFIG=KERBEROS
 SID2 equ $D420
+ENABLE_MIDI_COMMANDS equ 1
 	ENDIF
-;SID2 equ $DE00
-	IF KERBEROS=0
+	IF BUILD_CONFIG=EMU
+SID2 equ $D420
+ENABLE_MIDI_COMMANDS equ 0
+	ENDIF
+	IF BUILD_CONFIG=SIDSYMPHONY
+SID2 equ $DE00
+ENABLE_MIDI_COMMANDS equ 0
+	ENDIF
+	IF BUILD_CONFIG=DEFAULT
 SID2 equ $DF00
+ENABLE_MIDI_COMMANDS equ 1
 	ENDIF
 
 USE_DUMMY_MIDI_LIBRARY equ 0
 ;USE_DUMMY_MIDI_LIBRARY equ 1
 
-ENABLE_MIDI_COMMANDS equ 1
+;ENABLE_MIDI_COMMANDS equ 1
 
 DEBUG_DISABLE_VIDEO_MODE equ 0
 DEBUG_DISPLAY equ 0
@@ -356,8 +370,7 @@ initSid:	sta $d400,x
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 
 	IF ENABLE_MIDI_COMMANDS=1
-	; init MIDI and enable all interrupts
-	jsr midiDetect
+	jsr midiDetect ; AUTODETECT MIDI IF NOT KERBEROS BUILD
 	sta midiEnabled
 	jsr midiInit
 	ENDIF
@@ -4769,6 +4782,21 @@ notBlank2:
 	iny
 	bne TextLoop2
 endText2:
+
+	IF BUILD_CONFIG=KERBEROS
+	lda #11 ; "K"
+	sta 2022
+	ENDIF
+	IF BUILD_CONFIG=EMU
+	lda #5 ; "E"
+	sta 2022
+	ENDIF
+	IF BUILD_CONFIG=SIDSYMPHONY
+	lda #19 ; "S"
+	sta 2022
+	ENDIF
+	
+
 
 	jsr showMidiMode
 
