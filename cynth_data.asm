@@ -234,8 +234,10 @@ commKeyFunctions:
 	word setMidiMode, $0404	;/  CHANNEL 5
 	word 0, $0000			;up/down
 	word 0, $0000			;left/right
-	word 0, $0000			;F1
-	word 0, $0000			;F3
+	word ksetPalNtsc,$0001	;F1
+	word ksetPalNtsc,$0000  ;F3
+	;word 0, $0000			;F1
+	;word 0, $0000			;F3
 	word 0, $0000			;F5
 	word 0, $0000			;F7
 	word 0,0   				;return
@@ -267,8 +269,8 @@ runstopKeyFunctions:
 	word setPatch, $1B00	;N
 	word setPatch, $1C00	;M
    word setPatch, $1D00	;,
-	word ksetPalNtsc,$0001	;.
-	word ksetPalNtsc,$0000  ;/
+	word 0, $0000	;.
+	word 0, $0000  ;/
 	word 0, $0000			;up/down
 	word 0, $0000			;left/right
 	word SIDEdit,$0000	;F1
@@ -298,7 +300,7 @@ modeList:
 	;byte MODE_MONOPORT1
 	;byte MODE_MONOPORT2 ;16
 	
-MAX_PATCH_NUMBER equ 28
+MAX_PATCH_NUMBER equ 29
 
 
 patchName
@@ -333,15 +335,15 @@ patchName2
 	byte "EXTRA PATCH     " ;26
 	byte "CLEAN SAWTOOTH  " ;27 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
 	byte "CLEAN TRIANGLE  " ;28
-	byte "CLEAN PULSE SQR " ;29
+	byte "CLEAN SQUARE    " ;29
 	byte "PATCH SAVED     " ;30
 	byte "CUSTOM PATCH    " ;31
 	
 
 ;SAVED_PATCH_MESSAGE equ 29
 ;CUSTOM_PATCH_NUMBER equ 30
-SAVED_PATCH_MESSAGE equ MAX_PATCH_NUMBER+2
-CUSTOM_PATCH_NUMBER equ MAX_PATCH_NUMBER+3
+SAVED_PATCH_MESSAGE equ MAX_PATCH_NUMBER+1
+CUSTOM_PATCH_NUMBER equ MAX_PATCH_NUMBER+2
 
 
 patchSoundMode
