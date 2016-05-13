@@ -30,32 +30,10 @@ BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
 
 ;=================================------------ - - - -  -   -
 ;
-; TODO FOR 2.0:
-; - add switches for each of the builds I need to do (kerberos, sid symphony, emulator)
-; - show which build is being used next to the version number (K,S,E)
+; TODO:
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - do thorough testing and proofreading of manual
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; MAYBE:
-; - figure out why pulse LFO is so slow
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - fix patch saver issue where mode and FX are sometimes not saved
-; - bug is bypassed, but figure out why showScreen messes up the filter setting
-; - figure out why portamento is slower going down than up
-; - make (IRQ) detector that works with VICE?
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - make envelope reset on every new note in mono modes
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - automatically relocate SID when using Kerberos
-; - move video settings keys to a less used location?
-; - add more FX modes
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - add some of Gert's mixed waveform sounds
-; - add a button that resets all settings and turns video on
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - automatically turn off paddle when MIDI mod wheel data is received
-; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - 'O' key specifically may be out of tune
+; - send to beta testers
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;=================================------------ - - - -  -   -
@@ -75,6 +53,7 @@ BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
 ; + help screen now displays even when video is off
 ; + fixed SID editor waveform bug
 ; + other minor bugfixes
+; + added build switch for alternate midi and SID configurations
 ; - - - - - - - - - - - - - - 
 ; 1.5.1
 ; + fixed clock and sysex bytes causing crashes/stuck notes (Midi 0xF0-0xFF)
@@ -155,6 +134,26 @@ BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
 
 ;-----------------------------------------------------
 ; FUTURE TODO LIST:
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - figure out why pulse LFO is so slow
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - fix patch saver issue where mode and FX are sometimes not saved
+; - bug is bypassed, but figure out why showScreen messes up the filter setting
+; - figure out why portamento is slower going down than up
+; - make (IRQ) detector that works with VICE?
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - make envelope reset on every new note in mono modes
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - automatically relocate SID when using Kerberos
+; - move video settings keys to a less used location?
+; - add more FX modes
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - add some of Gert's mixed waveform sounds
+; - add a button that resets all settings and turns video on
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - automatically turn off paddle when MIDI mod wheel data is received
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - 'O' key specifically may be out of tune
 ; - - - - - - - - - - - - - - - 
 ; - consider adding per-patch filter on/off/disabled setting
 ; - midi trigger to turn off/on omni
