@@ -330,12 +330,12 @@ patchName2
 	byte "TROMBONE BLAST  " ;23 ; THESE PATCHES ARE FOR FUTURE EXPANSION
 	byte "NOISY SQUARE ARP" ;24
 	byte "TRIANGLE SYNC   " ;25
-	byte "CLEAN SAWTOOTH  " ;26 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
-	byte "CLEAN TRIANGLE  " ;27
-	byte "CLEAN PULSE SQR " ;28
-	byte "EXTRA PATCH     " ;29a
-	byte "PATCH SAVED     " ;29
-	byte "CUSTOM PATCH    " ;30
+	byte "EXTRA PATCH     " ;26
+	byte "CLEAN SAWTOOTH  " ;27 ; To ADD: TRI+SAW 30 30 30    TRI-RINGMOD 14 14 14    TRI+PULSE-RINGMOD 54 54 54
+	byte "CLEAN TRIANGLE  " ;28
+	byte "CLEAN PULSE SQR " ;29
+	byte "PATCH SAVED     " ;30
+	byte "CUSTOM PATCH    " ;31
 	
 
 ;SAVED_PATCH_MESSAGE equ 29
@@ -390,23 +390,23 @@ patchLFO ; (TREMOLO)
 patchOctave                                               
 	byte 	0,	   0,    1,		1,		1,		2,		3,		3,		0, 	0
 	byte 	1,	   2,    3,		1,		1,		2,		3,		3,		1, 	3
-	byte 	1,	   3,     0,	3,		3,		1,		1,		3,		1, 	1
+	byte 	1,	   3,     0,	3,		3,		1,		1,		1,		3,		1
 patchAD                                                  
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	0
 	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$E0, 	$A0
-	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	0
+	byte 	$00,	$00,	$00,	$00,	$00,	$00,	$00,	$00, 	$00, 	$00
 patchSR1                                                  
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	 $F5,	$86,	$F6,	$F2,	$F2,	$F2,	$F0, 	0
+	byte 	$F0,	$F5,	 $F5,	$86,	$F6,	$F2,	$F2,	$F2,	$F2,	$F0
 patchSR2
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	 $F5,	$F6,	$54,	$F2,	$F2,	$F2,	$F0, 	0
+	byte 	$F0,	$F5,	 $F5,	$F6,	$54,	$F2,	$F2,	$F2,	$F2,	$F0
 patchSR3
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	 $F5,	$F6,	$F6,	$F2,	$F2,	$F2,	$F0, 	0
+	byte 	$F0,	$F5,	 $F5,	$F6,	$F6,	$F2,	$F2,	$F2,	$F2,	$F0
 patchPaddle
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -414,11 +414,11 @@ patchPaddle
 newPatchFiltCut                                             
 	byte 	$B0,	$90,	$c0,	$FF,	$40,	$50,	$c0,	$70,	$80, 	0
 	byte 	$80,	$A0,	$c0,	$FF,	$A0,	$80,	$c0,	$c0,	$80, 	$80
-	byte 	$c0,	$F0,	 $c0,	$b0,	$A0,	$50,	$c0,	$c0,	$80, 	0
+	byte 	$c0,	$F0,	 $c0,	$b0,	$A0,	$50,	$c0,	$c0,	$c0,	$80
 patchVol                                                 
 	byte 	$f,	$F,	$b,	$9,	$9,	$7,	$F,	$C,	$c, 	0
 	byte 	$f,	$c,	$F,	$b,	$9,	$7,	$F,	$c,	$F, 	$8
-	byte 	$f,	$C,	 $b,	$9,	$F,	$F,	$F,	$F,	$c, 	0
+	byte 	$f,	$C,	 $b,	$9,	$F,	$F,	$F,	$F,	$F,	$c
 patchPWL                                                 
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -426,25 +426,25 @@ patchPWL
 patchPWH                                                 
 	byte 	8,		8,		8,	   8,	 	8,		8,		8,		8,		8, 	0
 	byte 	8,		8,		8,	   8,	 	8,		8,		8,		8,		8, 	8
-	byte 	8,		8,		 8,	8,	 	8,		8,		8,		8,		8, 	0
+	byte 	8,		8,		 8,	8,	 	8,		8,		8,		8,		8, 	8
 	
 patchWave1                                             
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
-	byte 	$20,	$20,	 $14,	$80,	$40,	$12,	$20,	$10,	$40, 	0
+	byte 	$20,	$20,	 $14,	$80,	$40,	$12,	$20,	$20,	$10,	$40
 patchWave2
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
-	byte 	$20,	$20,	 $14,	$20,	$80,	$12,	$20,	$10,	$40, 	0
+	byte 	$20,	$20,	 $14,	$20,	$80,	$12,	$20,	$20,	$10,	$40
 patchWave3                                                
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$10,	$80, 	0
 	byte 	$20,	$20,	$20,	$20,	$40,	$40,	$10,	$20,	$20, 	$40
-	byte 	$20,	$20,	 $14,	$10,	$10,	$12,	$20,	$10,	$40, 	0
+	byte 	$20,	$20,	 $14,	$10,	$10,	$12,	$20,	$20,	$10,	$40
 	
 patchFilt                                                
 	byte 	$EF,	$EF,	$0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$EF, 	$EF
 	byte 	$EF,	$EF,	$0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$EF, 	$EF
-	byte 	$EF,	$EF,	 $0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$EF, 	$EF
+	byte 	$EF,	$EF,	 $0F,	$0F,	$EF,	$EF,	$0F,	$0F,	$0F,	$EF
 patchVolMode                                                
 	byte 	$10,	$10,	$10,	$10,	$20,	$20,	$10,	$10,	$10, 	$10
 	byte 	$10,	$10,	$10,	$10,	$20,	$20,	$10,	$10,	$10, 	$10

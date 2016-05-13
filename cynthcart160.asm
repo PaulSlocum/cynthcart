@@ -26,13 +26,17 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - figure out why pulse LFO is so slow
-; - decide whether to bump version number up to 2.0
 ; - finish designing new patches
+; - move NTSC/PAL buttons to better location
+; - figure out why pulse LFO is so slow
+; - bump version number up to 2.0
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - do thorough testing and proofreading of manual
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE FOR 1.6.0:
+; - add switches for each of the builds I need to do (kerberos, sid symphony, emulator)
+; - show which build is being used next to the version number (K,S,E)
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - fix patch saver issue where mode and FX are sometimes not saved
 ; - bug is bypassed, but figure out why showScreen messes up the filter setting
 ; - figure out why portamento is slower going down than up
