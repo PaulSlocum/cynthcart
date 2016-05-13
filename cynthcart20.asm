@@ -32,8 +32,6 @@ BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
 ;
 ; TODO:
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - do thorough testing and proofreading of manual
-; - send to beta testers
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;=================================------------ - - - -  -   -
