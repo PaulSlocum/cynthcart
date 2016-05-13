@@ -26,12 +26,14 @@ KERBEROS equ FALSE
 ;=================================------------ - - - -  -   -
 ;
 ; TODO FOR 1.6.0:
-; - make patch saver save mode and modulation too
+; - figure out why pulse LFO is so slow
+; - decide whether to bump version number up to 2.0
 ; - finish designing new patches
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - do thorough testing and proofreading of manual
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; MAYBE FOR 1.6.0:
+; - fix patch saver issue where mode and FX are sometimes not saved
 ; - bug is bypassed, but figure out why showScreen messes up the filter setting
 ; - figure out why portamento is slower going down than up
 ; - make (IRQ) detector that works with VICE?
