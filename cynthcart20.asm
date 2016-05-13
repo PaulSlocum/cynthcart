@@ -3438,6 +3438,19 @@ kclearModulation
 	jmp setLFORate
 	
 	
+;ksetBlackBG
+;	lda #0
+;	sta 53281
+;	sta 53280
+;	rts
+
+;ksetBlueBG
+;	lda #6
+;	sta 53281
+;	lda #14
+;	sta 53280
+;	rts	
+
 	
 ksetPalNtsc:
 	sta NTSCmode

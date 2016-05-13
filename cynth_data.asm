@@ -271,6 +271,8 @@ runstopKeyFunctions:
    word setPatch, $1D00	;,
 	word 0, $0000	;.
 	word 0, $0000  ;/
+	;word ksetBlackBG, $0000	;.
+	;word ksetBlueBG, $0000  ;/
 	word 0, $0000			;up/down
 	word 0, $0000			;left/right
 	word SIDEdit,$0000	;F1
