@@ -22,10 +22,10 @@ KERBEROS equ 1
 EMU equ 2
 SIDSYMPHONY equ 3
 ; -- - -- - -- - -- - -- - 
-;BUILD_CONFIG equ DEFAULT 		; Midi autodetect, SID2 at $DF00
+BUILD_CONFIG equ DEFAULT 		; Midi autodetect, SID2 at $DF00
 ;BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
 ;BUILD_CONFIG equ EMU 			; Midi disabled, SID2 at $D420
-BUILD_CONFIG equ SIDSYMPHONY ; Midi disabled, SID2 at $DE00
+;BUILD_CONFIG equ SIDSYMPHONY ; Midi disabled, SID2 at $DE00
 ; -- - -- - -- - -- - -- - 
 
 ;=================================------------ - - - -  -   -
@@ -371,9 +371,12 @@ initSid:	sta $d400,x
 
 	IF ENABLE_MIDI_COMMANDS=1
 	jsr midiDetect ; AUTODETECT MIDI IF NOT KERBEROS BUILD
+	ELSE
+	lda #0
+	ENDIF
 	sta midiEnabled
 	jsr midiInit
-	ENDIF
+	;ENDIF
 
 	; Set default hex color
 	lda #$E
