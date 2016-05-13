@@ -144,7 +144,7 @@ showSpaceRAM
 	jmp RAMTextCopy
 RAMText:
 	;byte "COPYING TO RAM...",0
-	byte "CYNTHCART V1.6.0",0
+	byte "CYNTHCART V2.0",0
 	
 	;byte "CYNTHCART",0
 quitRAMTextCopy:
@@ -221,7 +221,7 @@ copyCopier:
 	
 	
 compressedData:
-	incbin "cynthcart160_comp.prg"
+	incbin "cynthcart20_comp.prg"
 	;incbin "cynthcart152.cmp"
 	;incbin "eprom.cmp" ; DEBUG!!
 

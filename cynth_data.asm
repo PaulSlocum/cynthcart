@@ -369,7 +369,7 @@ patchSoundMode
 	byte  MODE_PORT3 ;19
 	byte  MODE_6CHAN ;20
 	byte  MODE_ARP5 ;21
-	byte  MODE_MONOPORT1 ;22 <---- start of 1.6.0 patches
+	byte  MODE_MONOPORT1 ;22 <---- start of 2.0 patches
 	byte  MODE_MONOPORT2 ;23
 	byte  MODE_ARP1 ;24
 	byte  MODE_MONOPORT2 ;25
@@ -690,8 +690,8 @@ modeNameOffsets
 	
 ; VERSION NUMBER
 bottomText
-	byte " PAL V1.6.0",0
-	byte "NTSC V1.6.0",0
+	byte " PAL V2.0  ",0
+	byte "NTSC V2.0  ",0
 
 	
 ; contant pointers into the textData array

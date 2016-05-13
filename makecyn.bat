@@ -1,5 +1,5 @@
 @rem "C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe"
-"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" cynthcart160.asm -f3 -v1 -ocynthcart160.bin -DMODE=2
+"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" cynthcart20.asm -f3 -v1 -ocynthcart20.bin -DMODE=2
 @echo .   
 @echo ______________________________________________________________________________________________________________________________
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
@@ -12,7 +12,7 @@
 @rem pucrunch cynthcart160.bin cynthcart160.cmp -c0 -l0x5000 -d -m6 -fshort
 @rem pucrunch cynthcart160.bin cynthcart160.cmp -c64 -l0x5000 -x0x1000 -d -m6 -fshort -fdelta
 @rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
-pucrunch cynthcart160.bin cynthcart160_comp.prg -c64 -l0x3000 -x0x3000 -d -m6 -ffast -fdelta
+pucrunch cynthcart20.bin cynthcart20_comp.prg -c64 -l0x3000 -x0x3000 -d -m6 -ffast -fdelta
 @echo ______________________________________________________________________________________________________________________________
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 

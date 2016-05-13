@@ -25,8 +25,7 @@ KERBEROS equ FALSE
 
 ;=================================------------ - - - -  -   -
 ;
-; TODO FOR 1.6.0:
-; - bump version number up to 2.0
+; TODO FOR 2.0:
 ; - add switches for each of the builds I need to do (kerberos, sid symphony, emulator)
 ; - show which build is being used next to the version number (K,S,E)
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
@@ -59,7 +58,7 @@ KERBEROS equ FALSE
 ; - - - - - - - - - - - - - - 
 ; Change Log:
 ; - - - - - - - - - - - - - - 
-; 1.6.0
+; 2.0
 ; + 7 additional presets
 ; + added mono stack portamento modes
 ; + wrote new instruction manual
