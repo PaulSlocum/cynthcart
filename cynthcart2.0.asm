@@ -4,29 +4,31 @@
 ; TEXT EDITOR TAB=3
 ;------------------------
 
-;     ~~~=====================================================~~~
-; <<<<<< BUILD "MODE" SHOULD BE DEFINED IN DASM CALL (dasm -DMODE=1) >>>>>>
-;     ~~~=====================================================~~~
+;     ~~~==========================================================================================~~~
+; <<<<<<"MODE" AND "DEVICE_CONFIG" SHOULD BE DEFINED IN DASM CALL (dasm -DMODE=1 -DDEVICE_CONFIG=0) >>>>>>
+;     ~~~==========================================================================================~~~
 
 ; IMAGE RUN MODES:
 CART_OBSOLETE equ 0 ; run at $8000 off cartridge ROM (No longer supported because the ROM is bigger than 8K)
 DISK equ 1 ; run at $8000, include initial load location word (PRG format)
 RAM equ 2 ; run at $3000, needs to be copied or decompressed into $3000 (used for compresed version)
 KERNEL_OBSOLETE equ 3 ; set up as replacement for 8k BASIC section of KERNEL (No longer supported because the ROM is bigger than 8K)
-;;;;MODE equ RAM   ; DISK, CART_OBSOLETE, RAM (for compression), or KERNEL_OBSOLETE
+; -- - -- - -- - -- - -- - 
+;;;MODE equ RAM   ; DISK, CART_OBSOLETE, RAM (for compression), or KERNEL_OBSOLETE
+; -- - -- - -- - -- - -- - 
 
 
 ; MIDI AND SID2 CONFIGURATION:
-DEFAULT equ 0
-KERBEROS equ 1
-EMU equ 2
-SIDSYMPHONY equ 3
+DEFAULT equ 0 ; Midi autodetect, SID2 at $DF00
+KERBEROS equ 1 ; Datel Midi, SID2 at $D420
+EMU equ 2 ; Midi disabled, SID2 at $D420
+SIDSYMPHONY equ 3 ; Midi disabled, SID2 at $DE00
 ; -- - -- - -- - -- - -- - 
-;BUILD_CONFIG equ DEFAULT 		; Midi autodetect, SID2 at $DF00
-;BUILD_CONFIG equ KERBEROS 	; Datel Midi, SID2 at $D420
-;BUILD_CONFIG equ EMU 			; Midi disabled, SID2 at $D420
-;BUILD_CONFIG equ SIDSYMPHONY ; Midi disabled, SID2 at $DE00
+;;;DEVICE_CONFIG equ DEFAULT 		
 ; -- - -- - -- - -- - -- - 
+
+
+BETA_RELEASE equ 1
 
 ;=================================------------ - - - -  -   -
 ;
@@ -222,19 +224,19 @@ SIDSYMPHONY equ 3
 
 RAMCOPY equ 1	; Copy program to RAM before running (this should always be enabled)
 
-	IF BUILD_CONFIG=KERBEROS
+	IF DEVICE_CONFIG=KERBEROS
 SID2 equ $D420
 ENABLE_MIDI_COMMANDS equ 1
 	ENDIF
-	IF BUILD_CONFIG=EMU
+	IF DEVICE_CONFIG=EMU
 SID2 equ $D420
 ENABLE_MIDI_COMMANDS equ 0
 	ENDIF
-	IF BUILD_CONFIG=SIDSYMPHONY
+	IF DEVICE_CONFIG=SIDSYMPHONY
 SID2 equ $DE00
 ENABLE_MIDI_COMMANDS equ 0
 	ENDIF
-	IF BUILD_CONFIG=DEFAULT
+	IF DEVICE_CONFIG=DEFAULT
 SID2 equ $DF00
 ENABLE_MIDI_COMMANDS equ 1
 	ENDIF
@@ -4772,6 +4774,18 @@ BOTTOMTEXT equ 40*24+29
 
 	jsr showHelpMessage
 
+	; SHOW BETA MESSAGE IF IN BETA MODE
+	ldx #12
+betaInfoLoop:
+	lda betaInfo,x
+	cmp #64
+	bmi showSpaceBeta
+	sbc #64
+showSpaceBeta
+	sta 1024+BOTTOMTEXT-40-3,x
+	dex
+	bpl betaInfoLoop
+	
 		; choose which text to show from PAL/NTSC test at startup
 	ldx #0
 	ldy #0
@@ -4796,15 +4810,15 @@ notBlank2:
 	bne TextLoop2
 endText2:
 
-	IF BUILD_CONFIG=KERBEROS
+	IF DEVICE_CONFIG=KERBEROS
 	lda #11 ; "K"
 	sta 2022
 	ENDIF
-	IF BUILD_CONFIG=EMU
+	IF DEVICE_CONFIG=EMU
 	lda #5 ; "E"
 	sta 2022
 	ENDIF
-	IF BUILD_CONFIG=SIDSYMPHONY
+	IF DEVICE_CONFIG=SIDSYMPHONY
 	lda #19 ; "S"
 	sta 2022
 	ENDIF

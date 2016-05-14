@@ -1,15 +1,15 @@
 @echo ------------------------------------------------------------------------------------------------------------------------------
-dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
+dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.prg -DMODE=1 -DDEVICE_CONFIG=0
 @echo ------------------------------------------------------------------------------------------------------------------------------
-dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
+dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0_kerberos.prg -DMODE=1 -DDEVICE_CONFIG=1
 @echo ------------------------------------------------------------------------------------------------------------------------------
-dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
+dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0_emu.prg -DMODE=1 -DDEVICE_CONFIG=2
 @echo ------------------------------------------------------------------------------------------------------------------------------
-dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
+dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0_symphony.prg -DMODE=1 -DDEVICE_CONFIG=3
 @echo ------------------------------------------------------------------------------------------------------------------------------
 
 @rem "C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe"
-dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
+dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2 -DDEVICE_CONFIG=0
 @echo .   
 @echo ______________________________________________________________________________________________________________________________
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
@@ -22,7 +22,7 @@ dasm cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
 @rem pucrunch cynthcart160.bin cynthcart160.cmp -c0 -l0x5000 -d -m6 -fshort
 @rem pucrunch cynthcart160.bin cynthcart160.cmp -c64 -l0x5000 -x0x1000 -d -m6 -fshort -fdelta
 @rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
-pucrunch cynthcart2.0.bin cynthcart2.0_comp.prg -c64 -l0x3000 -x0x3000 -d -m6 -ffast -fdelta
+pucrunch cynthcart2.0.bin cynthcart2.0_comp.bin -c64 -l0x3000 -x0x3000 -d -m6 -ffast -fdelta
 @echo ______________________________________________________________________________________________________________________________
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 

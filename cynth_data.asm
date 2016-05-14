@@ -585,7 +585,7 @@ normalHelp
 
 mainColorText
 	byte 0,$82,"CYNTHCART  ",$8F,"PRESET",$8C,"=",$81,"                       ",0 
-	byte 1,$8A,"MODE",$8C,"=",$81,"X    ",$83,"       ",$8D,"       ",$8F,"      ",$8D,"FILTR",$8C,"=",$81,"X   ",0
+	byte 1,$8A,"MODE",$8C,"=",$81,"X    ",$83," ------",$8D,"-------",$8F,"----- ",$8D,"FILTR",$8C,"=",$81,"X   ",0
 	byte 2,$8F,"TUNING",$8C,"=",$81,"X   ",$83,"ATTACK",$8C,"=",$81,"X ",$87,"TREMOLO",$8C,"=",$81,"X ",$8D,"CUTOFF",$8C,"=",$81,"X  ",0
 	byte 3,$8F,"OCTAVE",$8C,"=",$81,"X   ",$83,"RELEAS",$8C,"=",$81,"X ",$87,"TRM-SPD",$8C,"=",$81,"X ",$8D,"PADD1",$8C,"=",$81,"X   ",0
 	byte 4,$8F,"VOLUME",$8C,"=",$81,"X   ",$8F,"MOD",$8C,"=",$81,"XXXXX ",$8F," VIDEO",$8C,"=",$81,"X ",$8F,"PADD2",$8C,"=",$81,"X   ",0
@@ -695,6 +695,13 @@ bottomText
 	byte " PAL V2.0  ",0
 	byte "NTSC V2.0  ",0
 
+	IF BETA_RELEASE=1
+betaInfo:
+	byte "V2.0 BETA RC2",0 ;13 bytes of text
+	ELSE
+betaInfo:
+	byte "             ",0 ;13 bytes of text
+	ENDIF
 	
 ; contant pointers into the textData array
 ON equ 0
