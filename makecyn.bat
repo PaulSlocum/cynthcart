@@ -1,5 +1,5 @@
 @rem "C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe"
-"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" cynthcart20.asm -f3 -v1 -ocynthcart20.bin -DMODE=2
+"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" cynthcart2.0.asm -f3 -v1 -ocynthcart2.0.bin -DMODE=2
 @echo .   
 @echo ______________________________________________________________________________________________________________________________
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
@@ -12,13 +12,13 @@
 @rem pucrunch cynthcart160.bin cynthcart160.cmp -c0 -l0x5000 -d -m6 -fshort
 @rem pucrunch cynthcart160.bin cynthcart160.cmp -c64 -l0x5000 -x0x1000 -d -m6 -fshort -fdelta
 @rem ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
-pucrunch cynthcart20.bin cynthcart20_comp.prg -c64 -l0x3000 -x0x3000 -d -m6 -ffast -fdelta
+pucrunch cynthcart2.0.bin cynthcart2.0_comp.prg -c64 -l0x3000 -x0x3000 -d -m6 -ffast -fdelta
 @echo ______________________________________________________________________________________________________________________________
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= 
 @echo ------------------------------------------------------------------------------------------------------------------------------
-"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" loader.asm -f3 -v1 -oloader.bin -DMODE=0
+"C:\My Documents\Dropbox\_VINTAGE PROGRAMMING\_dasm\dasm.exe" loader.asm -f3 -v1 -oloader2.0.bin -DMODE=0
 @rem "D:\My Documents\_Vintage Programming\Atari 2600 Programming\_Emulators and tools\dasm\bin\dos\dasm.exe" ppt.asm -f3 -v3 -oppt.bin -llist.txt
-@dir loader.bin /W
+@dir loader2.0.bin /W
