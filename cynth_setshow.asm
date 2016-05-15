@@ -291,17 +291,17 @@ setPulseWidth:
 	rts
 
 
-setAllOscillators:
-	sta SID1+0,y
-	sta SID1+7,y
-	sta SID1+14,y
-	sta SID2+0,y
-	sta SID2+7,y
-	sta SID2+14,y
-	sta sidData+0,y
-	sta sidData+7,y
-	sta sidData+14,y
-	rts
+;setAllOscillators:
+	;sta SID1+0,y
+	;sta SID1+7,y
+	;sta SID1+14,y
+	;sta SID2+0,y
+	;sta SID2+7,y
+	;sta SID2+14,y
+	;sta sidData+0,y
+	;sta sidData+7,y
+	;sta sidData+14,y
+	;rts
 	
 		
 		
