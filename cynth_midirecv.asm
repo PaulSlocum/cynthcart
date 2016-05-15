@@ -375,7 +375,7 @@ controlChange
 	;and #$0F ; Repeat every 16 controllers
 	and #%11101111 ; Repeat every 16 controllers
 	bne notResonance 
-	; Resonance
+	;---- Resonance----
 	tya
 	and #$F0
 	sta resonance
@@ -384,17 +384,23 @@ controlChange
 notResonance:
 	cmp #1
 	bne notModWheel
-	;Mod wheel
+	;----Mod wheel (filter)----
 	tya
 	asl
 	tay
 	sta filterSetValue
+	lda paddle
+	beq skipTurnOffPaddle
+	lda #0					; turn paddle off
+	jsr setPaddles
+skipTurnOffPaddle:
+	
 	;jsr ksetFilter
 	rts
 notModWheel:
 	cmp #2
 	bne notMode
-	; Sound Mode
+	;---- Sound Mode----
 	tya
 	lsr
 	lsr
@@ -407,7 +413,7 @@ notModWheel:
 notMode:
 	cmp #3
 	bne notFX
-	; FX
+	;---- FX----
 	tya
 	lsr
 	lsr
@@ -419,7 +425,7 @@ notMode:
 notFX:
 	cmp #4
 	bne notAttack
-	; Attack
+	;--- Attack----
 	tya
 	asl
 	and #$F0
@@ -428,7 +434,7 @@ notFX:
 notAttack:
 	cmp #5
 	bne notRelease
-	; Release
+	;---- Release----
 	tya
 	lsr
 	lsr
@@ -440,16 +446,35 @@ notAttack:
 notRelease:
 	cmp #6
 	bne notPW
-	; Pulse Width
+	;--- Pulse Width----
 	tya
 	asl
 	ora #%10000
 	jsr setPulseWidth
+	inc 1024
+	lda fxType ; if pulse modulation is on...
+	cmp #MOD_PW2
+	beq fxReset
+	cmp #MOD_PW_LFO
+	bne noFXReset
+fxReset:
+	inc 1025
+	lda #0
+	sta fxType
+	jsr setFX ; Turn off pulse modulation modes
+noFXReset:
+	lda paddle2  ; if paddle2 pulse width control is on...
+	cmp #1
+	bne noPaddle2Reset ; 
+	lda #0
+	;sta paddle2 ; Turn off paddle 2 pulse control
+	jsr ksetPad2
+noPaddle2Reset:
 	rts
 notPW:
 	cmp #7
 	bne notVolume
-	; Volume
+	; ----Volume----
 	tya
 	lsr
 	lsr
@@ -459,7 +484,7 @@ notPW:
 notVolume:
 	cmp #8
 	bne notTremolo
-	; Tremolo level
+	;---- Tremolo level----
 	tya
 	lsr
 	lsr
@@ -471,7 +496,7 @@ notVolume:
 notTremolo
 	cmp #9
 	bne notTremRate
-	; Tremolo level
+	;---- Tremolo level----
 	tya
 	lsr
 	lsr
@@ -483,7 +508,7 @@ notTremolo
 notTremRate:
 	cmp #13
 	bne notWaveform
-	; Waveform (all voices)
+	;--- Waveform (all voices)---
 	tya
 	lsr
 	lsr
@@ -498,7 +523,7 @@ notTremRate:
 notWaveform:
 	cmp #14
 	bne notWaveform2
-	; Waveform (voice 2 only)
+	;--- Waveform (voice 2 only)----
 	tya
 	lsr
 	lsr
@@ -511,7 +536,7 @@ notWaveform:
 notWaveform2:
 	cmp #15
 	bne notWaveform3
-	; Waveform (voice 3 only)
+	;---- Waveform (voice 3 only)----
 	tya
 	lsr
 	lsr

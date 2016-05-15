@@ -431,5 +431,5 @@ dummyMidiIncrementer equ $7151
 sidEditSaveTemp1 equ $7052
 sidEditSaveTemp5 equ $7054
 
-pulseModulationValue equ $7056
-pulseMidiValue equ $7057
+;pulseModulationValue equ $7056
+;pulseMidiValue equ $7057
