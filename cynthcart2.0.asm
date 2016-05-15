@@ -28,7 +28,7 @@ SIDSYMPHONY equ 3 ; Midi disabled, SID2 at $DE00
 ; -- - -- - -- - -- - -- - 
 
 
-BETA_RELEASE equ 1
+BETA_RELEASE equ 0
 
 ;=================================------------ - - - -  -   -
 ;

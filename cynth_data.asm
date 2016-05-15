@@ -402,15 +402,15 @@ patchAD
 patchSR1                                                  
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	 $F5,	$86,	$F6,	$F2,	$F5,	$F2,	$F2,	$F0
+	byte 	$F0,	$F5,	 $F5,	$86,	$F6,	$F2,	$F8,	$F2,	$F2,	$F0
 patchSR2
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	 $F5,	$F6,	$54,	$F2,	$F5,	$F2,	$F2,	$F0
+	byte 	$F0,	$F5,	 $F5,	$F6,	$54,	$F2,	$F8,	$F2,	$F2,	$F0
 patchSR3
 	byte 	$F0,	$F5,	$F0,	$F0,	$F8,	$F0,	$FE,	$F6,	$F0, 	0
 	byte 	$F0,	$Fa,	$F6,	$F6,	$FA,	$F9,	$FE,	$F7,	$FF, 	$EE
-	byte 	$F0,	$F5,	 $F5,	$F6,	$F6,	$F2,	$F5,	$F2,	$F2,	$F0
+	byte 	$F0,	$F5,	 $F5,	$F6,	$F6,	$F2,	$F8,	$F2,	$F2,	$F0
 patchPaddle
 	byte 	0,		0,		0,		0,		0,		0,		0,		0,		0, 	0
 	byte	0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -697,7 +697,7 @@ bottomText
 
 	IF BETA_RELEASE=1
 betaInfo:
-	byte "V2.0 BETA RC3",0 ;13 bytes of text
+	byte "V2.0 BETA RC4",0 ;13 bytes of text
 	ELSE
 betaInfo:
 	byte "             ",0 ;13 bytes of text
