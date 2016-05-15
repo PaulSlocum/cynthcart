@@ -126,7 +126,7 @@ minimalKeyFunctions:
 	word 0, $0400		;B
 	word 0, $0500		;N
 	word 0, $0600		;M
-    word 0, $0700		;,
+   word 0, $0700		;,
 	word 0, $0800		;.
 	word 0, $0900		;/
 	word 0, $0000			;up/down
