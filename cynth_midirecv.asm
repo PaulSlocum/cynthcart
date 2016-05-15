@@ -530,3 +530,247 @@ waveForms
 	
 	;IF ENABLE_MIDI_COMMANDS=1
 	ENDIF
+	
+	
+			
+	; note is in Y		
+noteOn:
+
+	sta temp
+	IF ENABLE_MIDI_COMMANDS=1
+	jsr midiReadWait ; Read velocity byte
+	ENDIF
+	sta tempVelocity
+	bne almostNoteOn
+	; Zero-velocity, so it's really a note-off...
+	;inc 53280
+	lda firstDataByte
+	sec
+	sbc #12 ; Down one octave
+	jmp doNoteOff
+almostNoteOn:
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DEBUG - SHOW MIDI DATA
+	IF DEBUG_DISPLAY=1
+	sta temp
+	lda noteOnCount
+	and #1
+	asl
+	asl
+	asl
+	ora #$F4
+	sta hexDispColor
+	lda noteOnCount
+	and #%1111
+	asl
+	tax
+	;lda temp
+	lda savedMidiStatus
+	ldy #6
+	jsr displayHex
+	lda temp
+	ldy temp
+	inc 1824+83 ; DEBUG INDICATOR
+	ENDIF
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	lda firstDataByte ; Get MIDI byte with note data
+	sec
+	sbc #12 ; Down one octave
+doNoteOn:
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DEBUG - SHOW MIDI DATA
+	IF DEBUG_DISPLAY=1
+	sta temp
+	lda noteOnCount
+	and #%1111
+	asl
+	tax
+	lda temp
+	ldy #7
+	jsr displayHex
+	lda temp
+	ldy temp
+	ENDIF
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	; Find empty note slot...	
+	ldx bufferSize ;3
+	tay
+	;ldx #3 ; DEBUG!
+	dex
+noteOnLoop:
+	lda noteNumArray,x
+	cmp #255
+	beq quitNoteOnLoop ; If slot is empty (==255)...
+	dex
+	bpl noteOnLoop
+	ldx #0
+quitNoteOnLoop:
+
+	tya
+	sta noteNumArray,x ; Store note in slot
+
+	;jsr midiReadWait ; Read velocity byte
+	lda tempVelocity
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DEBUG - SHOW MIDI DATA
+	IF DEBUG_DISPLAY=1
+	sta temp
+	lda noteOnCount
+	and #%1111
+	asl
+	tax
+	lda temp
+	ldy #8
+	jsr displayHex
+	lda temp
+	ldy temp
+	ENDIF
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	;/----------------------
+	inc noteOnCount
+	rts
+
+noteOff:
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DEBUG - SHOW MIDI DATA
+	IF DEBUG_DISPLAY=1
+	sta temp
+	lda noteOffCount
+	and #1
+	;eor #1
+	asl
+	asl
+	asl
+	ora #$F4
+	sta hexDispColor
+	lda noteOffCount
+	and #%1111
+	asl
+	tax
+	lda temp
+	ldy #10
+	jsr displayHex
+	lda temp
+	ldy temp
+	ENDIF
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	
+	;jmp endMIDI
+
+	sta temp
+	IF ENABLE_MIDI_COMMANDS=1
+	jsr midiReadWait ; Read velocity byte
+	ENDIF
+	sta tempVelocity
+	lda temp
+		
+	lda firstDataByte
+	sec
+	sbc #12 ; Down one octave
+	;jsr midiReadWait ; Note number
+
+doNoteOff:
+	; Find matching note number to turn note off...
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DEBUG - SHOW MIDI DATA
+	IF DEBUG_DISPLAY=1
+	sta temp
+	lda noteOffCount
+	and #%1111
+	asl
+	tax
+	lda temp
+	ldy #11
+	jsr displayHex
+	lda temp
+	ldy temp
+	ENDIF
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	ldx bufferSize ;3
+	sta temp
+	;ldx #3 ; DEBUG!
+	dex
+killNoteLoop:
+	lda noteNumArray,x
+	cmp temp ; Note match?
+	beq foundNote ; Then go turn off note
+	dex ; next slot
+	bpl killNoteLoop ; loop through all slots
+	;Not found, so ignore
+	jmp endNoteOff
+	
+foundNote:
+	lda #255
+	sta noteNumArray,x ; Turn off note
+
+endNoteOff
+	lda tempVelocity
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DEBUG - SHOW MIDI DATA
+	IF DEBUG_DISPLAY=1
+	sta temp
+	lda noteOffCount
+	and #%1111
+	asl
+	tax
+	lda temp
+	ldy #12
+	jsr displayHex
+	lda temp
+	ldy temp
+	ENDIF
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	;/----------------------
+	inc noteOffCount
+	rts
+
+	
+endMIDI:
+	;- . - . - . - . - . - . - . - . - . - . - . - . - . - . 
+	;=- =- =- =- =- =- =- =- =- =- =- =- -= 
+	;=- =- =- =- =- =- =- =- =- =- =- =- -= 
+	; FILL EMPTY PLAYABLE NOTES WITH ANY 
+	; NON-PLAYING NOTES IN THE BUFFER
+	;=- =- =- =- =- =- =- =- =- =- =- =- -= 
+	;jsr doSort
+	
+	ldx polyphony
+	dex
+	;ldx #2 ; DEBUG
+noteScan:
+	lda noteNumArray,x
+	cmp #255 ; Is note off?
+	beq searchCopyNote
+contNoteScan:
+	dex
+	bpl noteScan ; Loop...
+	jmp quitNoteScan ; Done, jump to end
+	
+searchCopyNote:
+	;ldy bufferSize
+	;dey
+	;ldy #3
+	ldy polyphony
+copyNoteLoop:
+	lda noteNumArray,y
+	cmp #255
+	bne replaceNote
+	iny
+	cpy #NOTE_BUF_SIZE
+	beq contNoteScan
+	bne copyNoteLoop
+	
+replaceNote:
+	sta noteNumArray,x
+	lda #255
+	sta noteNumArray,y
+	jmp contNoteScan
+
+quitNoteScan:
+	rts
+	;=- =- =- =- =- =- =- =- =- =- =- =- -= 
+
+	
+	
