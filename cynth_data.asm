@@ -388,7 +388,7 @@ patchFX
 	byte	3,		1,		3,		0,		2,		3,		4,		1,		1,		2
 	byte	0,		3,		 1,	3,		3,		0,		3,		0,		0,		0
 patchLFO ; (TREMOLO)
-	byte 	$11,	$02,	$02,	$13,	$13,	$10,	$01,	$02, 	$13, 	$00
+	byte 	$11,	$02,	$02,	$13,	$13,	$00,	$01,	$02, 	$13, 	$00
 	byte 	$00,	$22,	$13,	$11,	$10,	$02,	$00,	$33, 	$10, 	$11
 	byte 	$10,	$12,	 $13,	$00,	$00,	$13,	$13,	$00, 	$00, 	$00
 patchOctave                                               
@@ -697,7 +697,7 @@ bottomText
 
 	IF BETA_RELEASE=1
 betaInfo:
-	byte "V2.0 BETA RC2",0 ;13 bytes of text
+	byte "V2.0 BETA RC3",0 ;13 bytes of text
 	ELSE
 betaInfo:
 	byte "             ",0 ;13 bytes of text
