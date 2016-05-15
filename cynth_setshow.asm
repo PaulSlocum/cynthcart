@@ -259,7 +259,7 @@ setPulseWidth:
 	lsr
 	lsr
 	lsr
-	sta 1025+40 ; DEBUG!
+	;sta 1025+40 ; DEBUG!
 	sta SID1+SV1PWH
 	sta SID1+SV2PWH
 	sta SID1+SV3PWH
@@ -278,7 +278,7 @@ setPulseWidth:
 	asl
 	;asl ; extra ?
 	ora #$0F
-	sta 1024+40 ; DEBUG!
+	;sta 1024+40 ; DEBUG!
 	sta SID1+SV1PWL
 	sta SID1+SV2PWL
 	sta SID1+SV3PWL

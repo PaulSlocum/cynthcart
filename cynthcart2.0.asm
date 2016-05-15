@@ -321,36 +321,35 @@ Startup:
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
-	; switch to lowercase mode
+	; switch to (upper?) lowercase mode
 	lda #23
 	sta $d018
 
 	; clear screen and show info
-	ldx #0
-	stx $d020
-	stx $d021
-loop1:	; clear screen...
-	lda #32
-	sta $0400,x
-	sta $0400+250,x
-	sta $0400+500,x
-	sta $0400+750,x
-	lda #14
-	sta $d800,x
-	sta $d800+250,x
-	sta $d800+500,x
-	sta $d800+750,x
-	inx
-	cpx #250
-	bne loop1
-	ldx #0
-loop2:	; show info...
-	;lda info,x
-	lda #1
-	sta $0400+10*40,x
-	inx
-	cpx #80
-	bne loop2
+;	ldx #0
+;	stx $d020
+;	stx $d021
+;loop1:	; clear screen...
+;	lda #32
+;	sta $0400,x
+;	sta $0400+250,x
+;	sta $0400+500,x
+;	sta $0400+750,x
+;	lda #14
+;	sta $d800,x
+;	sta $d800+250,x
+;	sta $d800+500,x
+;	sta $d800+750,x
+;	inx
+;	cpx #250
+;	bne loop1
+;	ldx #0
+;loop2:	; show info...
+;	lda #1
+;	sta $0400+10*40,x
+;	inx
+;	cpx #80
+;	bne loop2
 
 	; init SID...
 	lda #0

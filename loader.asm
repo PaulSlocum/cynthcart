@@ -114,19 +114,19 @@ Startup:
 	sta 53281
 	sta 53280
 
-	;ldx #20
-	;lda #12
+	ldx #20
+	lda #12
 colorLoop:
-	;sta 55296,x
-	;dex
-	;bpl colorLoop 
+	sta 55296,x
+	dex
+	bpl colorLoop 
 	
-	;ldx #8
-	;lda #2
+	ldx #8
+	lda #2
 colorLoop2:
-	;sta 55296,x
-	;dex
-	;bpl colorLoop2
+	sta 55296,x
+	dex
+	bpl colorLoop2
 	
 	
 	; SHOW STARTUP TEXT
