@@ -254,8 +254,6 @@ ksetFilter:
 	; -----------------------------------------------
 setPulseWidth:
 	; write pulse high byte
-	inc 1025+80
-	sta 1025
 	tax
 	lsr
 	lsr
@@ -274,7 +272,6 @@ setPulseWidth:
 
 	; write pulse low byte
 	txa
-	sta 1024
 	asl
 	asl
 	asl
@@ -292,7 +289,21 @@ setPulseWidth:
 	sta sidData+SV2PWL
 	sta sidData+SV3PWL
 	rts
+
+
+setAllOscillators:
+	sta SID1+0,y
+	sta SID1+7,y
+	sta SID1+14,y
+	sta SID2+0,y
+	sta SID2+7,y
+	sta SID2+14,y
+	sta sidData+0,y
+	sta sidData+7,y
+	sta sidData+14,y
+	rts
 	
+		
 		
 kfiltOnOff:
 	sty filterStatus

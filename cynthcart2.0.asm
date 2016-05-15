@@ -895,7 +895,6 @@ notPTop:
 	;inc 1024+80
 	lda paddleY
 skipPW:
-	inc 1027+80
 	rts
 	;END paddle ------------------------------
 

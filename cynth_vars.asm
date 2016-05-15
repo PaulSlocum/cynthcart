@@ -46,7 +46,7 @@ SV2FL 		equ $07
 SV2FH 		equ $08
 SV2PWL 		equ $09
 SV2PWH 		equ $0A
-SV2WAVE 	equ $0B
+SV2WAVE 		equ $0B
 SV2AD 		equ $0C
 SV2SR 		equ $0D
 
@@ -54,21 +54,21 @@ SV3FL 		equ $0E
 SV3FH 		equ $0F
 SV3PWL 		equ $10
 SV3PWH 		equ $11
-SV3WAVE 	equ $12
+SV3WAVE 		equ $12
 SV3AD 		equ $13
 SV3SR 		equ $14
 	
 SFILTL		equ $15
 SFILTH		equ $16
 SFILTC		equ $17
-SVOLMODE	equ $18
+SVOLMODE		equ $18
 
-SPAD1		equ $19
-SPAD2		equ $1A
+SPAD1			equ $19
+SPAD2			equ $1A
 
 SRAND 		equ $1B
 
-PortA		equ $dc00
+PortA			equ $dc00
 Ciddra		equ $dc02
 
 
