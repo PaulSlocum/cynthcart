@@ -107,30 +107,30 @@ rawKeyFunctions:
 minimalKeyFunctions:
 	;    functionPointer, inputData:Y,A
 	word bendBender, $0000		;space
-	word 0, $0A00	;A
-	word 0, $0B00 	;S
-	word 0, $0C00	;D
-	word 0, $0D00	;F
-	word 0, $0E00	;G
-	word 0, $0F00	;H
-	word 0, $1000	;J
-	word 0, $1100	;K
-	word 0, $1200	;L
-	word 0, $1300	;:
-	word 0, $1400	;;
-	word 0, $1500	;=
-	word 0, $0000	;Z
-	word 0, $0100		;X
-	word 0, $0200		;C
-	word 0, $0300		;V
-	word 0, $0400		;B
-	word 0, $0500		;N
-	word 0, $0600		;M
-   word 0, $0700		;,
-	word 0, $0800		;.
-	word 0, $0900		;/
-	word 0, $0000			;up/down
-	word 0, $0001			;left/right
+	word 0, 0	;A
+	word 0, 0 	;S
+	word 0, 0	;D
+	word 0, 0	;F
+	word 0, 0	;G
+	word 0, 0	;H
+	word 0, 0	;J
+	word 0, 0	;K
+	word 0, 0	;L
+	word 0, 0	;:
+	word 0, 0	;;
+	word 0, 0	;=
+	word 0, 0	;Z
+	word 0, 0		;X
+	word 0, 0		;C
+	word 0, 0		;V
+	word 0, 0		;B
+	word 0, 0		;N
+	word 0, 0		;M
+   word 0, 0		;,
+	word 0, 0		;.
+	word 0, 0		;/
+	word 0, 0			;up/down
+	word 0, 0			;left/right
 	word setOctave, 3			;F1
 	word setOctave, 2			;F3
 	word setOctave, 1			;F5
