@@ -997,7 +997,6 @@ variableInit:
 	;----------
 	rts
 
-
 	include "cynth_display.asm"
 	include "cynth_modulation.asm"
 	include "cynth_setshow.asm"
@@ -1006,11 +1005,10 @@ variableInit:
 	include "cynth_midirecv.asm"
 	include "cynth_sidedit.asm"
 	
-	; Extra subroutines
-	include "cynth_subroutines.asm"
-
-	; Screen text, data tables, note tuning tables, etc.
-	include "cynth_data.asm"
+	include "cynth_subroutines.asm" ; Extra subroutines
+	
+	include "cynth_keycommands.asm" ; key matrix tables and key command tables
+	include "cynth_data.asm" ; Screen text, data tables, note tuning tables, etc.
 	
 	; Pitch offset data for alternate tuning modes
 	include "cynth_tuning.asm"
