@@ -2754,12 +2754,15 @@ notPTop:
 	lda paddleY
 	jsr setPulseWidth
 	;-------------
+	inc 1024+80
 	lda paddleY
+	sta 1024
 	asl
 	asl
 	asl
 	asl
 	ora #$0F
+	sta 1024+40
 	sta SID1+SV1PWL
 	sta SID1+SV2PWL
 	sta SID1+SV3PWL
@@ -2770,18 +2773,24 @@ notPTop:
 	sta sidData+SV2PWL
 	sta sidData+SV3PWL
 skipPW:
+	inc 1027+80
 	rts
 	;END paddle ------------------------------
 
+; CONTROLLER                    1 1 1  1 1 1 1  
+; PULSE WIDTH        1 1 1 1  1 1 1 1  1 1 1 1
 	
 	;------------------
 	; Set pulse width
 	;------------------
 setPulseWidth:
+	inc 1025+80
+	sta 1025
 	lsr
 	lsr
 	lsr
 	lsr
+	sta 1025+40
 	sta SID1+SV1PWH
 	sta SID1+SV2PWH
 	sta SID1+SV3PWH
