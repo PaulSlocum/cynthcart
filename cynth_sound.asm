@@ -332,7 +332,7 @@ retuneTable:
 	;************************************************
 sixVoicePlayer:
 
-	inc 1024 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	;inc 1024 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	; Calculate master tuning...
 	lda systemTuning
@@ -358,7 +358,7 @@ sixVoicePlayer:
 	clc
 	adc #4 ; Adjust current table format to tuning format (the table should be redone to fix this)
 	
-	inc 1025 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	;inc 1025 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; DEBUG - SHOW TUNING DATA
@@ -382,7 +382,7 @@ sixVoicePlayer:
 	lda tuneArrPtrHH,y
 	sta tunePtrH+1
 	
-	inc 1026 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	;inc 1026 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	; Look up note shift from master tuning...
 	ldy masterTuning
@@ -426,7 +426,7 @@ NsetRegsSidA:
 	beq NsoundOffSidA
 NsoundOnSidA:
 
-	inc 1027 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	;inc 1027 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	; load note and deal
 	; with tuning ------;
@@ -452,11 +452,11 @@ palPlaySidA:			;
 	sta pitchTmpH		;
 skipPalPlaySidA:		;;;;;
 
-	inc 1024+40 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	lda shiftL1
-	sta 1024+120
-	lda shiftH1
-	sta 1025+120
+	;inc 1024+40 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	;lda shiftL1
+	;sta 1024+120
+	;lda shiftH1
+	;sta 1025+120
 	
 	; play SID #1
 	clc
@@ -641,7 +641,7 @@ noPlayNote2:
 
 playNote:
 
-	inc 1024+80 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	;inc 1024+80 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	; deal with tuning
 	clc
@@ -660,12 +660,12 @@ playNote:
 	beq soundOff
 soundOn:
 
-	inc 1025+80 ; DEBUG !!!!!!!!!!!!!!!!!!!!
+	;inc 1025+80 ; DEBUG !!!!!!!!!!!!!!!!!!!!
 
-	lda shiftL1
-	sta 1024+120
-	lda shiftH1
-	sta 1025+120
+	;lda shiftL1
+	;sta 1024+120
+	;lda shiftH1
+	;sta 1025+120
 	
 	; play SID #1
 	clc
