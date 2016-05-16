@@ -222,6 +222,7 @@ ksetPaddles:
 	lda filter
 	sta filterSetValue
 	;jmp setFilter
+	rts
 
 ksetPad2:
 	sta paddle2

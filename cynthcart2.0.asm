@@ -34,6 +34,7 @@ BETA_RELEASE equ 1
 ;
 ; TODO:
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - fix mono port not responding to pitch wheel
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;=================================------------ - - - -  -   -
@@ -1005,7 +1006,7 @@ variableInit:
 	include "cynth_midirecv.asm"
 	include "cynth_sidedit.asm"
 	
-	include "cynth_subroutines.asm" ; Extra subroutines
+	include "cynth_subroutines.asm" ; Extra subroutines - currently just note sorting routine
 	
 	include "cynth_keycommands.asm" ; key matrix tables and key command tables
 	include "cynth_data.asm" ; Screen text, data tables, note tuning tables, etc.

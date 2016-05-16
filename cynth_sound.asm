@@ -332,6 +332,8 @@ retuneTable:
 	;************************************************
 sixVoicePlayer:
 
+	inc 1024 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	; Calculate master tuning...
 	lda systemTuning
 	clc 
@@ -356,6 +358,8 @@ sixVoicePlayer:
 	clc
 	adc #4 ; Adjust current table format to tuning format (the table should be redone to fix this)
 	
+	inc 1025 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; DEBUG - SHOW TUNING DATA
 	IF DEBUG_DISPLAY=1
@@ -378,6 +382,8 @@ sixVoicePlayer:
 	lda tuneArrPtrHH,y
 	sta tunePtrH+1
 	
+	inc 1026 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	; Look up note shift from master tuning...
 	ldy masterTuning
 	lda retuneNoteShiftTable,y ; Offset the note based on the current tuning shift
@@ -420,6 +426,8 @@ NsetRegsSidA:
 	beq NsoundOffSidA
 NsoundOnSidA:
 
+	inc 1027 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	; load note and deal
 	; with tuning ------;
 	lda NTSCmode			;
@@ -444,6 +452,12 @@ palPlaySidA:			;
 	sta pitchTmpH		;
 skipPalPlaySidA:		;;;;;
 
+	inc 1024+40 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	lda shiftL1
+	sta 1024+120
+	lda shiftH1
+	sta 1025+120
+	
 	; play SID #1
 	clc
 	lda pitchTmpL
@@ -466,7 +480,6 @@ NsoundOffSidA:
 	jmp NsetRegsSidA
 quitPlayLoop:
 
-	;rts ; DEBUG!!!
 	;~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 	;~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 	; For each voice on SID #2...
@@ -555,7 +568,7 @@ portCopyLoop
 
 	;jmp sixVoicePlayer
 
-	jmp portPlayer
+	;jmp portPlayer
 
 	
 
@@ -627,6 +640,9 @@ noPlayNote2:
 
 
 playNote:
+
+	inc 1024+80 ; DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	; deal with tuning
 	clc
 	lda pitchLA,x
@@ -636,7 +652,7 @@ playNote:
 	adc (tunePtrH),y
 	sta pitchTmpH
 
-	tya	; Move the current key to A
+	tya	; Move the current key to ACC
 	ldy voiceOffset,x
 	cmp #255	; Check for note off
 	bne soundOn
@@ -644,6 +660,13 @@ playNote:
 	beq soundOff
 soundOn:
 
+	inc 1025+80 ; DEBUG !!!!!!!!!!!!!!!!!!!!
+
+	lda shiftL1
+	sta 1024+120
+	lda shiftH1
+	sta 1025+120
+	
 	; play SID #1
 	clc
 	lda pitchTmpL
