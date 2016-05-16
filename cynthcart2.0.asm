@@ -34,7 +34,6 @@ BETA_RELEASE equ 1
 ;
 ; TODO:
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
-; - fix mono port not responding to pitch wheel
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ;
 ;=================================------------ - - - -  -   -
@@ -136,6 +135,7 @@ BETA_RELEASE equ 1
 ;-----------------------------------------------------
 ; FUTURE TODO LIST:
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - make port modes respond to pitch wheel
 ; - figure out why pulse LFO is so slow
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - fix patch saver issue where mode and FX are sometimes not saved
