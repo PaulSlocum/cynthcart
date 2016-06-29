@@ -121,12 +121,12 @@ Startup:
 ;	dex
 ;	bpl colorLoop 
 	
-	ldx #8
-	lda #2
-colorLoop2:
-	sta 55296,x
-	dex
-	bpl colorLoop2
+;	ldx #8
+;	lda #2
+;colorLoop2:
+;	sta 55296,x
+;	dex
+;	bpl colorLoop2
 	
 	
 	; SHOW STARTUP TEXT
