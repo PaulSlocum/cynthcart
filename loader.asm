@@ -114,12 +114,12 @@ Startup:
 	sta 53281
 	sta 53280
 
-	ldx #20
-	lda #12
-colorLoop:
-	sta 55296,x
-	dex
-	bpl colorLoop 
+;	ldx #20
+;	lda #12
+;colorLoop:
+;	sta 55296,x
+;	dex
+;	bpl colorLoop 
 	
 	ldx #8
 	lda #2
@@ -144,7 +144,7 @@ showSpaceRAM
 	jmp RAMTextCopy
 RAMText:
 	;byte "COPYING TO RAM...",0
-	byte "CYNTHCART V2.0",0
+	byte "CYNTHCART V2.0.1",0
 	
 	;byte "CYNTHCART",0
 quitRAMTextCopy:
@@ -221,7 +221,7 @@ copyCopier:
 	
 	
 compressedData:
-	incbin "cynthcart2.0_comp.bin"
+	incbin "cynthcart2.0.1_comp.bin"
 	;incbin "cynthcart152.cmp"
 	;incbin "eprom.cmp" ; DEBUG!!
 

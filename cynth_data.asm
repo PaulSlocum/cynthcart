@@ -390,8 +390,8 @@ modeNameOffsets
 	
 ; VERSION NUMBER
 bottomText
-	byte " PAL V2.0  ",0
-	byte "NTSC V2.0  ",0
+	byte " PAL V2.0.1",0
+	byte "NTSC V2.0.1",0
 
 	IF BETA_RELEASE=1
 betaInfo:

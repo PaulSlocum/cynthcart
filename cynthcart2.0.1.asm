@@ -41,6 +41,9 @@ BETA_RELEASE equ 0
 ; - - - - - - - - - - - - - - 
 ; Change Log:
 ; - - - - - - - - - - - - - - 
+; 2.0.1
+; + disabled Restore key, which causes a lock up on a few 64C models
+; + reset paddle2 pitch value when pitch control is turned off
 ; 2.0
 ; + 7 additional presets
 ; + added mono stack portamento modes
