@@ -752,717 +752,723 @@
     435  080d							;pulseMidiValue equ $7057
 ------- FILE cynthcart2.0.1.asm
     316  080d
-    317  080d				   disable
-    318  080d		       a9 32		      lda	#<nmi	;Set NMI vector
-    319  080f		       8d 18 03 	      sta	$0318
-    320  0812		       8d fa ff 	      sta	$fffa
-    321  0815		       a9 08		      lda	#>nmi
-    322  0817		       8d 19 03 	      sta	$0319
-    323  081a		       8d fb ff 	      sta	$fffb
-    324  081d		       a9 81		      lda	#$81
-    325  081f		       8d 0d dd 	      sta	$dd0d	;Use Timer A
-    326  0822		       a9 01		      lda	#$01	;Timer A count ($0001)
-    327  0824		       8d 04 dd 	      sta	$dd04
-    328  0827		       a9 00		      lda	#$00
-    329  0829		       8d 05 dd 	      sta	$dd05
-    330  082c		       a9 19		      lda	#%00011001	;Run Timer A
-    331  082e		       8d 0e dd 	      sta	$dd0e
-    332  0831		       60		      rts
-    333  0832
-    334  0832				   nmi
-    335  0832		       40		      rti
-    336  0833
-    337  0833
-    338  0833							; *********************************************
-    339  0833							; Start of program
-    340  0833							; *********************************************
-    341  0833				   Startup
-    342  0833
-    343  0833							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    344  0833							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    345  0833							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    346  0833							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    347  0833							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    348  0833							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    349  0833							; switch to (upper?) lowercase mode
-    350  0833		       a9 17		      lda	#23
-    351  0835		       8d 18 d0 	      sta	$d018
-    352  0838
-    353  0838		       a9 c1		      lda	#193
-    354  083a		       8d 18 03 	      sta	792
-    355  083d
-    356  083d							; clear screen and show info
-    357  083d							;	ldx #0
-    358  083d							;	stx $d020
-    359  083d							;	stx $d021
-    360  083d							;loop1:	; clear screen...
-    361  083d							;	lda #32
-    362  083d							;	sta $0400,x
-    363  083d							;	sta $0400+250,x
-    364  083d							;	sta $0400+500,x
-    365  083d							;	sta $0400+750,x
-    366  083d							;	lda #14
-    367  083d							;	sta $d800,x
-    368  083d							;	sta $d800+250,x
-    369  083d							;	sta $d800+500,x
-    370  083d							;	sta $d800+750,x
-    371  083d							;	inx
-    372  083d							;	cpx #250
-    373  083d							;	bne loop1
-    374  083d							;	ldx #0
-    375  083d							;loop2:	; show info...
-    376  083d							;	lda #1
-    377  083d							;	sta $0400+10*40,x
-    378  083d							;	inx
-    379  083d							;	cpx #80
-    380  083d							;	bne loop2
-    381  083d
-    382  083d							; init SID...
-    383  083d		       a9 00		      lda	#0
-    384  083f		       a2 00		      ldx	#0
-    385  0841		       9d 00 d4    initSid    sta	$d400,x
-    386  0844		       e8		      inx
-    387  0845		       e0 19		      cpx	#25
-    388  0847		       d0 f8		      bne	initSid
-    389  0849		       a9 0f		      lda	#15
-    390  084b		       8d 18 d4 	      sta	$d418
-    391  084e		       a9 01		      lda	#1
-    392  0850		       8d 03 d4 	      sta	$d403
-    393  0853
-    394  0853							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    395  0853							;lock: jmp lock
-    396  0853							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    397  0853
-    398  0853					      IF	ENABLE_MIDI_COMMANDS=1
-    399  0853		       20 f4 39 	      jsr	midiDetect	; AUTODETECT MIDI IF NOT KERBEROS BUILD
-    400  0856				  -	      ELSE
-    401  0856				  -	      lda	#0
-    402  0856					      ENDIF
-    403  0856		       8d 50 71 	      sta	midiEnabled
-    404  0859		       20 6c 3a 	      jsr	midiInit
-    405  085c							;ENDIF
-    406  085c
-    407  085c							; Set default hex color
-    408  085c		       a9 0e		      lda	#$E
-    409  085e		       8d 8d 70 	      sta	hexDispColor
-    410  0861
-    411  0861							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    412  0861							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    413  0861							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    414  0861							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    415  0861							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    416  0861							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
-    417  0861
-    418  0861				   skipTest
-    419  0861
-    420  0861							; Copy program into RAM if running from cartridge...
-    421  0861				  -	      IF	MODE=CART_OBSOLETE
-    422  0861				  -	      ldx	#0
-    423  0861				  -RAMTextCopy
-    424  0861				  -	      lda	RAMText,x
-    425  0861				  -	      beq	quitRAMTextCopy
-    426  0861				  -	      cmp	#64
-    427  0861				  -	      bmi	showSpaceRAM
-    428  0861				  -	      sbc	#64
-    429  0861				  -showSpaceRAM
-    430  0861				  -	      sta	1024,x
-    431  0861				  -	      inx
-    432  0861				  -	      jmp	RAMTextCopy
-    433  0861				  -RAMText
-    434  0861				  -	      byte	"COPYING TO RAM...",0
-    435  0861				  -quitRAMTextCopy
-    436  0861				  -			;------------
-    437  0861				  -	      ldx	#8*4
-    438  0861				  -	      lda	#<copyStart
-    439  0861				  -	      sta	copyPtrS
-    440  0861				  -	      lda	#>copyStart
-    441  0861				  -	      sta	copyPtrS+1
-    442  0861				  -	      lda	#<ramStart
-    443  0861				  -	      sta	copyPtrD
-    444  0861				  -	      lda	#>ramStart
-    445  0861				  -	      sta	copyPtrD+1
-    446  0861				  -ramCopy1
-    447  0861				  -	      ldy	#0
-    448  0861				  -ramCopy2
-    449  0861				  -	      lda	(copyPtrS),y
-    450  0861				  -	      sta	(copyPtrD),y
-    451  0861				  -	      dey
-    452  0861				  -	      bne	ramCopy2
-    453  0861				  -	      inc	copyPtrS+1
-    454  0861				  -	      inc	copyPtrD+1
-    455  0861				  -	      dex
-    456  0861				  -	      bne	ramCopy1
-    457  0861				  -	      jmp	ramStart
-    458  0861				  -copyStart
-    459  0861				  -	      rorg	$3000	; RAM destination
-    460  0861				  -ramStart
-    461  0861					      ENDIF
-    462  0861
-    463  0861				  -	      IF	MODE=CART_OBSOLETE
-    464  0861				  -			; System Startup Stuff
-    465  0861				  -			; (not needed if starting from disk)
-    466  0861				  -	      sei
-    467  0861				  -	      jsr	$FF84	; initialize I/O devices
-    468  0861				  -	      jsr	$FF87	; initalise memory pointers
-    469  0861				  -	      jsr	$FF8A	; restore I/O vectors
-    470  0861				  -	      jsr	$FF81	; initalise screen and keyboard
-    471  0861				  -	      cli
-    472  0861					      ENDIF
-    473  0861
-    474  0861				  -	      IF	MODE=KERNEL_OBSOLETE
-    475  0861				  -	      org	$A483
-    476  0861					      ENDIF
-    477  0861
-    478  0861		       ad 11 d0 	      LDA	$D011	; Disable VIC-II (This has to be done because of
-    479  0864		       29 ef		      AND	#$EF	; badlines
-    480  0866		       8d 11 d0 	      STA	$D011
-    481  0869
-    482  0869							; Disable RESTORE key
-    483  0869		       a9 c1		      lda	#193
-    484  086b		       8d 18 03 	      sta	792
-    485  086e
-    486  086e		       a9 00		      lda	#0
-    487  0870		       8d 20 d0 	      sta	BACK_COLOR
-    488  0873		       8d 21 d0 	      sta	BORD_COLOR
-    489  0876
-    490  0876							;*****************************
-    491  0876							; Detect PAL/NTSC
-    492  0876							;*****************************
-    493  0876							;palntsc:
-    494  0876		       78		      sei		; disable interrupts
-    495  0877				   wait
-    496  0877		       ad 12 d0 	      lda	$d012
-    497  087a		       d0 fb		      bne	wait	; wait for rasterline 0 or 256
-    498  087c				   wait1
-    499  087c		       ad 11 d0 	      lda	$d011	; Is rasterbeam in the area
-    500  087f		       10 fb		      bpl	wait1	; 0-255? if yes, wait
-    501  0881				   wait2
-    502  0881		       a0 00		      ldy	#$00
-    503  0883				   synch1
-    504  0883		       ad 12 d0 	      lda	$d012
-    505  0886		       c9 37		      cmp	#$37	; top PAL rasterline
-    506  0888		       d0 f9		      bne	synch1
-    507  088a		       ad 12 d0 	      lda	$d012	; if next is 0, then PAL
-    508  088d				   synch2
-    509  088d		       cd 12 d0 	      cmp	$d012
-    510  0890		       f0 fb		      beq	synch2
-    511  0892		       ad 12 d0 	      lda	$d012
-    512  0895		       58		      cli		; enable interrupts
-    513  0896
-    514  0896		       8d 61 70 	      sta	NTSCmode
-    515  0899
-    516  0899
-    517  0899
-    518  0899
-    519  0899							;****************************************************
-    520  0899							; init screen and variables
-    521  0899							;****************************************************
-    522  0899		       a9 00		      lda	#0
-    523  089b		       8d 97 70 	      sta	resonance
-    524  089e		       8d 8c 70 	      sta	noteOnCount
-    525  08a1		       8d 8b 70 	      sta	noteOffCount
-    526  08a4		       20 f8 10 	      jsr	setFullScreenMode
-    527  08a7		       20 a0 0a 	      jsr	variableInit
-    528  08aa		       20 ef 0b 	      jsr	displayInit
-    529  08ad
-    530  08ad							; Clear note buffer...
-    531  08ad		       a2 08		      ldx	#8
-    532  08af		       a9 ff		      lda	#255
-    533  08b1				   clearBufferLoop
-    534  08b1		       ca		      dex
-    535  08b2		       9d a0 70 	      sta	noteNumArray,x
-    536  08b5							;sta noteAgeArray,x
-    537  08b5							;sta noteVelArray,x
-    538  08b5		       d0 fa		      bne	clearBufferLoop
-    539  08b7
-    540  08b7
-    541  08b7				  -	      IF	DEBUG_DISPLAY=1
-    542  08b7				  -	      ldx	#>debugOverlay	;low/MSB
-    543  08b7				  -	      ldy	#<debugOverlay	;high/LSB
-    544  08b7				  -	      jsr	displayPage
-    545  08b7					      ENDIF
-    546  08b7
-    547  08b7		       a9 00		      lda	#0
-    548  08b9		       a0 00		      ldy	#0
-    549  08bb		       20 a4 13 	      jsr	setPatch
-    550  08be
-    551  08be		       a9 00		      lda	#0
-    552  08c0		       8d f0 70 	      sta	midiTuning
-    553  08c3
-    554  08c3		       a9 ff		      lda	#$FF
-    555  08c5		       20 fe 11 	      jsr	setMidiMode
-    556  08c8							;sta midiMode
-    557  08c8
-    558  08c8							;===========================================
-    559  08c8							;===========================================
-    560  08c8							;===========================================
-    561  08c8							; Main Loop
-    562  08c8							;===========================================
-    563  08c8							;===========================================
-    564  08c8							;===========================================
-    565  08c8				   Loop
-    566  08c8							; Increment frame counter
-    567  08c8		       ee 03 70 	      inc	Frame
-    568  08cb		       ad 03 70 	      lda	Frame
-    569  08ce		       29 3f		      and	#%00111111
-    570  08d0		       d0 03		      bne	SkipHFrame
-    571  08d2		       ee 02 70 	      inc	FrameH
-    572  08d5				   SkipHFrame
-    573  08d5
-    574  08d5
-    575  08d5		       20 13 09 	      jsr	processLFO
-    576  08d8		       20 72 0d 	      jsr	processFX
-    577  08db
-    578  08db					      IF	ENABLE_MIDI_COMMANDS=1
-    579  08db		       20 5b 1c 	      jsr	processMIDI
-    580  08de					      ENDIF
-    581  08de
-    582  08de		       20 d0 1a 	      jsr	readKeyboard
-    583  08e1		       20 d2 09 	      jsr	processBender
-    584  08e4		       20 01 15 	      jsr	processSoundDriver
-    585  08e7		       20 0f 0a 	      jsr	processPaddles
-    586  08ea		       20 28 0b 	      jsr	processVideoMode
-    587  08ed		       20 f3 08 	      jsr	updateFilterAndPW
-    588  08f0		       4c c8 08 	      jmp	Loop
-    589  08f3							;-------- BOTTOM OF MAIN LOOP ---------------------------
-    590  08f3							;--------------------------------------------------------
-    591  08f3							;\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-    592  08f3
-    593  08f3				   updateFilterAndPW
-    594  08f3		       ad 9c 70 	      lda	filterModValue
-    595  08f6		       38		      sec
-    596  08f7		       e9 7f		      sbc	#127
-    597  08f9		       30 0a		      bmi	negativeFilterMod
-    598  08fb							; Positive
-    599  08fb		       6d 9d 70 	      adc	filterSetValue
-    600  08fe		       90 0f		      bcc	doSetFilter
-    601  0900		       a9 ff		      lda	#255
-    602  0902		       4c 0f 09 	      jmp	doSetFilter
-    603  0905
-    604  0905				   negativeFilterMod
-    605  0905							; Negative
-    606  0905		       6d 9d 70 	      adc	filterSetValue
-    607  0908		       b0 05		      bcs	doSetFilter
-    608  090a		       a9 00		      lda	#0
-    609  090c		       4c 0f 09 	      jmp	doSetFilter
-    610  090f
-    611  090f							;and #$F0
-    612  090f				   doSetFilter
-    613  090f		       20 e9 12 	      jsr	setFilter
-    614  0912							; TODO: add PW setting
-    615  0912		       60		      rts
-    616  0913
-    617  0913
-    618  0913							;-------------------------------
-    619  0913							; LFO
-    620  0913							;-------------------------------
-    621  0913				   processLFO
-    622  0913							; Set current LFO modulation
-    623  0913							; into (pitch) shift variables
-    624  0913
-    625  0913							;---------------------------
-    626  0913							; get pitch bend from paddle2
-    627  0913		       ad 7a 70 	      lda	paddle2
-    628  0916		       c9 04		      cmp	#4
-    629  0918		       d0 06		      bne	noPadBend
-    630  091a		       ad 79 70 	      lda	paddleY
-    631  091d		       8d 40 70 	      sta	bender
-    632  0920				   noPadBend
-    633  0920
-    634  0920							;----------------------------
-    635  0920							; get depth from paddle2
-    636  0920		       ad 7a 70 	      lda	paddle2
-    637  0923		       c9 03		      cmp	#3
-    638  0925		       d0 0a		      bne	noPadLFO
-    639  0927		       ad 79 70 	      lda	paddleY
-    640  092a		       4a		      lsr
-    641  092b		       4a		      lsr
-    642  092c		       4a		      lsr
-    643  092d		       a8		      tay
-    644  092e		       4c 37 09 	      jmp	skipFixedLFODepth
-    645  0931							;---------------------
-    646  0931							; calculate LFO depth
-    647  0931							; increases per octave
-    648  0931				   noPadLFO
-    649  0931		       ae 49 70 	      ldx	LFODepth
-    650  0934		       bc e2 33 	      ldy	LFODepthArray,x
-    651  0937				   skipFixedLFODepth
-    652  0937		       ad 22 70 	      lda	keyOffset	; current octave offset
-    653  093a		       c9 0c		      cmp	#12
-    654  093c		       30 08		      bmi	endDepth
-    655  093e		       c8		      iny
-    656  093f		       c9 24		      cmp	#36
-    657  0941		       d0 03		      bne	endDepth
-    658  0943		       98		      tya
-    659  0944		       0a		      asl
-    660  0945		       a8		      tay
-    661  0946				   endDepth		; y now contains the depth value
-    662  0946
-    663  0946
-    664  0946							; figure out LFO position
-    665  0946		       ad 02 70 	      lda	FrameH
-    666  0949		       ae 48 70 	      ldx	LFORate
-    667  094c		       f0 0e		      beq	LFOSkip
-    668  094e		       ad 03 70 	      lda	Frame
-    669  0951		       ca		      dex
-    670  0952		       ca		      dex
-    671  0953		       ca		      dex
-    672  0954		       f0 06		      beq	LFOSkip
-    673  0956		       4a		      lsr
-    674  0957		       e8		      inx
-    675  0958		       f0 02		      beq	LFOSkip
-    676  095a		       4a		      lsr
-    677  095b		       4a		      lsr
-    678  095c				   LFOSkip
-    679  095c		       4a		      lsr
-    680  095d
-    681  095d		       29 0f		      and	#$0F
-    682  095f		       aa		      tax
-    683  0960		       bd 06 34 	      lda	LFOArrH,x
-    684  0963		       8d 26 70 	      sta	shiftH1
-    685  0966		       d0 10		      bne	negativeLFO
-    686  0968
-    687  0968		       18		      clc
-    688  0969		       bd f6 33 	      lda	LFOArrL,x
-    689  096c				   depthLoop
-    690  096c		       7d f6 33 	      adc	LFOArrL,x
-    691  096f		       88		      dey
-    692  0970		       d0 fa		      bne	depthLoop
-    693  0972		       8d 25 70 	      sta	shiftL1
-    694  0975		       4c 8d 09 	      jmp	endLFO
-    695  0978
-    696  0978				   negativeLFO
-    697  0978		       bd f6 33 	      lda	LFOArrL,x
-    698  097b				   depthLoopN
-    699  097b		       7d f6 33 	      adc	LFOArrL,x
-    700  097e		       88		      dey
-    701  097f		       d0 fa		      bne	depthLoopN
-    702  0981		       8d 0c 70 	      sta	temp
-    703  0984		       a9 ff		      lda	#255
-    704  0986		       38		      sec
-    705  0987		       ed 0c 70 	      sbc	temp
-    706  098a		       8d 25 70 	      sta	shiftL1
-    707  098d				   endLFO
-    708  098d
-    709  098d							; if depth=0 then cancel LFO
-    710  098d		       ad 7a 70 	      lda	paddle2
-    711  0990		       c9 03		      cmp	#3
-    712  0992		       f0 0d		      beq	doLFO
-    713  0994		       ad 49 70 	      lda	LFODepth
-    714  0997		       d0 08		      bne	doLFO
-    715  0999		       a9 00		      lda	#0
-    716  099b		       8d 25 70 	      sta	shiftL1
-    717  099e		       8d 26 70 	      sta	shiftH1
-    718  09a1				   doLFO
-    719  09a1
-    720  09a1		       ad 70 70 	      lda	helpMode	; do show LFO if helpMode on
-    721  09a4		       d0 05		      bne	showLFO
-    722  09a6		       ad 67 70 	      lda	fullScreenMode
-    723  09a9		       d0 15		      bne	dontErase	; don't show LFO if in full screen mode
-    724  09ab							;--------
-    725  09ab							; Show it
-    726  09ab				   showLFO
-    727  09ab		       bd 16 34 	      lda	LFOdisp,x
-    728  09ae		       aa		      tax
-    729  09af		       a9 07		      lda	#CYNTHCART_HIGHLIGHT_COLOR
-    730  09b1							;adc #10
-    731  09b1
-    732  09b1							;lda #160
-    733  09b1							;sta 1063,x
-    734  09b1		       9d ff d7 	      sta	55296-1,x
-    735  09b4
-    736  09b4							;clear the previous one
-    737  09b4							;lda #32
-    738  09b4		       a9 02		      lda	#CYNTHCART_COLOR
-    739  09b6							;sta 1064,x
-    740  09b6		       9d 00 d8 	      sta	55296+0,x
-    741  09b9		       e0 01		      cpx	#1
-    742  09bb		       f0 03		      beq	dontErase
-    743  09bd							;sta 1062,x
-    744  09bd		       9d fe d7 	      sta	55296-2,x
-    745  09c0				   dontErase
-    746  09c0
-    747  09c0							; set up shift for second SID
-    748  09c0							; chip, pitch a tad higher for
-    749  09c0							; awesome chorus effect
-    750  09c0		       18		      clc
-    751  09c1		       ad 25 70 	      lda	shiftL1
-    752  09c4		       69 04		      adc	#SID2OFFSET
-    753  09c6		       8d 27 70 	      sta	shiftL2
-    754  09c9		       ad 26 70 	      lda	shiftH1
-    755  09cc		       69 00		      adc	#0
-    756  09ce		       8d 28 70 	      sta	shiftH2
-    757  09d1
-    758  09d1							; LFO->filter
-    759  09d1							;	lda shiftL1
-    760  09d1							;	clc
-    761  09d1							;	adc #128
-    762  09d1							;	sta SID1+SFILTH
-    763  09d1							;	sta SID2+SFILTH
-    764  09d1
-    765  09d1				   skipLFO
-    766  09d1		       60		      rts
-    767  09d2
-    768  09d2
-    769  09d2
-    770  09d2
-    771  09d2							;=- =- =- =- =- =- =- =- =- =- =- =- -=
-    772  09d2							; PROCESS BENDER
-    773  09d2							;=- =- =- =- =- =- =- =- =- =- =- =- -=
-    774  09d2				   processBender
-    775  09d2							; Update space-bar pitch bend...
-    776  09d2		       ad 83 70 	      lda	benderAutoreset
-    777  09d5		       f0 13		      beq	endBenderReset
-    778  09d7		       ad 40 70 	      lda	bender
-    779  09da		       d0 08		      bne	doBenderReset
-    780  09dc		       a9 00		      lda	#0
-    781  09de		       8d 83 70 	      sta	benderAutoreset
-    782  09e1		       4c ea 09 	      jmp	endBenderReset
-    783  09e4				   doBenderReset
-    784  09e4		       ce 40 70 	      dec	bender
-    785  09e7		       ce 40 70 	      dec	bender
-    786  09ea				   endBenderReset
-    787  09ea
-    788  09ea
-    789  09ea							; Insert bender into LFO offset...
-    790  09ea		       ad 25 70 	      lda	shiftL1
-    791  09ed		       38		      sec
-    792  09ee		       ed 40 70 	      sbc	bender
-    793  09f1		       8d 25 70 	      sta	shiftL1
-    794  09f4		       ad 26 70 	      lda	shiftH1
-    795  09f7		       e9 00		      sbc	#0
-    796  09f9		       8d 26 70 	      sta	shiftH1
-    797  09fc
-    798  09fc		       ad 27 70 	      lda	shiftL2
-    799  09ff		       38		      sec
-    800  0a00		       ed 40 70 	      sbc	bender
-    801  0a03		       8d 27 70 	      sta	shiftL2
-    802  0a06		       ad 28 70 	      lda	shiftH2
-    803  0a09		       e9 00		      sbc	#0
-    804  0a0b		       8d 28 70 	      sta	shiftH2
-    805  0a0e		       60		      rts
-    806  0a0f
-    807  0a0f							;DEBUG -- disable LFO/bender
-    808  0a0f							;	lda #0
-    809  0a0f							;	sta shiftL1
-    810  0a0f							;	sta shiftL2
-    811  0a0f							;	sta shiftH1
-    812  0a0f							;	sta shiftH2
-    813  0a0f
-    814  0a0f							;----------------------------
-    815  0a0f
-    816  0a0f
-    817  0a0f
-    818  0a0f
-    819  0a0f
-    820  0a0f							;-------------------------------------
-    821  0a0f							; Reading paddles from Prog Ref Guide
-    822  0a0f							;-------------------------------------
-    823  0a0f				   processPaddles
-    824  0a0f				   pdlrd0		; entry point for one pair (condition x 1st)
-    825  0a0f							; -  -  -  -  -
-    826  0a0f							;sei				; disable interrupts
-    827  0a0f		       a9 e0		      lda	#224	; disable keyboard scan
-    828  0a11		       8d 02 dc 	      sta	56322	; disable keyboard scan
-    829  0a14							; -  -  -  -  -
-    830  0a14		       ad 02 dc 	      lda	Ciddra	; get current value of ddr
-    831  0a17		       8d 06 70 	      sta	Buffer	; save it away
-    832  0a1a		       a9 c0		      lda	#$c0
-    833  0a1c		       8d 02 dc 	      sta	Ciddra	; set port a for input
-    834  0a1f		       a9 80		      lda	#$80
-    835  0a21
-    836  0a21				   pdlrd1
-    837  0a21		       8d 00 dc 	      sta	PortA	; address a pair of paddles
-    838  0a24		       a0 80		      ldy	#$80	; wait a while
-    839  0a26				   pdlrd2
-    840  0a26		       ea		      nop
-    841  0a27		       88		      dey
-    842  0a28		       10 fc		      bpl	pdlrd2
-    843  0a2a
-    844  0a2a		       ae 19 d4 	      ldx	SID1+25	; get x value
-    845  0a2d		       8e 78 70 	      stx	paddleX
-    846  0a30		       ac 1a d4 	      ldy	SID1+26	; get y value
-    847  0a33		       8c 79 70 	      sty	paddleY
-    848  0a36
-    849  0a36		       ad 00 dc 	      lda	PortA	; Read paddle fire buttons
-    850  0a39		       09 50		      ora	#80	; make it the same as other pair
-    851  0a3b		       8d 09 70 	      sta	Button	; bit 2 is pdl x, bit 3 is pdl y
-    852  0a3e
-    853  0a3e		       ad 06 70 	      lda	Buffer
-    854  0a41		       8d 02 dc 	      sta	Ciddra	; restore previous value of ddr
-    855  0a44							; -  -  -  -  -
-    856  0a44							;cli			; enable interrupts
-    857  0a44		       a9 ff		      lda	#255	; enable keyboard scan
-    858  0a46		       8d 02 dc 	      sta	56322	; enable keyboard scan
-    859  0a49							; -  -  -  -  -
-    860  0a49
-    861  0a49							;-------------------------------------
-    862  0a49							; Auto paddle on - turn on paddle control if it's wiggled...
-    863  0a49		       ad 29 70 	      lda	paddle
-    864  0a4c		       d0 21		      bne	noPaddleAutoOn	; skip this if paddles are on
-    865  0a4e		       e0 a0		      cpx	#160
-    866  0a50		       90 05		      bcc	noPaddleTop
-    867  0a52		       a9 01		      lda	#1
-    868  0a54		       8d 76 70 	      sta	paddleTop
-    869  0a57				   noPaddleTop
-    870  0a57		       e0 60		      cpx	#96
-    871  0a59		       b0 05		      bcs	noPaddleBottom
-    872  0a5b		       a9 01		      lda	#1
-    873  0a5d		       8d 77 70 	      sta	paddleBottom
-    874  0a60				   noPaddleBottom
-    875  0a60							;-----------
-    876  0a60		       ad 76 70 	      lda	paddleTop	; if both paddle regions have
-    877  0a63		       f0 0a		      beq	noPaddleAutoOn	; been hit, then...
-    878  0a65		       ad 77 70 	      lda	paddleBottom
-    879  0a68		       f0 05		      beq	noPaddleAutoOn
-    880  0a6a		       a9 01		      lda	#1	; turn paddle on
-    881  0a6c		       20 36 11 	      jsr	setPaddles
-    882  0a6f				   noPaddleAutoOn
-    883  0a6f
-    884  0a6f							;-------------------------------------
-    885  0a6f							; check to see if paddle control is on
-    886  0a6f		       ad 29 70 	      lda	paddle
-    887  0a72		       f0 04		      beq	processPaddle2
-    888  0a74
-    889  0a74							; paddle1 -> filter
-    890  0a74		       8a		      txa
-    891  0a75		       8d 9d 70 	      sta	filterSetValue
-    892  0a78							;jsr setFilterFromA
-    893  0a78
-    894  0a78
-    895  0a78							;sta SID1+SFILTH
-    896  0a78							;sta sidData+SFILTH
-    897  0a78							;clc
-    898  0a78							;adc #SID_SYMPHONY_FILTER_OFFSET
-    899  0a78							;bcc noPaddleRoll
-    900  0a78							;lda #255
-    901  0a78							;noPaddleRoll:
-    902  0a78							;sta SID2+SFILTH
-    903  0a78							;noPaddleControl
-    904  0a78
-    905  0a78							;-------------------------------------
-    906  0a78							; paddle 2
-    907  0a78
-    908  0a78							;	paddle 2 -> Pulse Width
-    909  0a78				   processPaddle2
-    910  0a78		       ad 7a 70 	      lda	paddle2
-    911  0a7b		       c9 01		      cmp	#1
-    912  0a7d		       d0 15		      bne	skipPW
-    913  0a7f		       ad 79 70 	      lda	paddleY
-    914  0a82		       c9 f5		      cmp	#245	; check for top limit (= no sound)
-    915  0a84		       90 05		      bcc	notPTop
-    916  0a86		       a9 f5		      lda	#245	; limit to maximum
-    917  0a88		       8d 79 70 	      sta	paddleY
-    918  0a8b				   notPTop
-    919  0a8b		       ad 79 70 	      lda	paddleY
-    920  0a8e		       20 63 10 	      jsr	setPulseWidth
-    921  0a91							;-------------
-    922  0a91							;inc 1024+80
-    923  0a91		       ad 79 70 	      lda	paddleY
-    924  0a94				   skipPW
-    925  0a94		       60		      rts
-    926  0a95							;END paddle ------------------------------
-    927  0a95
-    928  0a95
-    929  0a95
-    930  0a95
-    931  0a95
-    932  0a95							; All notes off
-    933  0a95				   midiPanic
-    934  0a95		       a2 08		      ldx	#NOTE_BUF_SIZE
-    935  0a97		       a9 ff		      lda	#255
-    936  0a99				   midiPanicLoop
-    937  0a99		       9d a0 70 	      sta	noteNumArray,x
-    938  0a9c		       ca		      dex
-    939  0a9d		       10 fa		      bpl	midiPanicLoop
-    940  0a9f		       60		      rts
-    941  0aa0
-    942  0aa0
-    943  0aa0
-    944  0aa0
-    945  0aa0
-    946  0aa0
-    947  0aa0
-    948  0aa0							; ***************************
-    949  0aa0							; Variable Setup
-    950  0aa0							; ***************************
-    951  0aa0				   variableInit
-    952  0aa0		       a9 00		      lda	#0
-    953  0aa2		       8d 7a 70 	      sta	paddle2
-    954  0aa5		       8d 5c 70 	      sta	filterDisable
-    955  0aa8		       8d 6c 70 	      sta	filterStatus
-    956  0aab		       8d 58 70 	      sta	keyTimer
-    957  0aae		       8d 40 70 	      sta	bender
-    958  0ab1		       8d 70 70 	      sta	helpMode
-    959  0ab4		       8d 21 70 	      sta	patPtr
-    960  0ab7		       8d 03 70 	      sta	Frame
-    961  0aba		       8d 02 70 	      sta	FrameH
-    962  0abd		       8d 05 70 	      sta	EchoCur
-    963  0ac0		       8d 75 70 	      sta	customPatchSaved
-    964  0ac3		       8d 76 70 	      sta	paddleTop
-    965  0ac6		       8d 77 70 	      sta	paddleBottom
-    966  0ac9
-    967  0ac9		       a9 02		      lda	#2
-    968  0acb		       8d 7b 70 	      sta	lastPad2	; default paddle2 setting is LFO Depth
-    969  0ace
-    970  0ace		       a9 04		      lda	#4	; set normal tuning
-    971  0ad0		       8d 71 70 	      sta	tuneSetting
-    972  0ad3
-    973  0ad3		       a9 00		      lda	#0
-    974  0ad5		       20 57 11 	      jsr	setLFODepth	;********************************
-    975  0ad8		       a9 00		      lda	#0
-    976  0ada		       20 6d 11 	      jsr	setLFORate	;********************************
-    977  0add
-    978  0add							; set up tuning array pointers
-    979  0add		       a9 60		      lda	#<tuningL4
-    980  0adf		       85 22		      sta	tunePtrL
-    981  0ae1		       a9 37		      lda	#>tuningL4
-    982  0ae3		       85 23		      sta	tunePtrL+1
-    983  0ae5
-    984  0ae5		       a9 60		      lda	#<tuningH4
-    985  0ae7		       85 24		      sta	tunePtrH
-    986  0ae9		       a9 37		      lda	#>tuningH4
-    987  0aeb		       85 25		      sta	tunePtrH+1
-    988  0aed
-    989  0aed		       a9 02		      lda	#2
-    990  0aef		       8d 20 70 	      sta	VICMode
-    991  0af2		       a9 00		      lda	#0
-    992  0af4		       8d 1d 70 	      sta	soundMode
-    993  0af7							;lda #40
-    994  0af7							;sta portSpd
-    995  0af7
-    996  0af7							; Video Mode
-    997  0af7		       a9 03		      lda	#3
-    998  0af9		       a0 02		      ldy	#2
-    999  0afb		       20 28 11 	      jsr	setVideoMode	;********************************
-   1000  0afe
-   1001  0afe							; Default full volume
-   1002  0afe		       a9 0f		      lda	#$0F
-   1003  0b00		       8d 1c 70 	      sta	volume
-   1004  0b03
-   1005  0b03							; Echo?
-   1006  0b03		       a9 70		      lda	#$70
-   1007  0b05		       8d 04 70 	      sta	EchoPtr
-   1008  0b08
-   1009  0b08		       a0 00		      ldy	#0
-   1010  0b0a		       20 a4 13 	      jsr	setPatch	;set bass sound
-   1011  0b0d
-   1012  0b0d							; Set up starting portamento values
-   1013  0b0d		       a2 0c		      ldx	#12
-   1014  0b0f		       bd 26 34 	      lda	NSoundLArr,x
-   1015  0b12		       8d 16 70 	      sta	pitchLA
-   1016  0b15		       8d 17 70 	      sta	pitchLB
-   1017  0b18		       8d 18 70 	      sta	pitchLC
-   1018  0b1b							;sta lastKeyA ;;;;;;;;;;;;;;;;;;;;;;;;;;REWRITE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   1019  0b1b							;sta lastKeyB
-   1020  0b1b							;sta lastKeyC
-   1021  0b1b		       bd 6e 34 	      lda	NSoundHArr,x
-   1022  0b1e		       8d 19 70 	      sta	pitchHA
-   1023  0b21		       8d 1a 70 	      sta	pitchHB
-   1024  0b24		       8d 1b 70 	      sta	pitchHC
-   1025  0b27							;----------
-   1026  0b27		       60		      rts
-   1027  0b28
+    317  080d
+    318  080d							; *********************************************
+    319  080d							; Start of program
+    320  080d							; *********************************************
+    321  080d				   Startup
+    322  080d
+    323  080d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    324  080d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    325  080d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    326  080d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    327  080d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    328  080d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    329  080d							; switch to (upper?) lowercase mode
+    330  080d		       a9 17		      lda	#23
+    331  080f		       8d 18 d0 	      sta	$d018
+    332  0812
+    333  0812		       a9 c1		      lda	#193
+    334  0814		       8d 18 03 	      sta	792
+    335  0817
+    336  0817							; clear screen and show info
+    337  0817							;	ldx #0
+    338  0817							;	stx $d020
+    339  0817							;	stx $d021
+    340  0817							;loop1:	; clear screen...
+    341  0817							;	lda #32
+    342  0817							;	sta $0400,x
+    343  0817							;	sta $0400+250,x
+    344  0817							;	sta $0400+500,x
+    345  0817							;	sta $0400+750,x
+    346  0817							;	lda #14
+    347  0817							;	sta $d800,x
+    348  0817							;	sta $d800+250,x
+    349  0817							;	sta $d800+500,x
+    350  0817							;	sta $d800+750,x
+    351  0817							;	inx
+    352  0817							;	cpx #250
+    353  0817							;	bne loop1
+    354  0817							;	ldx #0
+    355  0817							;loop2:	; show info...
+    356  0817							;	lda #1
+    357  0817							;	sta $0400+10*40,x
+    358  0817							;	inx
+    359  0817							;	cpx #80
+    360  0817							;	bne loop2
+    361  0817
+    362  0817							; init SID...
+    363  0817		       a9 00		      lda	#0
+    364  0819		       a2 00		      ldx	#0
+    365  081b		       9d 00 d4    initSid    sta	$d400,x
+    366  081e		       e8		      inx
+    367  081f		       e0 19		      cpx	#25
+    368  0821		       d0 f8		      bne	initSid
+    369  0823		       a9 0f		      lda	#15
+    370  0825		       8d 18 d4 	      sta	$d418
+    371  0828		       a9 01		      lda	#1
+    372  082a		       8d 03 d4 	      sta	$d403
+    373  082d
+    374  082d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    375  082d							;lock: jmp lock
+    376  082d							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    377  082d
+    378  082d					      IF	ENABLE_MIDI_COMMANDS=1
+    379  082d		       20 f4 39 	      jsr	midiDetect	; AUTODETECT MIDI IF NOT KERBEROS BUILD
+    380  0830				  -	      ELSE
+    381  0830				  -	      lda	#0
+    382  0830					      ENDIF
+    383  0830		       8d 50 71 	      sta	midiEnabled
+    384  0833		       20 6c 3a 	      jsr	midiInit
+    385  0836							;ENDIF
+    386  0836
+    387  0836							; Set default hex color
+    388  0836		       a9 0e		      lda	#$E
+    389  0838		       8d 8d 70 	      sta	hexDispColor
+    390  083b
+    391  083b							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    392  083b							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    393  083b							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    394  083b							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    395  083b							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    396  083b							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    397  083b
+    398  083b				   skipTest
+    399  083b
+    400  083b							; Copy program into RAM if running from cartridge...
+    401  083b				  -	      IF	MODE=CART_OBSOLETE
+    402  083b				  -	      ldx	#0
+    403  083b				  -RAMTextCopy
+    404  083b				  -	      lda	RAMText,x
+    405  083b				  -	      beq	quitRAMTextCopy
+    406  083b				  -	      cmp	#64
+    407  083b				  -	      bmi	showSpaceRAM
+    408  083b				  -	      sbc	#64
+    409  083b				  -showSpaceRAM
+    410  083b				  -	      sta	1024,x
+    411  083b				  -	      inx
+    412  083b				  -	      jmp	RAMTextCopy
+    413  083b				  -RAMText
+    414  083b				  -	      byte	"COPYING TO RAM...",0
+    415  083b				  -quitRAMTextCopy
+    416  083b				  -			;------------
+    417  083b				  -	      ldx	#8*4
+    418  083b				  -	      lda	#<copyStart
+    419  083b				  -	      sta	copyPtrS
+    420  083b				  -	      lda	#>copyStart
+    421  083b				  -	      sta	copyPtrS+1
+    422  083b				  -	      lda	#<ramStart
+    423  083b				  -	      sta	copyPtrD
+    424  083b				  -	      lda	#>ramStart
+    425  083b				  -	      sta	copyPtrD+1
+    426  083b				  -ramCopy1
+    427  083b				  -	      ldy	#0
+    428  083b				  -ramCopy2
+    429  083b				  -	      lda	(copyPtrS),y
+    430  083b				  -	      sta	(copyPtrD),y
+    431  083b				  -	      dey
+    432  083b				  -	      bne	ramCopy2
+    433  083b				  -	      inc	copyPtrS+1
+    434  083b				  -	      inc	copyPtrD+1
+    435  083b				  -	      dex
+    436  083b				  -	      bne	ramCopy1
+    437  083b				  -	      jmp	ramStart
+    438  083b				  -copyStart
+    439  083b				  -	      rorg	$3000	; RAM destination
+    440  083b				  -ramStart
+    441  083b					      ENDIF
+    442  083b
+    443  083b				  -	      IF	MODE=CART_OBSOLETE
+    444  083b				  -			; System Startup Stuff
+    445  083b				  -			; (not needed if starting from disk)
+    446  083b				  -	      sei
+    447  083b				  -	      jsr	$FF84	; initialize I/O devices
+    448  083b				  -	      jsr	$FF87	; initalise memory pointers
+    449  083b				  -	      jsr	$FF8A	; restore I/O vectors
+    450  083b				  -	      jsr	$FF81	; initalise screen and keyboard
+    451  083b				  -	      cli
+    452  083b					      ENDIF
+    453  083b
+    454  083b				  -	      IF	MODE=KERNEL_OBSOLETE
+    455  083b				  -	      org	$A483
+    456  083b					      ENDIF
+    457  083b
+    458  083b		       ad 11 d0 	      LDA	$D011	; Disable VIC-II (This has to be done because of
+    459  083e		       29 ef		      AND	#$EF	; badlines
+    460  0840		       8d 11 d0 	      STA	$D011
+    461  0843
+    462  0843							; Disable RESTORE key
+    463  0843		       a9 c1		      lda	#193
+    464  0845		       8d 18 03 	      sta	792
+    465  0848
+    466  0848		       a9 00		      lda	#0
+    467  084a		       8d 20 d0 	      sta	BACK_COLOR
+    468  084d		       8d 21 d0 	      sta	BORD_COLOR
+    469  0850
+    470  0850							;*****************************
+    471  0850							; Detect PAL/NTSC
+    472  0850							;*****************************
+    473  0850							;palntsc:
+    474  0850		       78		      sei		; disable interrupts
+    475  0851				   wait
+    476  0851		       ad 12 d0 	      lda	$d012
+    477  0854		       d0 fb		      bne	wait	; wait for rasterline 0 or 256
+    478  0856				   wait1
+    479  0856		       ad 11 d0 	      lda	$d011	; Is rasterbeam in the area
+    480  0859		       10 fb		      bpl	wait1	; 0-255? if yes, wait
+    481  085b				   wait2
+    482  085b		       a0 00		      ldy	#$00
+    483  085d				   synch1
+    484  085d		       ad 12 d0 	      lda	$d012
+    485  0860		       c9 37		      cmp	#$37	; top PAL rasterline
+    486  0862		       d0 f9		      bne	synch1
+    487  0864		       ad 12 d0 	      lda	$d012	; if next is 0, then PAL
+    488  0867				   synch2
+    489  0867		       cd 12 d0 	      cmp	$d012
+    490  086a		       f0 fb		      beq	synch2
+    491  086c		       ad 12 d0 	      lda	$d012
+    492  086f		       58		      cli		; enable interrupts
+    493  0870
+    494  0870		       8d 61 70 	      sta	NTSCmode
+    495  0873
+    496  0873
+    497  0873
+    498  0873
+    499  0873							;****************************************************
+    500  0873							; init screen and variables
+    501  0873							;****************************************************
+    502  0873		       a9 00		      lda	#0
+    503  0875		       8d 97 70 	      sta	resonance
+    504  0878		       8d 8c 70 	      sta	noteOnCount
+    505  087b		       8d 8b 70 	      sta	noteOffCount
+    506  087e		       20 f8 10 	      jsr	setFullScreenMode
+    507  0881		       20 7a 0a 	      jsr	variableInit
+    508  0884		       20 ef 0b 	      jsr	displayInit
+    509  0887
+    510  0887							; Clear note buffer...
+    511  0887		       a2 08		      ldx	#8
+    512  0889		       a9 ff		      lda	#255
+    513  088b				   clearBufferLoop
+    514  088b		       ca		      dex
+    515  088c		       9d a0 70 	      sta	noteNumArray,x
+    516  088f							;sta noteAgeArray,x
+    517  088f							;sta noteVelArray,x
+    518  088f		       d0 fa		      bne	clearBufferLoop
+    519  0891
+    520  0891
+    521  0891				  -	      IF	DEBUG_DISPLAY=1
+    522  0891				  -	      ldx	#>debugOverlay	;low/MSB
+    523  0891				  -	      ldy	#<debugOverlay	;high/LSB
+    524  0891				  -	      jsr	displayPage
+    525  0891					      ENDIF
+    526  0891
+    527  0891		       a9 00		      lda	#0
+    528  0893		       a0 00		      ldy	#0
+    529  0895		       20 a4 13 	      jsr	setPatch
+    530  0898
+    531  0898		       a9 00		      lda	#0
+    532  089a		       8d f0 70 	      sta	midiTuning
+    533  089d
+    534  089d		       a9 ff		      lda	#$FF
+    535  089f		       20 fe 11 	      jsr	setMidiMode
+    536  08a2							;sta midiMode
+    537  08a2
+    538  08a2							;===========================================
+    539  08a2							;===========================================
+    540  08a2							;===========================================
+    541  08a2							; Main Loop
+    542  08a2							;===========================================
+    543  08a2							;===========================================
+    544  08a2							;===========================================
+    545  08a2				   Loop
+    546  08a2							; Increment frame counter
+    547  08a2		       ee 03 70 	      inc	Frame
+    548  08a5		       ad 03 70 	      lda	Frame
+    549  08a8		       29 3f		      and	#%00111111
+    550  08aa		       d0 03		      bne	SkipHFrame
+    551  08ac		       ee 02 70 	      inc	FrameH
+    552  08af				   SkipHFrame
+    553  08af
+    554  08af
+    555  08af		       20 ed 08 	      jsr	processLFO
+    556  08b2		       20 72 0d 	      jsr	processFX
+    557  08b5
+    558  08b5					      IF	ENABLE_MIDI_COMMANDS=1
+    559  08b5		       20 5b 1c 	      jsr	processMIDI
+    560  08b8					      ENDIF
+    561  08b8
+    562  08b8		       20 d0 1a 	      jsr	readKeyboard
+    563  08bb		       20 ac 09 	      jsr	processBender
+    564  08be		       20 01 15 	      jsr	processSoundDriver
+    565  08c1		       20 e9 09 	      jsr	processPaddles
+    566  08c4		       20 28 0b 	      jsr	processVideoMode
+    567  08c7		       20 cd 08 	      jsr	updateFilterAndPW
+    568  08ca		       4c a2 08 	      jmp	Loop
+    569  08cd							;-------- BOTTOM OF MAIN LOOP ---------------------------
+    570  08cd							;--------------------------------------------------------
+    571  08cd							;\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+    572  08cd
+    573  08cd				   updateFilterAndPW
+    574  08cd		       ad 9c 70 	      lda	filterModValue
+    575  08d0		       38		      sec
+    576  08d1		       e9 7f		      sbc	#127
+    577  08d3		       30 0a		      bmi	negativeFilterMod
+    578  08d5							; Positive
+    579  08d5		       6d 9d 70 	      adc	filterSetValue
+    580  08d8		       90 0f		      bcc	doSetFilter
+    581  08da		       a9 ff		      lda	#255
+    582  08dc		       4c e9 08 	      jmp	doSetFilter
+    583  08df
+    584  08df				   negativeFilterMod
+    585  08df							; Negative
+    586  08df		       6d 9d 70 	      adc	filterSetValue
+    587  08e2		       b0 05		      bcs	doSetFilter
+    588  08e4		       a9 00		      lda	#0
+    589  08e6		       4c e9 08 	      jmp	doSetFilter
+    590  08e9
+    591  08e9							;and #$F0
+    592  08e9				   doSetFilter
+    593  08e9		       20 e9 12 	      jsr	setFilter
+    594  08ec							; TODO: add PW setting
+    595  08ec		       60		      rts
+    596  08ed
+    597  08ed
+    598  08ed							;-------------------------------
+    599  08ed							; LFO
+    600  08ed							;-------------------------------
+    601  08ed				   processLFO
+    602  08ed							; Set current LFO modulation
+    603  08ed							; into (pitch) shift variables
+    604  08ed
+    605  08ed							;---------------------------
+    606  08ed							; get pitch bend from paddle2
+    607  08ed		       ad 7a 70 	      lda	paddle2
+    608  08f0		       c9 04		      cmp	#4
+    609  08f2		       d0 06		      bne	noPadBend
+    610  08f4		       ad 79 70 	      lda	paddleY
+    611  08f7		       8d 40 70 	      sta	bender
+    612  08fa				   noPadBend
+    613  08fa
+    614  08fa							;----------------------------
+    615  08fa							; get depth from paddle2
+    616  08fa		       ad 7a 70 	      lda	paddle2
+    617  08fd		       c9 03		      cmp	#3
+    618  08ff		       d0 0a		      bne	noPadLFO
+    619  0901		       ad 79 70 	      lda	paddleY
+    620  0904		       4a		      lsr
+    621  0905		       4a		      lsr
+    622  0906		       4a		      lsr
+    623  0907		       a8		      tay
+    624  0908		       4c 11 09 	      jmp	skipFixedLFODepth
+    625  090b							;---------------------
+    626  090b							; calculate LFO depth
+    627  090b							; increases per octave
+    628  090b				   noPadLFO
+    629  090b		       ae 49 70 	      ldx	LFODepth
+    630  090e		       bc e2 33 	      ldy	LFODepthArray,x
+    631  0911				   skipFixedLFODepth
+    632  0911		       ad 22 70 	      lda	keyOffset	; current octave offset
+    633  0914		       c9 0c		      cmp	#12
+    634  0916		       30 08		      bmi	endDepth
+    635  0918		       c8		      iny
+    636  0919		       c9 24		      cmp	#36
+    637  091b		       d0 03		      bne	endDepth
+    638  091d		       98		      tya
+    639  091e		       0a		      asl
+    640  091f		       a8		      tay
+    641  0920				   endDepth		; y now contains the depth value
+    642  0920
+    643  0920
+    644  0920							; figure out LFO position
+    645  0920		       ad 02 70 	      lda	FrameH
+    646  0923		       ae 48 70 	      ldx	LFORate
+    647  0926		       f0 0e		      beq	LFOSkip
+    648  0928		       ad 03 70 	      lda	Frame
+    649  092b		       ca		      dex
+    650  092c		       ca		      dex
+    651  092d		       ca		      dex
+    652  092e		       f0 06		      beq	LFOSkip
+    653  0930		       4a		      lsr
+    654  0931		       e8		      inx
+    655  0932		       f0 02		      beq	LFOSkip
+    656  0934		       4a		      lsr
+    657  0935		       4a		      lsr
+    658  0936				   LFOSkip
+    659  0936		       4a		      lsr
+    660  0937
+    661  0937		       29 0f		      and	#$0F
+    662  0939		       aa		      tax
+    663  093a		       bd 06 34 	      lda	LFOArrH,x
+    664  093d		       8d 26 70 	      sta	shiftH1
+    665  0940		       d0 10		      bne	negativeLFO
+    666  0942
+    667  0942		       18		      clc
+    668  0943		       bd f6 33 	      lda	LFOArrL,x
+    669  0946				   depthLoop
+    670  0946		       7d f6 33 	      adc	LFOArrL,x
+    671  0949		       88		      dey
+    672  094a		       d0 fa		      bne	depthLoop
+    673  094c		       8d 25 70 	      sta	shiftL1
+    674  094f		       4c 67 09 	      jmp	endLFO
+    675  0952
+    676  0952				   negativeLFO
+    677  0952		       bd f6 33 	      lda	LFOArrL,x
+    678  0955				   depthLoopN
+    679  0955		       7d f6 33 	      adc	LFOArrL,x
+    680  0958		       88		      dey
+    681  0959		       d0 fa		      bne	depthLoopN
+    682  095b		       8d 0c 70 	      sta	temp
+    683  095e		       a9 ff		      lda	#255
+    684  0960		       38		      sec
+    685  0961		       ed 0c 70 	      sbc	temp
+    686  0964		       8d 25 70 	      sta	shiftL1
+    687  0967				   endLFO
+    688  0967
+    689  0967							; if depth=0 then cancel LFO
+    690  0967		       ad 7a 70 	      lda	paddle2
+    691  096a		       c9 03		      cmp	#3
+    692  096c		       f0 0d		      beq	doLFO
+    693  096e		       ad 49 70 	      lda	LFODepth
+    694  0971		       d0 08		      bne	doLFO
+    695  0973		       a9 00		      lda	#0
+    696  0975		       8d 25 70 	      sta	shiftL1
+    697  0978		       8d 26 70 	      sta	shiftH1
+    698  097b				   doLFO
+    699  097b
+    700  097b		       ad 70 70 	      lda	helpMode	; do show LFO if helpMode on
+    701  097e		       d0 05		      bne	showLFO
+    702  0980		       ad 67 70 	      lda	fullScreenMode
+    703  0983		       d0 15		      bne	dontErase	; don't show LFO if in full screen mode
+    704  0985							;--------
+    705  0985							; Show it
+    706  0985				   showLFO
+    707  0985		       bd 16 34 	      lda	LFOdisp,x
+    708  0988		       aa		      tax
+    709  0989		       a9 07		      lda	#CYNTHCART_HIGHLIGHT_COLOR
+    710  098b							;adc #10
+    711  098b
+    712  098b							;lda #160
+    713  098b							;sta 1063,x
+    714  098b		       9d ff d7 	      sta	55296-1,x
+    715  098e
+    716  098e							;clear the previous one
+    717  098e							;lda #32
+    718  098e		       a9 02		      lda	#CYNTHCART_COLOR
+    719  0990							;sta 1064,x
+    720  0990		       9d 00 d8 	      sta	55296+0,x
+    721  0993		       e0 01		      cpx	#1
+    722  0995		       f0 03		      beq	dontErase
+    723  0997							;sta 1062,x
+    724  0997		       9d fe d7 	      sta	55296-2,x
+    725  099a				   dontErase
+    726  099a
+    727  099a							; set up shift for second SID
+    728  099a							; chip, pitch a tad higher for
+    729  099a							; awesome chorus effect
+    730  099a		       18		      clc
+    731  099b		       ad 25 70 	      lda	shiftL1
+    732  099e		       69 04		      adc	#SID2OFFSET
+    733  09a0		       8d 27 70 	      sta	shiftL2
+    734  09a3		       ad 26 70 	      lda	shiftH1
+    735  09a6		       69 00		      adc	#0
+    736  09a8		       8d 28 70 	      sta	shiftH2
+    737  09ab
+    738  09ab							; LFO->filter
+    739  09ab							;	lda shiftL1
+    740  09ab							;	clc
+    741  09ab							;	adc #128
+    742  09ab							;	sta SID1+SFILTH
+    743  09ab							;	sta SID2+SFILTH
+    744  09ab
+    745  09ab				   skipLFO
+    746  09ab		       60		      rts
+    747  09ac
+    748  09ac
+    749  09ac
+    750  09ac
+    751  09ac							;=- =- =- =- =- =- =- =- =- =- =- =- -=
+    752  09ac							; PROCESS BENDER
+    753  09ac							;=- =- =- =- =- =- =- =- =- =- =- =- -=
+    754  09ac				   processBender
+    755  09ac							; Update space-bar pitch bend...
+    756  09ac		       ad 83 70 	      lda	benderAutoreset
+    757  09af		       f0 13		      beq	endBenderReset
+    758  09b1		       ad 40 70 	      lda	bender
+    759  09b4		       d0 08		      bne	doBenderReset
+    760  09b6		       a9 00		      lda	#0
+    761  09b8		       8d 83 70 	      sta	benderAutoreset
+    762  09bb		       4c c4 09 	      jmp	endBenderReset
+    763  09be				   doBenderReset
+    764  09be		       ce 40 70 	      dec	bender
+    765  09c1		       ce 40 70 	      dec	bender
+    766  09c4				   endBenderReset
+    767  09c4
+    768  09c4
+    769  09c4							; Insert bender into LFO offset...
+    770  09c4		       ad 25 70 	      lda	shiftL1
+    771  09c7		       38		      sec
+    772  09c8		       ed 40 70 	      sbc	bender
+    773  09cb		       8d 25 70 	      sta	shiftL1
+    774  09ce		       ad 26 70 	      lda	shiftH1
+    775  09d1		       e9 00		      sbc	#0
+    776  09d3		       8d 26 70 	      sta	shiftH1
+    777  09d6
+    778  09d6		       ad 27 70 	      lda	shiftL2
+    779  09d9		       38		      sec
+    780  09da		       ed 40 70 	      sbc	bender
+    781  09dd		       8d 27 70 	      sta	shiftL2
+    782  09e0		       ad 28 70 	      lda	shiftH2
+    783  09e3		       e9 00		      sbc	#0
+    784  09e5		       8d 28 70 	      sta	shiftH2
+    785  09e8		       60		      rts
+    786  09e9
+    787  09e9							;DEBUG -- disable LFO/bender
+    788  09e9							;	lda #0
+    789  09e9							;	sta shiftL1
+    790  09e9							;	sta shiftL2
+    791  09e9							;	sta shiftH1
+    792  09e9							;	sta shiftH2
+    793  09e9
+    794  09e9							;----------------------------
+    795  09e9
+    796  09e9
+    797  09e9
+    798  09e9
+    799  09e9
+    800  09e9							;-------------------------------------
+    801  09e9							; Reading paddles from Prog Ref Guide
+    802  09e9							;-------------------------------------
+    803  09e9				   processPaddles
+    804  09e9				   pdlrd0		; entry point for one pair (condition x 1st)
+    805  09e9							; -  -  -  -  -
+    806  09e9							;sei				; disable interrupts
+    807  09e9		       a9 e0		      lda	#224	; disable keyboard scan
+    808  09eb		       8d 02 dc 	      sta	56322	; disable keyboard scan
+    809  09ee							; -  -  -  -  -
+    810  09ee		       ad 02 dc 	      lda	Ciddra	; get current value of ddr
+    811  09f1		       8d 06 70 	      sta	Buffer	; save it away
+    812  09f4		       a9 c0		      lda	#$c0
+    813  09f6		       8d 02 dc 	      sta	Ciddra	; set port a for input
+    814  09f9		       a9 80		      lda	#$80
+    815  09fb
+    816  09fb				   pdlrd1
+    817  09fb		       8d 00 dc 	      sta	PortA	; address a pair of paddles
+    818  09fe		       a0 80		      ldy	#$80	; wait a while
+    819  0a00				   pdlrd2
+    820  0a00		       ea		      nop
+    821  0a01		       88		      dey
+    822  0a02		       10 fc		      bpl	pdlrd2
+    823  0a04
+    824  0a04		       ae 19 d4 	      ldx	SID1+25	; get x value
+    825  0a07		       8e 78 70 	      stx	paddleX
+    826  0a0a		       ac 1a d4 	      ldy	SID1+26	; get y value
+    827  0a0d		       8c 79 70 	      sty	paddleY
+    828  0a10
+    829  0a10		       ad 00 dc 	      lda	PortA	; Read paddle fire buttons
+    830  0a13		       09 50		      ora	#80	; make it the same as other pair
+    831  0a15		       8d 09 70 	      sta	Button	; bit 2 is pdl x, bit 3 is pdl y
+    832  0a18
+    833  0a18		       ad 06 70 	      lda	Buffer
+    834  0a1b		       8d 02 dc 	      sta	Ciddra	; restore previous value of ddr
+    835  0a1e							; -  -  -  -  -
+    836  0a1e							;cli			; enable interrupts
+    837  0a1e		       a9 ff		      lda	#255	; enable keyboard scan
+    838  0a20		       8d 02 dc 	      sta	56322	; enable keyboard scan
+    839  0a23							; -  -  -  -  -
+    840  0a23
+    841  0a23							;-------------------------------------
+    842  0a23							; Auto paddle on - turn on paddle control if it's wiggled...
+    843  0a23		       ad 29 70 	      lda	paddle
+    844  0a26		       d0 21		      bne	noPaddleAutoOn	; skip this if paddles are on
+    845  0a28		       e0 a0		      cpx	#160
+    846  0a2a		       90 05		      bcc	noPaddleTop
+    847  0a2c		       a9 01		      lda	#1
+    848  0a2e		       8d 76 70 	      sta	paddleTop
+    849  0a31				   noPaddleTop
+    850  0a31		       e0 60		      cpx	#96
+    851  0a33		       b0 05		      bcs	noPaddleBottom
+    852  0a35		       a9 01		      lda	#1
+    853  0a37		       8d 77 70 	      sta	paddleBottom
+    854  0a3a				   noPaddleBottom
+    855  0a3a							;-----------
+    856  0a3a		       ad 76 70 	      lda	paddleTop	; if both paddle regions have
+    857  0a3d		       f0 0a		      beq	noPaddleAutoOn	; been hit, then...
+    858  0a3f		       ad 77 70 	      lda	paddleBottom
+    859  0a42		       f0 05		      beq	noPaddleAutoOn
+    860  0a44		       a9 01		      lda	#1	; turn paddle on
+    861  0a46		       20 36 11 	      jsr	setPaddles
+    862  0a49				   noPaddleAutoOn
+    863  0a49
+    864  0a49							;-------------------------------------
+    865  0a49							; check to see if paddle control is on
+    866  0a49		       ad 29 70 	      lda	paddle
+    867  0a4c		       f0 04		      beq	processPaddle2
+    868  0a4e
+    869  0a4e							; paddle1 -> filter
+    870  0a4e		       8a		      txa
+    871  0a4f		       8d 9d 70 	      sta	filterSetValue
+    872  0a52							;jsr setFilterFromA
+    873  0a52
+    874  0a52
+    875  0a52							;sta SID1+SFILTH
+    876  0a52							;sta sidData+SFILTH
+    877  0a52							;clc
+    878  0a52							;adc #SID_SYMPHONY_FILTER_OFFSET
+    879  0a52							;bcc noPaddleRoll
+    880  0a52							;lda #255
+    881  0a52							;noPaddleRoll:
+    882  0a52							;sta SID2+SFILTH
+    883  0a52							;noPaddleControl
+    884  0a52
+    885  0a52							;-------------------------------------
+    886  0a52							; paddle 2
+    887  0a52
+    888  0a52							;	paddle 2 -> Pulse Width
+    889  0a52				   processPaddle2
+    890  0a52		       ad 7a 70 	      lda	paddle2
+    891  0a55		       c9 01		      cmp	#1
+    892  0a57		       d0 15		      bne	skipPW
+    893  0a59		       ad 79 70 	      lda	paddleY
+    894  0a5c		       c9 f5		      cmp	#245	; check for top limit (= no sound)
+    895  0a5e		       90 05		      bcc	notPTop
+    896  0a60		       a9 f5		      lda	#245	; limit to maximum
+    897  0a62		       8d 79 70 	      sta	paddleY
+    898  0a65				   notPTop
+    899  0a65		       ad 79 70 	      lda	paddleY
+    900  0a68		       20 63 10 	      jsr	setPulseWidth
+    901  0a6b							;-------------
+    902  0a6b							;inc 1024+80
+    903  0a6b		       ad 79 70 	      lda	paddleY
+    904  0a6e				   skipPW
+    905  0a6e		       60		      rts
+    906  0a6f							;END paddle ------------------------------
+    907  0a6f
+    908  0a6f
+    909  0a6f
+    910  0a6f
+    911  0a6f
+    912  0a6f							; All notes off
+    913  0a6f				   midiPanic
+    914  0a6f		       a2 08		      ldx	#NOTE_BUF_SIZE
+    915  0a71		       a9 ff		      lda	#255
+    916  0a73				   midiPanicLoop
+    917  0a73		       9d a0 70 	      sta	noteNumArray,x
+    918  0a76		       ca		      dex
+    919  0a77		       10 fa		      bpl	midiPanicLoop
+    920  0a79		       60		      rts
+    921  0a7a
+    922  0a7a
+    923  0a7a
+    924  0a7a
+    925  0a7a
+    926  0a7a
+    927  0a7a
+    928  0a7a							; ***************************
+    929  0a7a							; Variable Setup
+    930  0a7a							; ***************************
+    931  0a7a				   variableInit
+    932  0a7a		       a9 00		      lda	#0
+    933  0a7c		       8d 7a 70 	      sta	paddle2
+    934  0a7f		       8d 5c 70 	      sta	filterDisable
+    935  0a82		       8d 6c 70 	      sta	filterStatus
+    936  0a85		       8d 58 70 	      sta	keyTimer
+    937  0a88		       8d 40 70 	      sta	bender
+    938  0a8b		       8d 70 70 	      sta	helpMode
+    939  0a8e		       8d 21 70 	      sta	patPtr
+    940  0a91		       8d 03 70 	      sta	Frame
+    941  0a94		       8d 02 70 	      sta	FrameH
+    942  0a97		       8d 05 70 	      sta	EchoCur
+    943  0a9a		       8d 75 70 	      sta	customPatchSaved
+    944  0a9d		       8d 76 70 	      sta	paddleTop
+    945  0aa0		       8d 77 70 	      sta	paddleBottom
+    946  0aa3
+    947  0aa3		       a9 02		      lda	#2
+    948  0aa5		       8d 7b 70 	      sta	lastPad2	; default paddle2 setting is LFO Depth
+    949  0aa8
+    950  0aa8		       a9 04		      lda	#4	; set normal tuning
+    951  0aaa		       8d 71 70 	      sta	tuneSetting
+    952  0aad
+    953  0aad		       a9 00		      lda	#0
+    954  0aaf		       20 57 11 	      jsr	setLFODepth	;********************************
+    955  0ab2		       a9 00		      lda	#0
+    956  0ab4		       20 6d 11 	      jsr	setLFORate	;********************************
+    957  0ab7
+    958  0ab7							; set up tuning array pointers
+    959  0ab7		       a9 60		      lda	#<tuningL4
+    960  0ab9		       85 22		      sta	tunePtrL
+    961  0abb		       a9 37		      lda	#>tuningL4
+    962  0abd		       85 23		      sta	tunePtrL+1
+    963  0abf
+    964  0abf		       a9 60		      lda	#<tuningH4
+    965  0ac1		       85 24		      sta	tunePtrH
+    966  0ac3		       a9 37		      lda	#>tuningH4
+    967  0ac5		       85 25		      sta	tunePtrH+1
+    968  0ac7
+    969  0ac7		       a9 02		      lda	#2
+    970  0ac9		       8d 20 70 	      sta	VICMode
+    971  0acc		       a9 00		      lda	#0
+    972  0ace		       8d 1d 70 	      sta	soundMode
+    973  0ad1							;lda #40
+    974  0ad1							;sta portSpd
+    975  0ad1
+    976  0ad1							; Video Mode
+    977  0ad1		       a9 03		      lda	#3
+    978  0ad3		       a0 02		      ldy	#2
+    979  0ad5		       20 28 11 	      jsr	setVideoMode	;********************************
+    980  0ad8
+    981  0ad8							; Default full volume
+    982  0ad8		       a9 0f		      lda	#$0F
+    983  0ada		       8d 1c 70 	      sta	volume
+    984  0add
+    985  0add							; Echo?
+    986  0add		       a9 70		      lda	#$70
+    987  0adf		       8d 04 70 	      sta	EchoPtr
+    988  0ae2
+    989  0ae2		       a0 00		      ldy	#0
+    990  0ae4		       20 a4 13 	      jsr	setPatch	;set bass sound
+    991  0ae7
+    992  0ae7							; Set up starting portamento values
+    993  0ae7		       a2 0c		      ldx	#12
+    994  0ae9		       bd 26 34 	      lda	NSoundLArr,x
+    995  0aec		       8d 16 70 	      sta	pitchLA
+    996  0aef		       8d 17 70 	      sta	pitchLB
+    997  0af2		       8d 18 70 	      sta	pitchLC
+    998  0af5							;sta lastKeyA ;;;;;;;;;;;;;;;;;;;;;;;;;;REWRITE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    999  0af5							;sta lastKeyB
+   1000  0af5							;sta lastKeyC
+   1001  0af5		       bd 6e 34 	      lda	NSoundHArr,x
+   1002  0af8		       8d 19 70 	      sta	pitchHA
+   1003  0afb		       8d 1a 70 	      sta	pitchHB
+   1004  0afe		       8d 1b 70 	      sta	pitchHC
+   1005  0b01							;----------
+   1006  0b01		       60		      rts
+   1007  0b02
+   1008  0b02							;__________________________________________________________
+   1009  0b02							;
+   1010  0b02							; DISABLE RESTORE KEY
+   1011  0b02							;
+   1012  0b02				   disableRestoreKey
+   1013  0b02		       a9 27		      lda	#<nmiRestoreKey	;Set NMI vector
+   1014  0b04		       8d 18 03 	      sta	$0318
+   1015  0b07		       8d fa ff 	      sta	$fffa
+   1016  0b0a		       a9 0b		      lda	#>nmiRestoreKey
+   1017  0b0c		       8d 19 03 	      sta	$0319
+   1018  0b0f		       8d fb ff 	      sta	$fffb
+   1019  0b12		       a9 81		      lda	#$81
+   1020  0b14		       8d 0d dd 	      sta	$dd0d	;Use Timer A
+   1021  0b17		       a9 01		      lda	#$01	;Timer A count ($0001)
+   1022  0b19		       8d 04 dd 	      sta	$dd04
+   1023  0b1c		       a9 00		      lda	#$00
+   1024  0b1e		       8d 05 dd 	      sta	$dd05
+   1025  0b21		       a9 19		      lda	#%00011001	;Run Timer A
+   1026  0b23		       8d 0e dd 	      sta	$dd0e
+   1027  0b26		       60		      rts
+   1028  0b27
+   1029  0b27				   nmiRestoreKey
+   1030  0b27		       40		      rti
+   1031  0b28
+   1032  0b28
+   1033  0b28
 ------- FILE cynth_display.asm LEVEL 2 PASS 2
       0  0b28					      include	"cynth_display.asm"
       1  0b28
@@ -3140,7 +3146,7 @@
     921  13b0		       20 36 11 	      jsr	setPaddles
     922  13b3
     923  13b3							;.....................
-    924  13b3		       20 95 0a 	      jsr	midiPanic
+    924  13b3		       20 6f 0a 	      jsr	midiPanic
     925  13b6							;.....................
     926  13b6
     927  13b6							; Reset modulation values
@@ -5682,7 +5688,7 @@
     422  2118							;	rts
     423  2118
 ------- FILE cynthcart2.0.1.asm
-   1035  2118
+   1041  2118
 ------- FILE cynth_subroutines.asm LEVEL 2 PASS 2
       0  2118					      include	"cynth_subroutines.asm"	; Extra subroutines - currently just note sorting routine
       1  2118							;sorting subroutine coded by mats rosengren (mats.rosengren@esa.int)
@@ -5764,7 +5770,7 @@
      77  2155
      78  2155
 ------- FILE cynthcart2.0.1.asm
-   1037  2155
+   1043  2155
 ------- FILE cynth_keycommands.asm LEVEL 2 PASS 2
       0  2155					      include	"cynth_keycommands.asm"	; key matrix tables and key command tables
       1  2155
@@ -6565,8 +6571,8 @@
     490  3545		       45 49 4e 52*	      byte.b	69,73,78,82, 87,92,98,104, 110,117,124,131
     491  3551		       8b 93 9c a5*	      byte.b	139,147,156,165, 175,185,196,208, 221,234,248
 ------- FILE cynthcart2.0.1.asm
-   1040  355c
-   1041  355c							; Pitch offset data for alternate tuning modes
+   1046  355c
+   1047  355c							; Pitch offset data for alternate tuning modes
 ------- FILE cynth_tuning.asm LEVEL 2 PASS 2
       0  355c					      include	"cynth_tuning.asm"
       1  355c
@@ -6727,11 +6733,11 @@
     156  39dc		       00 01 01 01*	      byte.b	0,1,1,1,1,1,1,1,1,1,1,1
     157  39e8		       01 02 02 02*	      byte.b	1,2,2,2,2,2,2,2,3,3,3,3
 ------- FILE cynthcart2.0.1.asm
-   1043  39f4
-   1044  39f4							; Frank's MIDI interface code
-   1045  39f4				  -	      IF	USE_DUMMY_MIDI_LIBRARY=1
-   1046  39f4				  -	      include	"cynth_midi_dummy.asm"
-   1047  39f4					      ELSE
+   1049  39f4
+   1050  39f4							; Frank's MIDI interface code
+   1051  39f4				  -	      IF	USE_DUMMY_MIDI_LIBRARY=1
+   1052  39f4				  -	      include	"cynth_midi_dummy.asm"
+   1053  39f4					      ELSE
 ------- FILE cynth_midi.asm LEVEL 2 PASS 2
       0  39f4					      include	"cynth_midi.asm"
       1  39f4							; public MIDI interface routines:
@@ -7203,10 +7209,10 @@
     467  3b67				  -	      .byte	%10111101, %10000000, $80	; left shift
     468  3b67					      ENDIF
 ------- FILE cynthcart2.0.1.asm
-   1049  3b67					      ENDIF
-   1050  3b67
-   1051  3b67
-   1052  3b67				  -	      IF	MODE=KERNEL_OBSOLETE
-   1053  3b67				  -	      org	$bfff
-   1054  3b67				  -	      byte	0
    1055  3b67					      ENDIF
+   1056  3b67
+   1057  3b67
+   1058  3b67				  -	      IF	MODE=KERNEL_OBSOLETE
+   1059  3b67				  -	      org	$bfff
+   1060  3b67				  -	      byte	0
+   1061  3b67					      ENDIF

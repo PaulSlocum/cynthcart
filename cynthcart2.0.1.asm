@@ -314,26 +314,6 @@ BASEADDR equ $8000
 	;---------------------------------------
 	include cynth_vars.asm
 
-disable:        
-	lda #<nmi             ;Set NMI vector 
-	sta $0318 
-	sta $fffa 
-	lda #>nmi 
-	sta $0319 
-	sta $fffb 
-	lda #$81 
-	sta $dd0d             ;Use Timer A 
-	lda #$01              ;Timer A count ($0001) 
-	sta $dd04 
-	lda #$00 
-	sta $dd05 
-	lda #%00011001        ;Run Timer A 
-	sta $dd0e 
-	rts 
-	
-nmi:            
-	rti 
-	
 	
 	; *********************************************
 	; Start of program
@@ -1025,6 +1005,32 @@ variableInit:
 	;----------
 	rts
 
+	;__________________________________________________________
+	; 
+	; DISABLE RESTORE KEY
+	;	
+disableRestoreKey:        
+	lda #<nmiRestoreKey             ;Set NMI vector 
+	sta $0318 
+	sta $fffa 
+	lda #>nmiRestoreKey 
+	sta $0319 
+	sta $fffb 
+	lda #$81 
+	sta $dd0d             ;Use Timer A 
+	lda #$01              ;Timer A count ($0001) 
+	sta $dd04 
+	lda #$00 
+	sta $dd05 
+	lda #%00011001        ;Run Timer A 
+	sta $dd0e 
+	rts 
+	
+nmiRestoreKey:            
+	rti 
+	
+
+	
 	include "cynth_display.asm"
 	include "cynth_modulation.asm"
 	include "cynth_setshow.asm"
