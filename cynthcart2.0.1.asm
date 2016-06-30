@@ -613,8 +613,8 @@ processLFO:
 	sta bender ; set as bender value
 	jmp skipZeroBend
 noPadBend:
-	lda #0
-	sta bender
+	;lda #0
+	;sta bender
 skipZeroBend:
 
 	;----------------------------
