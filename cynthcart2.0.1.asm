@@ -607,11 +607,15 @@ processLFO:
 	;---------------------------
 	; get pitch bend from paddle2
 	lda paddle2
-	cmp #4
-	bne noPadBend
-	lda paddleY
-	sta bender
+	cmp #4 ; is pitch bend mode on for paddle 2?
+	bne noPadBend ; no -->
+	lda paddleY ; get paddles values
+	sta bender ; set as bender value
+	jmp skipZeroBend
 noPadBend:
+	lda #0
+	sta bender
+skipZeroBend:
 
 	;----------------------------
 	; get depth from paddle2
