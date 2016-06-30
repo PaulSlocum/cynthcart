@@ -388,6 +388,8 @@ initSid:	sta $d400,x
 	lda #$E
 	sta hexDispColor
 
+	jsr disableRestoreKey
+	
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 
 	;=- =- =- =- =- =- =- =- =- =- =- =- =- =- 

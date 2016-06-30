@@ -174,7 +174,7 @@ showSpaceBeta
 	dex
 	bpl betaInfoLoop
 	
-		; choose which text to show from PAL/NTSC test at startup
+	; choose which text to show from PAL/NTSC test at startup
 	ldx #0
 	ldy #0
 	lda NTSCmode
@@ -198,17 +198,18 @@ notBlank2:
 	bne TextLoop2
 endText2:
 
+MODE_INDICATOR_POS equ 2018
 	IF DEVICE_CONFIG=KERBEROS
 	lda #11 ; "K"
-	sta 2022
+	sta MODE_INDICATOR_POS
 	ENDIF
 	IF DEVICE_CONFIG=EMU
 	lda #5 ; "E"
-	sta 2022
+	sta MODE_INDICATOR_POS
 	ENDIF
 	IF DEVICE_CONFIG=SIDSYMPHONY
 	lda #19 ; "S"
-	sta 2022
+	sta MODE_INDICATOR_POS
 	ENDIF
 
 	jsr showMidiMode
