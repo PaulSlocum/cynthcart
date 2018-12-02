@@ -1,5 +1,6 @@
 ; Commodore 64 Cynthcart
 ; by Paul Slocum
+; 2005-2016
 ;------------------------
 ; TEXT EDITOR TAB=3
 ;------------------------
@@ -41,6 +42,8 @@ BETA_RELEASE equ 0
 ; - - - - - - - - - - - - - - 
 ; Change Log:
 ; - - - - - - - - - - - - - - 
+; 2.0.2
+; + reorganized source and project files and put project on Git/Github
 ; 2.0.1
 ; + disabled Restore key, which causes a lock up on a few 64C models
 ; + reset paddle2 pitch value when pitch control is turned off
