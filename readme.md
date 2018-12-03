@@ -6,7 +6,7 @@ Synthesizer program for the Commodore 64 computer designed with live performance
 
 
 
-## Playing The Game
+## Running The Program
 
 Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/tim685?_trksid=p2047675.l2559) and the ROM (cynthcart.prg) can be played on VICE andother emulators or on real Commodore 64 hardware using an SD2IEC or similar.
 
