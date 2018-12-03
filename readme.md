@@ -1,6 +1,6 @@
 # Cynthcart
 
-A synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.
+A synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.  The program is written entirely in 6510 assembly language.
 
 ![Cynthcart screenshot](images/cynth_screen_main.png) ![Cynthcart SID editor screenshot](images/cynth_screen_sidedit.png)
 
