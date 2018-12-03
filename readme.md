@@ -13,7 +13,7 @@ Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/
 
 ### Building From Source
 
-I use the DASM assembler to build the game, and there is also a program included in the project that compresses the cartridge ROM image to fit into 8K.  More info on assembly coming soon...
+I use the [DASM assembler](http://dasm-dillon.sourceforge.net/) (old DOS/Win version included) to build the game, and the project also uses [Pucrunch](https://github.com/mist64/pucrunch) to compresses the cartridge ROM image to fit into 8K.  More info on assembly coming soon...
 
 
 ## License
