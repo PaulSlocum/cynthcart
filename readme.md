@@ -18,4 +18,4 @@ I use the [DASM assembler](http://dasm-dillon.sourceforge.net/) (old DOS/Win ver
 
 ## License
 
-©2005-2018 Paul Slocum, All rights reserved.  Source, binary, and other files provided for personal use only.  Will likely eventually switch to an MIT license but I've had problems with people selling poor quality cartridges on ebay.
+©2005-2018 Paul Slocum, All rights reserved.  Source, binary, and files other than DASM and Pucrunch are provided for personal use only.  Will likely eventually switch to an MIT license but I've had problems with people selling poor quality cartridges on ebay.
