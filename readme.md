@@ -2,7 +2,7 @@
 
 Synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.
 
-![Cynthcart screenshot](Images and screenshots/cynth_screen_main.png)
+![Cynthcart screenshot](images/cynth_screen_main.png)
 
 
 ## Playing The Game
