@@ -16,6 +16,6 @@ Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/
 I use the [DASM assembler](http://dasm-dillon.sourceforge.net/) (old DOS/Win version included) to build the game, and the project also uses [Pucrunch](https://github.com/mist64/pucrunch) to compresses the cartridge ROM image to fit into 8K.  More info on assembly coming soon...
 
 
-## License
+## Copyright
 
-©2005-2018 Paul Slocum, All rights reserved.  Source, binary, and files other than DASM and Pucrunch are provided for personal use only.  Will likely eventually switch to an MIT license but I've had problems with people selling poor quality cartridges on ebay.
+©2005-2018 Paul Slocum, All rights reserved.  Source, binary, and files (other than the DASM assembler](http://dasm-dillon.sourceforge.net/) and [Pucrunch](https://github.com/mist64/pucrunch)) are provided for personal use only.  Will likely eventually switch to an MIT license but I've had problems with people selling poor quality cartridges on ebay.
