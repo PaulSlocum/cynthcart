@@ -1,6 +1,6 @@
 # Cynthcart
 
-A synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.  The program is written entirely in 6510 assembly language.
+A synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.  The program is written in 6510 assembly language.
 
 ![Cynthcart screenshot](images/cynth_screen_main.png) ![Cynthcart SID editor screenshot](images/cynth_screen_sidedit.png)
 
@@ -13,7 +13,7 @@ Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/
 
 ## Building From Source
 
-I use the [DASM assembler](http://dasm-dillon.sourceforge.net/) (old DOS/Win version included) to build the game, and the project also uses [Pucrunch](https://github.com/mist64/pucrunch) to compresses the cartridge ROM image to fit into 8K.  More info on assembly coming soon...
+I use the [DASM assembler](http://dasm-dillon.sourceforge.net/) (old DOS/Win version included), and the project also uses [Pucrunch](https://github.com/mist64/pucrunch) to compresses the cartridge ROM image to fit into 8K.  More info on assembly coming soon...
 
 
 ## Copyright
