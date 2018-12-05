@@ -6,9 +6,11 @@ A synthesizer program for the Commodore 64 computer designed with live performan
 
 [![Cynthcart audio examples](images/other/mp3playerImage.png)](http://www.qotile.net/files/cynthcart_demo.mp3)
 
-__Screenshots:__
+__Screenshots/Photos:__
 
 ![Cynthcart screenshot](images/cynth_screenshot_main.png) ![Cynthcart SID editor screenshot](images/cynth_screenshot_sidedit.png)
+
+![Cynthcart with keyboard overlay](images/photos/cynthOverlayKeyboard.jpg)
 
 ## Running The Program
 
