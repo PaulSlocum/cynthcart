@@ -1,6 +1,6 @@
 # Cynthcart
 
-A synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.  The program is written in 6510 assembly language.
+A synthesizer program for the Commodore 64 computer designed with live performance in mind. Includes arpeggiator, portamento, stereo SID and MIDI support, realtime filter control, many other features.  The program is written entirely in 6510 assembly language.  Over 700 Cynthcart cartridges have been sold making it one of the most popular Commodore 64 homebrews of all time.
 
 [Cynthcart audio examples:](http://www.qotile.net/files/cynthcart_demo.mp3)
 
@@ -12,7 +12,7 @@ __Screenshots:__
 
 ## Running The Program
 
-Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/tim685?_trksid=p2047675.l2559) and the ROM (cynthcart.prg) can be played on emulators like VICE or on real Commodore 64 hardware using an SD2IEC or similar.
+Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/tim685?_trksid=p2047675.l2559) and the ROM ([cynthcart2.0.1_emu.prg](bin/version2.0.1_RELEASE/cynthcart2.0.1_emu.prg)) can be played on emulators like [VICE](http://vice-emu.sourceforge.net/) or on real Commodore 64 hardware using an [SD2IEC](https://www.c64-wiki.com/wiki/SD2IEC) or similar.
 
 
 ## Instruction Manual
