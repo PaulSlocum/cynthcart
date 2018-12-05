@@ -221,7 +221,7 @@ copyCopier:
 	
 	
 compressedData:
-	incbin "cynthcart2.0.1_comp.bin"
+	incbin "..\bin\cynthcartRawCompressed.bin"
 	;incbin "cynthcart152.cmp"
 	;incbin "eprom.cmp" ; DEBUG!!
 
