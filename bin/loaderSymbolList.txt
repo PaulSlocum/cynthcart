@@ -1,0 +1,250 @@
+------- FILE cynthloader.asm LEVEL 1 PASS 2
+      1  9fd1 ????						; Commodore 64 Cynthcart LOADER
+      2  9fd1 ????						; by Paul Slocum
+      3  9fd1 ????						;------------------------
+      4  9fd1 ????						; TEXT EDITOR TAB=3
+      5  9fd1 ????						;------------------------
+      6  9fd1 ????
+      7  9fd1 ????						;------------------------
+      8  9fd1 ????						;------------------------
+      9  9fd1 ????						; TODO
+     10  9fd1 ????						;------------------------
+     11  9fd1 ????						; - LFO -> Pulse Width and Volume and Filter
+     12  9fd1 ????						;--------------------------
+     13  9fd1 ????						;--------------------------
+     14  9fd1 ????
+     15  9fd1 ????
+     16  9fd1 ????						;#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+     17  9fd1 ????						;# MEMORY MAP
+     18  9fd1 ????						;#
+     19  9fd1 ????						;# $0800-$3800 Program and data
+     20  9fd1 ????						;# $7000-$7200 Variables and buffers (512 bytes)
+     21  9fd1 ????						;# $7F00-$7FFF MIDI ring buffer
+     22  9fd1 ????						;#
+     23  9fd1 ????						;#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+     24  9fd1 ????
+     25  9fd1 ????
+     26  9fd1 ????
+     27  9fd1 ????
+     28  9fd1 ????						;/\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/ /\ \/
+     29  9fd1 ????				      processor	6502
+     30  9fd1 ????
+     31  9fd1 ????						; Image run mode:
+     32  9fd1 ????	       00 00	   CART       equ	0	; run at $8000 off cartridge ROM
+     33  9fd1 ????	       00 01	   DISK       equ	1	; run at $2047, include BASIC sys command
+     34  9fd1 ????	       00 02	   RAM	      equ	2	; run at $8000 in RAM
+     35  9fd1 ????	       00 03	   KERNEL_OBSOLETE equ	3	; set up as replacement for 8k BASIC section of KERNEL (This mode is no longer supported)
+     36  9fd1 ????
+     37  9fd1 ????
+     38  9fd1 ????
+     39  9fd1 ????						;**********************************************************
+     40  9fd1 ????						;**********************************************************
+     41  9fd1 ????						;**********************************************************
+     42  9fd1 ????
+     43  9fd1 ????						; *********************************************
+     44  9fd1 ????						; START OF PROGRAM IN MEMORY
+     45  9fd1 ????						; *********************************************
+     46  9fd1 ????
+     47  9fd1 ????						;==================================================
+     48  9fd1 ????						; straight cart ROM
+     49  9fd1 ????				      IF	MODE=CART
+     50  9fd1 ????	       80 00	   BASEADDR   equ	$8000
+     51  8000					      org	BASEADDR
+     52  8000		       09 80		      word.w	Startup
+     53  8002		       09 80		      word.w	Startup
+     54  8004							; 5 byte cartridge startup code
+     55  8004		       c3 c2 cd 38*	      byte.b	$C3, $C2, $CD, $38, $30
+     56  8009					      ENDIF
+     57  8009
+     58  8009							;==================================================
+     59  8009							; load from disk as PRG with auto-run
+     60  8009				  -	      IF	MODE=DISK
+     61  8009				  -BASEADDR   equ	2047	; 2047 = $7FF
+     62  8009				  -	      org	BASEADDR	; the beginning of the BASIC program area
+     63  8009				  -
+     64  8009				  -			; disk load location
+     65  8009				  -	      byte	$01,$08
+     66  8009				  -			; BASIC program to call the cynthcart machine code...
+     67  8009				  -			; 10 SYS 2061
+     68  8009				  -	      byte	$0b,$08, $0a,$00,$9e,$32, $30,$36,$31,$00, $00,$00
+     69  8009				  -			; next effective address after this is 2061 / $80D
+     70  8009					      ENDIF
+     71  8009
+     72  8009							;==================================================
+     73  8009							; load from disk as PRG with auto-run
+     74  8009				  -	      IF	MODE=RAM
+     75  8009				  -BASEADDR   equ	$8000	;
+     76  8009				  -	      org	BASEADDR-2	; the beginning of the BASIC program area
+     77  8009				  -			; disk load location
+     78  8009				  -	      byte	$00,$80
+     79  8009					      ENDIF
+     80  8009
+     81  8009
+     82  8009							;==================================================
+     83  8009							; to replace BASIC ROM (NO LONGER MAINTAINED)
+     84  8009				  -	      IF	MODE=KERNEL_OBSOLETE
+     85  8009				  -BASEADDR   equ	$8000
+     86  8009				  -	      org	BASEADDR
+     87  8009				  -	      word	$E394	; RESET
+     88  8009				  -	      word	$E37B	; Warm Start
+     89  8009					      ENDIF
+     90  8009
+     91  8009							;---------------------------------------
+     92  8009							; variables and constants here
+     93  8009							;---------------------------------------
+     94  8009
+     95  8009
+     96  8009
+     97  8009							; *********************************************
+     98  8009							; Start of program
+     99  8009							; *********************************************
+    100  8009				   Startup
+    101  8009
+    102  8009					      IF	MODE=CART
+    103  8009							; System Startup Stuff
+    104  8009							; (not needed if starting from disk)
+    105  8009		       78		      sei
+    106  800a		       20 84 ff 	      jsr	$FF84	; initialize I/O devices
+    107  800d		       20 87 ff 	      jsr	$FF87	; initalise memory pointers
+    108  8010		       20 8a ff 	      jsr	$FF8A	; restore I/O vectors
+    109  8013		       20 81 ff 	      jsr	$FF81	; initalise screen and keyboard
+    110  8016		       58		      cli
+    111  8017					      ENDIF
+    112  8017
+    113  8017		       a9 00		      lda	#0
+    114  8019		       8d 21 d0 	      sta	53281
+    115  801c		       8d 20 d0 	      sta	53280
+    116  801f
+    117  801f		       a2 14		      ldx	#20
+    118  8021		       a9 0c		      lda	#12
+    119  8023				   colorLoop
+    120  8023		       9d 00 d8 	      sta	55296,x
+    121  8026		       ca		      dex
+    122  8027		       10 fa		      bpl	colorLoop
+    123  8029
+    124  8029		       a2 08		      ldx	#8
+    125  802b		       a9 02		      lda	#2
+    126  802d				   colorLoop2
+    127  802d		       9d 00 d8 	      sta	55296,x
+    128  8030		       ca		      dex
+    129  8031		       10 fa		      bpl	colorLoop2
+    130  8033
+    131  8033
+    132  8033							; SHOW STARTUP TEXT
+    133  8033		       a2 00		      ldx	#0
+    134  8035				   RAMTextCopy
+    135  8035		       bd 47 80 	      lda	RAMText,x
+    136  8038		       f0 1e		      beq	quitRAMTextCopy
+    137  803a		       c9 40		      cmp	#64
+    138  803c		       30 02		      bmi	showSpaceRAM
+    139  803e		       e9 40		      sbc	#64
+    140  8040				   showSpaceRAM
+    141  8040							;sta 1024+40*12+15,x
+    142  8040		       9d 00 04 	      sta	1024,x
+    143  8043		       e8		      inx
+    144  8044		       4c 35 80 	      jmp	RAMTextCopy
+    145  8047				   RAMText
+    146  8047							;byte "COPYING TO RAM...",0
+    147  8047		       43 59 4e 54*	      byte.b	"CYNTHCART V2.0.1",0
+    148  8058
+    149  8058							;byte "CYNTHCART",0
+    150  8058				   quitRAMTextCopy
+    151  8058							;------------
+    152  8058
+    153  8058							;lda #1
+    154  8058							;sta 1064
+    155  8058
+    156  8058							;COPY COPIER FROM CART ROM INTO RAM AT $C000
+    157  8058		       a2 00		      ldx	#0
+    158  805a				   copyCopier
+    159  805a		       bd b7 9f 	      lda	copier,x
+    160  805d		       9d 00 c0 	      sta	$C000,x
+    161  8060		       ca		      dex
+    162  8061		       d0 f7		      bne	copyCopier
+    163  8063
+    164  8063							;COPY DECOMPRESSOR INTO BASIC RAM AREA (SELF-MODIFYING CODE CAN'T BE IN ROM)
+    165  8063							;jsr $C000 ; call copier in RAM
+    166  8063		       4c 00 c0 	      jmp	$C000
+    167  8066
+    168  8066							;lda #7
+    169  8066							;sta 1066
+    170  8066
+    171  8066							;JUMP TO DECOMPRESSOR IN RAM (WILL DECOMPRESS AND START CYNTHCART)
+    172  8066							;jmp 2061
+    173  8066
+    174  8066
+    175  8066							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    176  8066							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    177  8066							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    178  8066							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    179  8066							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    180  8066							;=- =- =- =- =- =- =- =- =- =- =- =- =- =-
+    181  8066							; switch to lowercase mode
+    182  8066							;lda #23
+    183  8066							;sta $d018
+    184  8066
+    185  8066							;lda #0 ; DEBUG put character on screen
+    186  8066							;sta 1024
+    187  8066							;lda #1 ; DEBUG put character on screen
+    188  8066							;sta 1025
+    189  8066							;lda #2 ; DEBUG put character on screen
+    190  8066							;sta 1026
+    191  8066
+    192  8066							;jmp 2061 ; JMP to start of built-in decomopression routine
+    193  8066
+    194  8066							;ldx #>compressedData ;H
+    195  8066							;ldy #<compressedData ;L
+    196  8066							;iny
+    197  8066							;iny
+    198  8066							;sty 1028
+    199  8066							;jsr $C000
+    200  8066
+    201  8066							;bcc good
+    202  8066							;bad:
+    203  8066							;lda #2 ; 'b'
+    204  8066							;sta 1030
+    205  8066							;jmp stop
+    206  8066							;good:
+    207  8066							;lda #7 ; 'g'
+    208  8066							;sta 1028
+    209  8066
+    210  8066							;jmp $5000
+    211  8066							;	ORG $c000
+    212  8066
+    213  8066							; Call with X = HI of packed data, Y = LO of packed data
+    214  8066							; Returns exec address in X = HI and Y = LO
+    215  8066							; Carry will be set for error, cleared for OK
+    216  8066
+    217  8066
+    218  8066							; Lock cpu (DEBUG)
+    219  8066							;stop:
+    220  8066							;	jmp stop
+    221  8066
+    222  8066
+    223  8066				   compressedData
+    224  8066					      incbin	"..\bin\cynthcartRawCompressed.bin"
+    225  9fb7							;incbin "cynthcart152.cmp"
+    226  9fb7							;incbin "eprom.cmp" ; DEBUG!!
+    227  9fb7
+    228  9fb7				   copier
+    229  9fb7					      RORG	$C000
+    230  9fb7							; COPY DECOMPRESSOR AND COMPRESSED CYNTHCART INTO MEMORY
+    231  9fb7		       a2 00		      ldx	#0
+    232  9fb9		       a0 21		      ldy	#33	; COPY 8K OF DATA
+    233  9fbb				   decompCopyLoop
+    234  9fbb		       bd 68 80 	      lda	compressedData+2,x
+    235  9fbe				   storeLocation
+    236  9fbe		       9d 01 08 	      sta	$0801,x
+    237  9fc1		       ca		      dex
+    238  9fc2		       d0 f7		      bne	decompCopyLoop
+    239  9fc4		       ee 06 c0 	      inc	decompCopyLoop+2
+    240  9fc7		       ee 09 c0 	      inc	storeLocation+2
+    241  9fca		       88		      dey
+    242  9fcb		       d0 ee		      bne	decompCopyLoop
+    243  9fcd		       4c 0d 08 	      jmp	2061
+    244  9fd0		       60		      rts
+    245  9fd1
+    246  9fd1
+    247  9fd1							;decompressor:
+    248  9fd1							;include "sa_uncrunch.asm"
+    249  9fd1

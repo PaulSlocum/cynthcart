@@ -315,7 +315,7 @@ BASEADDR equ $8000
 	;---------------------------------------
 	; variables and constants here
 	;---------------------------------------
-	include cynth_vars.asm
+	include cynthvars.asm
 
 	
 	; *********************************************
@@ -1040,27 +1040,27 @@ nmiRestoreKey:
 	
 
 	
-	include "cynth_display.asm"
-	include "cynth_modulation.asm"
-	include "cynth_setshow.asm"
-	include "cynth_sound.asm"
-	include "cynth_keyboard.asm"
-	include "cynth_midirecv.asm"
-	include "cynth_sidedit.asm"
+	include "cynthdisplay.asm"
+	include "cynthmodulation.asm"
+	include "cynthsetshow.asm"
+	include "cynthsound.asm"
+	include "cynthkeyboard.asm"
+	include "cynthmidirecv.asm"
+	include "cynthsidedit.asm"
 	
-	include "cynth_subroutines.asm" ; Extra subroutines - currently just note sorting routine
+	include "cynthsubroutines.asm" ; Extra subroutines - currently just note sorting routine
 	
-	include "cynth_keycommands.asm" ; key matrix tables and key command tables
-	include "cynth_data.asm" ; Screen text, data tables, note tuning tables, etc.
+	include "cynthkeycommands.asm" ; key matrix tables and key command tables
+	include "cynthdata.asm" ; Screen text, data tables, note tuning tables, etc.
 	
 	; Pitch offset data for alternate tuning modes
-	include "cynth_tuning.asm"
+	include "cynthtuning.asm"
 
 	; Frank's MIDI interface code
 	IF USE_DUMMY_MIDI_LIBRARY=1
-		include "cynth_midi_dummy.asm"
+		include "cynthmidi_dummy.asm"
 	ELSE
-		include "cynth_midi.asm"
+		include "cynthmidi.asm"
 	ENDIF
 
 	

@@ -30,7 +30,7 @@
 @echo ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-= ~-=
 @echo -------------------------------------------------------------------------------------------
 @echo ASSEMBLING CARTRIDGE LOADER
-..\tools\dasm cynth_cart_loader.asm -f3 -v1 -o..\bin\cynthcart_cartridge_ROM.bin -DMODE=0 -l..\bin\loaderSymbolList.txt
+..\tools\dasm cynthloader.asm -f3 -v1 -o..\bin\cynthcart_cartridge_ROM.bin -DMODE=0 -l..\bin\loaderSymbolList.txt
 @echo -------------------------------------------------------------------------------------------
 @dir ..\bin\cynthcart_cartridge_ROM.bin /W
 @echo ___________________________________________________________________________________________
