@@ -14,7 +14,7 @@ __Screenshots/Photos:__
 
 ## Running The Program
 
-Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/tim685?_trksid=p2047675.l2559) and the ROM ([cynthcart2.0.1_emu.prg](bin/version2.0.0_RELEASE/cynthcart2.0.prg)) can be played on emulators like [VICE](http://vice-emu.sourceforge.net/) or on real Commodore 64 hardware using an [SD2IEC](https://www.c64-wiki.com/wiki/SD2IEC) or similar.
+Cartridges are available from [Shareware Plus on Ebay](https://www.ebay.com/usr/tim685?_trksid=p2047675.l2559) and the ROM ([cynthcart2.0.prg](bin/version2.0.0_RELEASE/cynthcart2.0.prg)) can be played on emulators like [VICE](http://vice-emu.sourceforge.net/) or on real Commodore 64 hardware using an [SD2IEC](https://www.c64-wiki.com/wiki/SD2IEC) or similar.
 
 
 ## Instruction Manual
