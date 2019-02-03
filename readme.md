@@ -6,6 +6,27 @@ A synthesizer program for the Commodore 64 computer designed with live performan
 
 [![Cynthcart audio examples](images/other/mp3playerImage.png)](http://www.qotile.net/files/cynthcart_demo.mp3)
 
+__Features__
++ 30 preset sound patches
++ Arpeggiator, portamento, vibrato, and tremolo effects
++ Analog filter control and effects
++ Control of attack, release, and other sound parameters
++ MIDI support including pitch bend, patch changes, and controllers
++ On-screen help
++ Color visualizer display
++ Mono stack, 3-voice mode, and 6-voice mode (with second SID)
++ Low latency
++ SID hex editor for advanced users
++ Ability to turn off video chip to reduce noise
++ PAL and NTSC pitch tables with automatic selection
++ Copies itself to RAM (cartridge can be removed after booting)
+
+__Supported Accessories__
++ Commodore 64 piano keyboard overlay ("Incredible Musical Keyboard")
++ Datel, Passport, Sequential, and Kerberos MIDI interface cartridges
++ Paddle controllers for realtime control of filter, pulse width, vibrato, and pitch
++ 2nd SID chip for stereo and 6-voice sound
+
 __Screenshots/Photos:__
 
 ![Cynthcart screenshot](images/cynth_screenshot_main.png) ![Cynthcart SID editor screenshot](images/cynth_screenshot_sidedit.png)
