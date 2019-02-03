@@ -6,6 +6,12 @@ A synthesizer program for the Commodore 64 computer designed with live performan
 
 [![Cynthcart audio examples](images/other/mp3playerImage.png)](http://www.qotile.net/files/cynthcart_demo.mp3)
 
+__Screenshots/Photos:__
+
+![Cynthcart screenshot](images/cynth_screenshot_main.png) ![Cynthcart SID editor screenshot](images/cynth_screenshot_sidedit.png)
+
+![Cynthcart with keyboard overlay](images/photos/cynthOverlayKeyboard.jpg)
+
 __Features__
 + 30 preset sound patches
 + Arpeggiator, portamento, vibrato, and tremolo effects
@@ -26,12 +32,6 @@ __Supported Accessories__
 + Datel, Passport, Sequential, and Kerberos MIDI interface cartridges
 + Paddle controllers for realtime control of filter, pulse width, vibrato, and pitch
 + 2nd SID chip for stereo and 6-voice sound
-
-__Screenshots/Photos:__
-
-![Cynthcart screenshot](images/cynth_screenshot_main.png) ![Cynthcart SID editor screenshot](images/cynth_screenshot_sidedit.png)
-
-![Cynthcart with keyboard overlay](images/photos/cynthOverlayKeyboard.jpg)
 
 ## Running The Program
 
