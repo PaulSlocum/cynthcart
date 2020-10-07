@@ -141,6 +141,8 @@ BETA_RELEASE equ 0
 ;-----------------------------------------------------
 ; FUTURE TODO LIST:
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
+; - add aftertouch support
+; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
 ; - make port modes respond to pitch wheel
 ; - figure out why pulse LFO is so slow
 ; -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  
